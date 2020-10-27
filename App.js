@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import firebase from "firebase";
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Login from './components/Login';
 
 // green = 43cc59
 // blue = 1982dd
@@ -23,7 +24,7 @@ const App = () => {
   }, []);
   return (
     <View style={styles.container}>
-      <Text>Hello People!</Text>
+      <Login/>
       <StatusBar style="auto" />
     </View>
   );
