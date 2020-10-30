@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
+import { PrimaryButton } from "../common";
 
 const initialState = { email: "", password: "" };
 const Login = () => {
@@ -13,7 +14,8 @@ const Login = () => {
   console.log("state", state);
 
   return (
-    <View>
+    <View style={styles.container}>
+      <PrimaryButton>Login</PrimaryButton>
       <View>
         <TextInput
           onChangeText={(text) => handleTextInput("email", text)}
@@ -29,10 +31,18 @@ const Login = () => {
       <View>
         <Text>{state.email}</Text>
         <Text>{state.password}</Text>
-        <Text>Hello</Text>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default Login;
