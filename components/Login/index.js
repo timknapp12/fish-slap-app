@@ -4,8 +4,10 @@ import { PrimaryButton } from "../common";
 import * as Google from "expo-google-app-auth";
 
 // ios in google oauth credentials screen   https://www.youtube.com/watch?v=ZcaQJoXY-3Q
-const clientId =
+const iosClientId =
   "378539798943-j8jnl0lcob2e28odkncqmdbd9dph5u5g.apps.googleusercontent.com";
+const androidClientId =
+  "378539798943-gb6ks3bu5ac5pranmi31fup5291l6ses.apps.googleusercontent.com";
 
 const initialState = { email: "", password: "" };
 const Login = () => {
@@ -22,8 +24,8 @@ const Login = () => {
     try {
       const result = await Google.logInAsync({
         // behavior: "web",
-        // androidClientId: clientId,
-        iosClientId: clientId,
+        androidClientId: androidClientId,
+        iosClientId: iosClientId,
         scopes: ["profile", "email"],
       });
 
