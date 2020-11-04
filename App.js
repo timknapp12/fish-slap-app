@@ -1,39 +1,27 @@
-import React, { useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import firebase from "firebase";
-import { firebaseConfig } from "./config";
-import { StyleSheet, View } from "react-native";
-import Login from "./components/Login";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
-// green = 43cc59
-// blue = 1982dd
-// pink = e84b87
+import LoginScreen from "./components/LoginScreen";
+import DashboardScreen from "./components/DashboardScreen";
+import LoadingScreen from "./components/LoadingScreen";
+
+import * as firebase from "firebase";
+import { firebaseConfig } from "./config";
+firebase.initializeApp(firebaseConfig);
 
 const App = () => {
-  firebase.initializeApp(firebaseConfig);
-  useEffect(() => {
-    return () => {
-      firebase.initializeApp(firebaseConfig);
-    };
-  }, []);
-
-  const checkIfLoggedIn = () => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log("user exists");
-      } else {
-        console.log("no user");
-      }
-    });
-  };
-
-  return (
-    <View style={styles.container}>
-      <Login />
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <AppNavigator />;
 };
+export default App;
+
+const AppSwitchNavigator = createSwitchNavigator({
+  LoadingScreen: LoadingScreen,
+  LoginScreen: LoginScreen,
+  DashboardScreen: DashboardScreen,
+});
+
+const AppNavigator = createAppContainer(AppSwitchNavigator);
 
 const styles = StyleSheet.create({
   container: {
@@ -43,5 +31,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default App;
