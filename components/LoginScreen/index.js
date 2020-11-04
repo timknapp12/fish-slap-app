@@ -1,10 +1,12 @@
-import React from "react";
-import { View, StyleSheet, Button } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Button, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../config";
 
-const LoginScreen = (props) => {
+const LoginScreen = () => {
+  const [signingIn, setSigningIn] = useState(false);
+
   const isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
@@ -46,6 +48,7 @@ const LoginScreen = (props) => {
                 .set({
                   gmail: result.user.email,
                   profile_picture: result.additionalUserInfo.profile.picture,
+                  locale: result.additionalUserInfo.profile.locale,
                   first_name: result.additionalUserInfo.profile.given_name,
                   last_name: result.additionalUserInfo.profile.family_name,
                   created_at: Date.now(),
@@ -78,6 +81,7 @@ const LoginScreen = (props) => {
     });
   };
   const signInWithGoogleAsync = async () => {
+    setSigningIn(true);
     try {
       const result = await Google.logInAsync({
         androidClientId: androidClientId,
@@ -94,15 +98,16 @@ const LoginScreen = (props) => {
     } catch (e) {
       return { error: true };
     }
+    return setSigningIn(false);
   };
 
   return (
     <View style={styles.container}>
-      <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
-      <Button
-        title="go to dashboard"
-        onPress={() => props.navigation.navigate("DashboardScreen")}
-      />
+      {signingIn ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
+      )}
     </View>
   );
 };
