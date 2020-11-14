@@ -11,7 +11,7 @@ const LoadingScreen = (props) => {
     firebase.auth().onAuthStateChanged((user) => {
       console.log("AUTH STATE CHANGED CALLED ");
       if (user) {
-        props.navigation.navigate("DashboardScreen");
+        props.navigation.navigate("Tabs");
       } else {
         props.navigation.navigate("LoginScreen");
       }
