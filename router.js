@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import LoginScreen from "./components/LoginScreen";
 import LoadingScreen from "./components/LoadingScreen";
-import DashboardScreen from "./components/DashboardScreen";
+import HomeScreen from "./components/HomeScreen";
 import ProfileScreen from "./components/Profile/ProfileScreen";
 import FriendsScreen from "./components/Friends/FriendsScreen";
 import ActivityScreen from "./components/Activity/ActivityScreen";
@@ -17,7 +17,7 @@ const Tabs = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "DashboardScreen") {
+          if (route.name === "HomeScreen") {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Profile") {
             iconName = focused ? "account" : "account-outline";
@@ -33,14 +33,14 @@ const Tabs = () => {
       })}
     >
       <Tab.Screen
-        name="DashboardScreen"
-        component={DashboardScreen}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{ title: "Home" }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ title: "Profile" }}
+        name="Activity"
+        component={ActivityScreen}
+        options={{ title: "Activity" }}
       />
       <Tab.Screen
         name="Friends"
@@ -48,9 +48,9 @@ const Tabs = () => {
         options={{ title: "Friends" }}
       />
       <Tab.Screen
-        name="Activity"
-        component={ActivityScreen}
-        options={{ title: "Activity" }}
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: "Profile" }}
       />
     </Tab.Navigator>
   );
@@ -60,7 +60,11 @@ const Login = createStackNavigator();
 
 export const LoginStack = () => {
   return (
-    <Login.Navigator>
+    <Login.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Login.Screen name="LoadingScreen" component={LoadingScreen} />
       <Login.Screen
         name="LoginScreen"
