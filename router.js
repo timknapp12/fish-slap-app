@@ -8,6 +8,7 @@ import HomeScreen from "./components/HomeScreen";
 import ProfileScreen from "./components/Profile/ProfileScreen";
 import FriendsScreen from "./components/Friends/FriendsScreen";
 import ActivityScreen from "./components/Activity/ActivityScreen";
+import { blue, lightBlue } from "./styles/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,6 +32,10 @@ const Tabs = () => {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
+      tabBarOptions={{
+        activeTintColor: blue,
+        inactiveTintColor: lightBlue,
+      }}
     >
       <Tab.Screen
         name="HomeScreen"
