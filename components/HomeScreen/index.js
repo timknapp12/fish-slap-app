@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import firebase from "firebase";
 import AppContext from "../../utils/AppContext";
 
-const DashboardScreen = () => {
+const HomeScreen = () => {
   const { setLoadingLogin } = useContext(AppContext);
   return (
     <View style={styles.container}>
-      <Text>DashboardScreen</Text>
+      <Text>HomeScreen</Text>
       <Button
         title="Sign out"
         onPress={() => {
@@ -18,7 +18,7 @@ const DashboardScreen = () => {
     </View>
   );
 };
-export default DashboardScreen;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
