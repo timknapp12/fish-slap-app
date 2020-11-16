@@ -1,27 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-
-import LoginScreen from "./components/LoginScreen";
-import DashboardScreen from "./components/DashboardScreen";
-import LoadingScreen from "./components/LoadingScreen";
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { LoginStack } from "./router";
+import AppContext from "./utils/AppContext";
 import * as firebase from "firebase";
 import { firebaseConfig } from "./config";
 firebase.initializeApp(firebaseConfig);
 
+const Stack = createStackNavigator();
+
 const App = () => {
-  return <AppNavigator />;
+  const [loadingLogin, setLoadingLogin] = useState(false);
+  return (
+    <AppContext.Provider value={{ loadingLogin, setLoadingLogin }}>
+      <NavigationContainer>
+        <LoginStack />
+      </NavigationContainer>
+    </AppContext.Provider>
+  );
 };
 export default App;
-
-const AppSwitchNavigator = createSwitchNavigator({
-  LoadingScreen: LoadingScreen,
-  LoginScreen: LoginScreen,
-  DashboardScreen: DashboardScreen,
-});
-
-const AppNavigator = createAppContainer(AppSwitchNavigator);
 
 const styles = StyleSheet.create({
   container: {

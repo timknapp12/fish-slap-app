@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Button, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../config";
+import AppContext from "../../utils/AppContext";
 
 const LoginScreen = () => {
-  const [signingIn, setSigningIn] = useState(false);
+  const { loadingLogin, setLoadingLogin } = useContext(AppContext);
 
   const isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
@@ -81,7 +82,7 @@ const LoginScreen = () => {
     });
   };
   const signInWithGoogleAsync = async () => {
-    setSigningIn(true);
+    setLoadingLogin(true);
     try {
       const result = await Google.logInAsync({
         androidClientId: androidClientId,
@@ -98,12 +99,11 @@ const LoginScreen = () => {
     } catch (e) {
       return { error: true };
     }
-    return setSigningIn(false);
   };
 
   return (
     <View style={styles.container}>
-      {signingIn ? (
+      {loadingLogin ? (
         <ActivityIndicator size="large" />
       ) : (
         <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
