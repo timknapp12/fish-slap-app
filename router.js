@@ -7,6 +7,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import DashboardScreen from "./components/DashboardScreen";
 import ProfileScreen from "./components/Profile/ProfileScreen";
 import FriendsScreen from "./components/Friends/FriendsScreen";
+import ActivityScreen from "./components/Activity/ActivityScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +25,8 @@ const Tabs = () => {
             iconName = focused
               ? "account-multiple"
               : "account-multiple-outline";
+          } else if (route.name === "Activity") {
+            iconName = focused ? "comment-text" : "comment-text-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -43,6 +46,11 @@ const Tabs = () => {
         name="Friends"
         component={FriendsScreen}
         options={{ title: "Friends" }}
+      />
+      <Tab.Screen
+        name="Activity"
+        component={ActivityScreen}
+        options={{ title: "Activity" }}
       />
     </Tab.Navigator>
   );
