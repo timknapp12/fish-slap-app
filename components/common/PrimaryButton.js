@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { blue, green } from "../styles/colors";
+import { blue, green } from "../../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 const PrimaryButton = ({ children = "Button", ...props }) => (

@@ -4,6 +4,7 @@ import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../config";
 import AppContext from "../../utils/AppContext";
+import { Input, PrimaryButton } from "../common";
 
 const LoginScreen = () => {
   const { loadingLogin, setLoadingLogin } = useContext(AppContext);
@@ -106,7 +107,12 @@ const LoginScreen = () => {
       {loadingLogin ? (
         <ActivityIndicator size="large" />
       ) : (
-        <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
+        <View>
+          <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
+          <Input textContentType="username" />
+          <Input textContentType="password" secureTextEntry={true} />
+          <PrimaryButton>Login</PrimaryButton>
+        </View>
       )}
     </View>
   );
