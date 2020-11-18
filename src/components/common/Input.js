@@ -1,18 +1,18 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
-import { lightBlue } from "../../styles/colors";
+import { TextInput } from "react-native";
+import { lightBlue, blue } from "../../styles/colors";
+import styled from "styled-components/native";
 
 const Input = ({ ...props }) => {
-  return <TextInput style={styles.input} {...props} />;
+  return <StyledInput color={props.color} {...props} />;
 };
 
 export { Input };
 
-const styles = StyleSheet.create({
-  input: {
-    width: "100%",
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: lightBlue,
-  },
-});
+const StyledInput = styled.TextInput`
+  width: 100%;
+  padding: 4px;
+  border: 1px solid ${lightBlue};
+  border-radius: 2px;
+  color: ${(props) => (props.color ? props.color : blue)};
+`;
