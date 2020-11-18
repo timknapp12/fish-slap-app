@@ -5,9 +5,9 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const PrimaryButton = ({ children = "Button", ...props }) => (
   <View style={styles.button}>
-    <LinearGradient colors={[blue, green]} start={{ x: 0.3, y: 0.3 }}>
+    <LinearGradient colors={[blue, green]} start={{ x: 0.49, y: 0.2 }}>
       <TouchableOpacity {...props}>
-        <Text>{children}</Text>
+        <Text style={styles.text}>{children}</Text>
       </TouchableOpacity>
     </LinearGradient>
   </View>
@@ -17,7 +17,6 @@ export { PrimaryButton };
 
 const styles = StyleSheet.create({
   button: {
-    // backgroundColor: "linear-gradient(blue, green)",
     width: "100%",
   },
   linearGradient: {
@@ -25,5 +24,9 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 5,
+  },
+  text: {
+    color: "#ffffff",
+    textAlign: "center",
   },
 });
