@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, StyleSheet, Button, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
-import { iosClientId, androidClientId } from "../../config";
+import { iosClientId, androidClientId } from "../../../config";
 import AppContext from "../../utils/AppContext";
 import { Input, PrimaryButton } from "../common";
 
