@@ -1,10 +1,18 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, Button, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ActivityIndicator,
+} from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";
 import AppContext from "../../utils/AppContext";
 import { Input, PrimaryButton } from "../common";
+import { blue, pink } from "../../styles/colors";
+import styled from "styled-components/native";
 
 const LoginScreen = () => {
   const { loadingLogin, setLoadingLogin } = useContext(AppContext);
@@ -103,27 +111,55 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <Container>
       {loadingLogin ? (
         <ActivityIndicator size="large" />
       ) : (
-        <View>
+        <LoginContainer>
+          <EmailContainer>
+            <Text style={styles.signInText}>Sign in with email</Text>
+            <Input textContentType="username" />
+            <Input textContentType="password" secureTextEntry={true} />
+            <PrimaryButton>Login</PrimaryButton>
+          </EmailContainer>
+          <Text style={styles.signInText}>OR</Text>
           <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
-          <Input textContentType="username" />
-          <Input textContentType="password" secureTextEntry={true} />
-          <PrimaryButton>Login</PrimaryButton>
-        </View>
+        </LoginContainer>
       )}
-    </View>
+    </Container>
   );
 };
 
 export default LoginScreen;
 
+const Container = styled.View`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${pink};
+`;
+
+const LoginContainer = styled.View`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const EmailContainer = styled.View`
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 120px;
+  width: 75%;
+  border: 1px solid ${blue};
+  border-radius: 2px;
+`;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  signInText: {
+    color: blue,
   },
 });
