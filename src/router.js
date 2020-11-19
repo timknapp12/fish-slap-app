@@ -8,7 +8,7 @@ import HomeScreen from "./components/HomeScreen";
 import ProfileScreen from "./components/Profile/ProfileScreen";
 import FriendsScreen from "./components/Friends/FriendsScreen";
 import ActivityScreen from "./components/Activity/ActivityScreen";
-import { blue, lightBlue } from "./styles/colors";
+import { lightBlue, darkBlue, black } from "./styles/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,8 +33,10 @@ const Tabs = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: blue,
+        activeTintColor: "white",
         inactiveTintColor: lightBlue,
+        activeBackgroundColor: darkBlue,
+        inactiveBackgroundColor: black,
       }}
     >
       <Tab.Screen
