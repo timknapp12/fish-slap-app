@@ -1,17 +1,11 @@
 import React, { useContext } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  ActivityIndicator,
-} from "react-native";
+import { Text, StyleSheet, Button, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";
 import AppContext from "../../utils/AppContext";
-import { Input, PrimaryButton } from "../common";
-import { blue, pink } from "../../styles/colors";
+import { Input, PrimaryButton, ScreenContainer } from "../common";
+import { blue, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
 
 const LoginScreen = () => {
@@ -111,34 +105,36 @@ const LoginScreen = () => {
   };
 
   return (
-    <Container>
+    <ScreenContainer>
       {loadingLogin ? (
         <ActivityIndicator size="large" />
       ) : (
         <LoginContainer>
           <EmailContainer>
             <Text style={styles.signInText}>Sign in with email</Text>
-            <Input textContentType="username" />
-            <Input textContentType="password" secureTextEntry={true} />
+
+            <Input
+              placeholder="email"
+              textContentType="username"
+              placeholderTextColor={lightBlue}
+            />
+            <Input
+              placeholder="password"
+              placeholderTextColor={lightBlue}
+              textContentType="password"
+              secureTextEntry={true}
+            />
             <PrimaryButton>Login</PrimaryButton>
           </EmailContainer>
           <Text style={styles.signInText}>OR</Text>
           <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
         </LoginContainer>
       )}
-    </Container>
+    </ScreenContainer>
   );
 };
 
 export default LoginScreen;
-
-const Container = styled.View`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${pink};
-`;
 
 const LoginContainer = styled.View`
   display: flex;
@@ -153,7 +149,7 @@ const EmailContainer = styled.View`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  height: 120px;
+  height: 150px;
   width: 75%;
   border: 1px solid ${blue};
   border-radius: 2px;

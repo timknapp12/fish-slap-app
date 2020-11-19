@@ -1,20 +1,13 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text } from "react-native";
+import { SecondaryScreenContainer } from "../../common";
 
 const ActivityScreen = () => {
   return (
-    <View style={styles.container}>
+    <SecondaryScreenContainer>
       <Text>Activity Screen</Text>
-    </View>
+    </SecondaryScreenContainer>
   );
 };
 
 export default ActivityScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

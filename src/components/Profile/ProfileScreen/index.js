@@ -1,20 +1,13 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text } from "react-native";
+import { SecondaryScreenContainer } from "../../common";
 
 const ProfileScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>Profile Screen</Text>
-    </View>
+    <SecondaryScreenContainer>
+      <Text style={{ color: "white" }}>Profile Screen</Text>
+    </SecondaryScreenContainer>
   );
 };
 
 export default ProfileScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
