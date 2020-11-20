@@ -4,8 +4,14 @@ import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";
 import AppContext from "../../utils/AppContext";
-import { Input, PrimaryButton, ScreenContainer } from "../common";
-import { blue, lightBlue } from "../../styles/colors";
+import {
+  Input,
+  PrimaryButton,
+  SecondaryScreenContainer,
+  MainText,
+  H2,
+} from "../common";
+import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
 
 const LoginScreen = () => {
@@ -105,14 +111,15 @@ const LoginScreen = () => {
   };
 
   return (
-    <ScreenContainer>
+    <SecondaryScreenContainer>
       {loadingLogin ? (
         <ActivityIndicator size="large" />
       ) : (
         <LoginContainer>
+          <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
+          <H2>OR</H2>
           <EmailContainer>
-            <Text style={styles.signInText}>Sign in with email</Text>
-
+            <MainText>Sign in with email</MainText>
             <Input
               placeholder="email"
               textContentType="username"
@@ -126,11 +133,9 @@ const LoginScreen = () => {
             />
             <PrimaryButton>Login</PrimaryButton>
           </EmailContainer>
-          <Text style={styles.signInText}>OR</Text>
-          <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
         </LoginContainer>
       )}
-    </ScreenContainer>
+    </SecondaryScreenContainer>
   );
 };
 
@@ -151,11 +156,6 @@ const EmailContainer = styled.View`
   justify-content: space-around;
   height: 150px;
   width: 75%;
-  border: 1px solid ${blue};
+  border: 1px solid ${white};
   border-radius: 2px;
 `;
-const styles = StyleSheet.create({
-  signInText: {
-    color: blue,
-  },
-});
