@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button, ActivityIndicator } from "react-native";
+import { ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";
@@ -10,6 +10,7 @@ import {
   SecondaryScreenContainer,
   MainText,
   H2,
+  LoginButton,
 } from "../common";
 import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
@@ -116,7 +117,8 @@ const LoginScreen = () => {
         <ActivityIndicator size="large" />
       ) : (
         <LoginContainer>
-          <Button title="Sign In With Google" onPress={signInWithGoogleAsync} />
+          <LoginButton title="Facebook" />
+          <LoginButton onPress={signInWithGoogleAsync} />
           <H2>OR</H2>
           <EmailContainer>
             <MainText>Sign in with email</MainText>

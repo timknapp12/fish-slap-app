@@ -10,6 +10,7 @@ const sharedCss = {
 // MAIN
 const StyledText = styled.Text`
   ${sharedCss};
+  font-size: 16px;
 `;
 
 export const MainText = ({ children, ...props }) => (

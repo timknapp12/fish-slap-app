@@ -1,4 +1,4 @@
-export * from "./PrimaryButton";
+export * from "./Buttons";
 export * from "./Input";
 export * from "./Card";
 export * from "./ScreenContainer";

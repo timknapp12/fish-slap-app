@@ -27,7 +27,7 @@ const Tabs = () => {
               ? "account-multiple"
               : "account-multiple-outline";
           } else if (route.name === "Gestures") {
-            iconName = focused ? "hand-peace" : "hand-peace";
+            iconName = focused ? "hand-peace" : "hand";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
