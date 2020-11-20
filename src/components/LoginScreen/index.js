@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, StyleSheet, Button, ActivityIndicator } from "react-native";
+import { Button, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";

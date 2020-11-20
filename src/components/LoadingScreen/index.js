@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { ActivityIndicator } from "react-native";
 import firebase from "firebase";
+import { SecondaryScreenContainer } from "../common";
 
 const LoadingScreen = (props) => {
   useEffect(() => {
@@ -19,18 +20,10 @@ const LoadingScreen = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SecondaryScreenContainer>
       <ActivityIndicator size="large" />
-    </View>
+    </SecondaryScreenContainer>
   );
 };
 
 export default LoadingScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

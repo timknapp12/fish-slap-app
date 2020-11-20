@@ -7,7 +7,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import HomeScreen from "./components/HomeScreen";
 import ProfileScreen from "./components/Profile/ProfileScreen";
 import FriendsScreen from "./components/Friends/FriendsScreen";
-import ActivityScreen from "./components/Activity/ActivityScreen";
+import GesturesScreen from "./components/Gestures/GesturesScreen";
 import { lightBlue, darkBlue, black } from "./styles/colors";
 
 const Tab = createBottomTabNavigator();
@@ -26,8 +26,8 @@ const Tabs = () => {
             iconName = focused
               ? "account-multiple"
               : "account-multiple-outline";
-          } else if (route.name === "Activity") {
-            iconName = focused ? "comment-text" : "comment-text-outline";
+          } else if (route.name === "Gestures") {
+            iconName = focused ? "hand-peace" : "hand-peace";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -45,9 +45,9 @@ const Tabs = () => {
         options={{ title: "Home" }}
       />
       <Tab.Screen
-        name="Activity"
-        component={ActivityScreen}
-        options={{ title: "Activity" }}
+        name="Gestures"
+        component={GesturesScreen}
+        options={{ title: "Gestures" }}
       />
       <Tab.Screen
         name="Friends"
