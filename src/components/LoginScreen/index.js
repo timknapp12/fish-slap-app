@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
@@ -7,16 +7,43 @@ import AppContext from "../../utils/AppContext";
 import {
   Input,
   PrimaryButton,
+  SecondaryButton,
   SecondaryScreenContainer,
   MainText,
   H2,
   LoginButton,
+  GeneralContainer,
 } from "../common";
 import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
 
 const LoginScreen = () => {
   const { loadingLogin, setLoadingLogin } = useContext(AppContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const signUpUser = (email, password) => {
+    try {
+      if (password.length < 6) {
+        alert("Please use at least 6 characters for the password");
+        return;
+      }
+      firebase.auth().createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.log("error", error.toString());
+    }
+  };
+
+  const loginUser = (email, password) => {
+    try {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((user) => console.log("user", user));
+    } catch (error) {
+      console.log("error", error.toString());
+    }
+  };
 
   const isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
@@ -117,23 +144,42 @@ const LoginScreen = () => {
         <ActivityIndicator size="large" />
       ) : (
         <LoginContainer>
-          <LoginButton title="Facebook" />
-          <LoginButton onPress={signInWithGoogleAsync} />
-          <H2>OR</H2>
+          <GeneralContainer width="80%" padding="8px" height="90px">
+            <LoginButton title="Facebook" />
+            <LoginButton onPress={signInWithGoogleAsync} />
+          </GeneralContainer>
+          <GeneralContainer padding="8px">
+            <H2>OR</H2>
+          </GeneralContainer>
           <EmailContainer>
             <MainText>Sign in with email</MainText>
             <Input
+              value={email}
+              onChangeText={(text) => setEmail(text)}
               placeholder="email"
               textContentType="username"
               placeholderTextColor={lightBlue}
+              autoCapitalize="none"
+              keyboardType="email-address"
             />
             <Input
+              value={password}
+              onChangeText={(text) => setPassword(text)}
               placeholder="password"
               placeholderTextColor={lightBlue}
               textContentType="password"
               secureTextEntry={true}
+              autoCapitalize="none"
+              keyboardType="email-address"
             />
-            <PrimaryButton>Login</PrimaryButton>
+            <GeneralContainer height="66px">
+              <PrimaryButton onPress={() => loginUser(email, password)}>
+                Login
+              </PrimaryButton>
+              <SecondaryButton onPress={() => signUpUser(email, password)}>
+                Sign Up
+              </SecondaryButton>
+            </GeneralContainer>
           </EmailContainer>
         </LoginContainer>
       )}
@@ -153,10 +199,9 @@ const LoginContainer = styled.View`
 const EmailContainer = styled.View`
   padding: 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  height: 150px;
+  height: 222px;
   width: 75%;
   border: 1px solid ${white};
   border-radius: 2px;
