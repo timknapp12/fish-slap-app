@@ -1,19 +1,23 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { blue, green, white } from "../../styles/colors";
+import { blue, green, white, lightBlue, lightPink } from "../../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import styled from "styled-components/native";
-import { MainText } from "../common";
+import { MainText } from "../common/Texts";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 
+const sharedCss = {
+  width: "100%",
+  height: 28,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: 4,
+  borderRadius: 14,
+};
 // PRIMARY BUTTON
-
 const Container = styled.TouchableOpacity`
-  width: 100%;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${sharedCss};
 `;
 
 const styles = StyleSheet.create({
@@ -28,7 +32,7 @@ const styles = StyleSheet.create({
 export const PrimaryButton = ({ children = "Button", ...props }) => (
   <View style={styles.button}>
     <LinearGradient
-      style={{ borderRadius: 12 }}
+      style={{ borderRadius: 14 }}
       colors={[blue, green]}
       start={{ x: 0.49, y: 0.2 }}
     >
@@ -37,6 +41,20 @@ export const PrimaryButton = ({ children = "Button", ...props }) => (
       </Container>
     </LinearGradient>
   </View>
+);
+
+// SECONDARY BUTTON
+const StyledSecondary = styled.TouchableOpacity`
+  ${sharedCss};
+  border: 1px solid white;
+  border-radius: 12px;
+  /* background-color: ${lightPink}; */
+`;
+
+export const SecondaryButton = ({ children, ...props }) => (
+  <StyledSecondary {...props}>
+    <MainText style={styles.text}>{children}</MainText>
+  </StyledSecondary>
 );
 
 // LOGIN BUTTON
@@ -51,7 +69,7 @@ const StyledLoginButton = styled.TouchableOpacity`
 `;
 
 const LogoAndTextContainer = styled.View`
-  width: 50%;
+  width: 75%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
