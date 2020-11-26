@@ -196,7 +196,7 @@ const LoginScreen = () => {
         <LoginContainer>
           {!newAccount ? (
             <>
-              <GeneralContainer width="80%" padding="8px" height="90px">
+              <GeneralContainer width="80%" padding="8px" height="40px">
                 {/* <LoginButton title="Facebook" onPress={loginFB} /> */}
                 <LoginButton onPress={signInWithGoogleAsync} />
               </GeneralContainer>
