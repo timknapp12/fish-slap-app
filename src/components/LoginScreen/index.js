@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
-import { iosClientId, androidClientId, faceBookAppId } from "../../../config";
-import * as Facebook from "expo-facebook";
+import { iosClientId, androidClientId } from "../../../config";
+// import * as Facebook from "expo-facebook";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import AppContext from "../../utils/AppContext";
 import {
