@@ -152,62 +152,41 @@ const LoginScreen = () => {
     }
   };
 
-  const loginWithFacebook = async () => {
-    //ENTER YOUR APP ID
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-      faceBookAppId,
-      {
-        permissions: ["public_profile"],
-      }
-    );
-
-    if (type == "success") {
-      const credential = firebase.auth.FacebookAuthProvider.credential(token);
-
-      firebase
-        .auth()
-        .signInWithCredential(credential)
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-
-  const loginFB = async () => {
-    try {
-      await Facebook.initializeAsync({
-        appId: faceBookAppId,
-      });
-      const {
-        type,
-        token,
-        expirationDate,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile"],
-      });
-      if (type === "success") {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
-        );
-        console.log("Logged in!", `Hi ${(await response.json()).name}!`);
-        const credential = firebase.auth.FacebookAuthProvider.credential(token);
-        console.log("credential", credential);
-        firebase
-          .auth()
-          .signInWithCredential(credential)
-          .catch((error) => {
-            console.log("this is my error", error);
-          });
-      } else {
-        // type === 'cancel'
-      }
-    } catch ({ message }) {
-      console.log(`Facebook Login Error: ${message}`);
-    }
-  };
+  // const loginFB = async () => {
+  //   try {
+  //     await Facebook.initializeAsync({
+  //       appId: faceBookAppId,
+  //     });
+  //     const {
+  //       type,
+  //       token,
+  //       expirationDate,
+  //       permissions,
+  //       declinedPermissions,
+  //     } = await Facebook.logInWithReadPermissionsAsync({
+  //       permissions: ["public_profile"],
+  //     });
+  //     if (type === "success") {
+  //       // Get the user's name using Facebook's Graph API
+  //       const response = await fetch(
+  //         `https://graph.facebook.com/me?access_token=${token}`
+  //       );
+  //       console.log("Logged in!", `Hi ${(await response.json()).name}!`);
+  //       const credential = firebase.auth.FacebookAuthProvider.credential(token);
+  //       console.log("credential", credential);
+  //       firebase
+  //         .auth()
+  //         .signInWithCredential(credential)
+  //         .catch((error) => {
+  //           console.log("this is my error", error);
+  //         });
+  //     } else {
+  //       // type === 'cancel'
+  //     }
+  //   } catch ({ message }) {
+  //     console.log(`Facebook Login Error: ${message}`);
+  //   }
+  // };
 
   return (
     <SecondaryScreenContainer>
@@ -218,7 +197,7 @@ const LoginScreen = () => {
           {!newAccount ? (
             <>
               <GeneralContainer width="80%" padding="8px" height="90px">
-                <LoginButton title="Facebook" onPress={loginFB} />
+                {/* <LoginButton title="Facebook" onPress={loginFB} /> */}
                 <LoginButton onPress={signInWithGoogleAsync} />
               </GeneralContainer>
               <GeneralContainer padding="8px">
