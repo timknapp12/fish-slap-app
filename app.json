@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.timknapp12.fish-slap-app"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
