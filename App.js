@@ -6,7 +6,11 @@ import { LoginStack } from "./src/router";
 import AppContext from "./src/utils/AppContext";
 import * as firebase from "firebase";
 import { firebaseConfig } from "./config";
-firebase.initializeApp(firebaseConfig);
+
+// firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const Stack = createStackNavigator();
 
