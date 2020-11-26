@@ -21,6 +21,9 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
-    }
+    },
+    "facebookScheme": "fb131989751762089",
+    "facebookAppId": "131989751762089",
+    "facebookDisplayName": "fish-slap-app"
   }
 }
