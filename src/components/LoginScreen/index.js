@@ -2,7 +2,9 @@ import React, { useContext, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
-import { iosClientId, androidClientId } from "../../../config";
+import { iosClientId, androidClientId, faceBookAppId } from "../../../config";
+import * as Facebook from "expo-facebook";
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import AppContext from "../../utils/AppContext";
 import {
   Input,
@@ -16,16 +18,28 @@ import {
 } from "../common";
 import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const LoginScreen = () => {
   const { loadingLogin, setLoadingLogin } = useContext(AppContext);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newAccount, setNewAccount] = useState(false);
 
-  const signUpUser = (email, password) => {
+  const signUpUser = (firstName, lastName, email, password) => {
     try {
       if (password.length < 6) {
         alert("Please use at least 6 characters for the password");
+        return;
+      }
+      if (firstName.length < 1) {
+        alert("Please enter your first name");
+        return;
+      }
+      if (lastName.length < 1) {
+        alert("Please enter your last name");
         return;
       }
       firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -138,49 +152,162 @@ const LoginScreen = () => {
     }
   };
 
+  const loginWithFacebook = async () => {
+    //ENTER YOUR APP ID
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+      faceBookAppId,
+      {
+        permissions: ["public_profile"],
+      }
+    );
+
+    if (type == "success") {
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const loginFB = async () => {
+    try {
+      await Facebook.initializeAsync({
+        appId: faceBookAppId,
+      });
+      const {
+        type,
+        token,
+        expirationDate,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile"],
+      });
+      if (type === "success") {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${token}`
+        );
+        console.log("Logged in!", `Hi ${(await response.json()).name}!`);
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        console.log("credential", credential);
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .catch((error) => {
+            console.log("this is my error", error);
+          });
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      console.log(`Facebook Login Error: ${message}`);
+    }
+  };
+
   return (
     <SecondaryScreenContainer>
       {loadingLogin ? (
         <ActivityIndicator size="large" />
       ) : (
         <LoginContainer>
-          <GeneralContainer width="80%" padding="8px" height="90px">
-            <LoginButton title="Facebook" />
-            <LoginButton onPress={signInWithGoogleAsync} />
-          </GeneralContainer>
-          <GeneralContainer padding="8px">
-            <H2>OR</H2>
-          </GeneralContainer>
-          <EmailContainer>
-            <MainText>Sign in with email</MainText>
-            <Input
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              placeholder="email"
-              textContentType="username"
-              placeholderTextColor={lightBlue}
-              autoCapitalize="none"
-              keyboardType="email-address"
-            />
-            <Input
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              placeholder="password"
-              placeholderTextColor={lightBlue}
-              textContentType="password"
-              secureTextEntry={true}
-              autoCapitalize="none"
-              keyboardType="email-address"
-            />
-            <GeneralContainer height="66px">
-              <PrimaryButton onPress={() => loginUser(email, password)}>
-                Login
-              </PrimaryButton>
-              <SecondaryButton onPress={() => signUpUser(email, password)}>
-                Sign Up
-              </SecondaryButton>
-            </GeneralContainer>
-          </EmailContainer>
+          {!newAccount ? (
+            <>
+              <GeneralContainer width="80%" padding="8px" height="90px">
+                <LoginButton title="Facebook" onPress={loginWithFacebook} />
+                <LoginButton onPress={signInWithGoogleAsync} />
+              </GeneralContainer>
+              <GeneralContainer padding="8px">
+                <H2>OR</H2>
+              </GeneralContainer>
+              <EmailContainer newAccount={newAccount}>
+                <MainText>Sign in with email</MainText>
+                <Input
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                  placeholder="email"
+                  textContentType="username"
+                  placeholderTextColor={lightBlue}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                <Input
+                  value={password}
+                  onChangeText={(text) => setPassword(text)}
+                  placeholder="password"
+                  placeholderTextColor={lightBlue}
+                  textContentType="newPassword"
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                <PrimaryButton onPress={() => loginUser(email, password)}>
+                  Login
+                </PrimaryButton>
+              </EmailContainer>
+              <GeneralContainer justify="flex-end" width="80%" height="66px">
+                <MainText>Don't have an account?</MainText>
+                <SecondaryButton onPress={() => setNewAccount(true)}>
+                  Sign Up Here
+                </SecondaryButton>
+              </GeneralContainer>
+            </>
+          ) : (
+            <>
+              <EmailContainer newAccount={newAccount}>
+                <MainText>Create a new account</MainText>
+                <Input
+                  value={firstName}
+                  onChangeText={(text) => setFirstName(text)}
+                  placeholder="first name"
+                  textContentType="givenName"
+                  placeholderTextColor={lightBlue}
+                />
+                <Input
+                  value={lastName}
+                  onChangeText={(text) => setLastName(text)}
+                  placeholder="last name"
+                  textContentType="familyName"
+                  placeholderTextColor={lightBlue}
+                />
+                <Input
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                  placeholder="email"
+                  textContentType="username"
+                  placeholderTextColor={lightBlue}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                <Input
+                  value={password}
+                  onChangeText={(text) => setPassword(text)}
+                  placeholder="password"
+                  placeholderTextColor={lightBlue}
+                  textContentType="password"
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                <PrimaryButton
+                  onPress={() =>
+                    signUpUser(firstName, lastName, email, password)
+                  }
+                >
+                  Create Account
+                </PrimaryButton>
+              </EmailContainer>
+              <GeneralContainer padding="16px">
+                <TouchableOpacity onPress={() => setNewAccount(false)}>
+                  <Ionicons name="arrow-left-circle" color="white" size={42} />
+                </TouchableOpacity>
+              </GeneralContainer>
+            </>
+          )}
         </LoginContainer>
       )}
     </SecondaryScreenContainer>
@@ -201,7 +328,7 @@ const EmailContainer = styled.View`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: 222px;
+  height: ${(props) => (props.newAccount ? "300px" : "222px")};
   width: 75%;
   border: 1px solid ${white};
   border-radius: 2px;
