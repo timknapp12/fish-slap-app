@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Alert } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";
@@ -28,6 +28,11 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
 
+  const clearFirstName = () => setFirstName("");
+  const clearLastName = () => setLastName("");
+  const clearEmail = () => setEmail("");
+  const clearPassword = () => setPassword("");
+
   const signUpUser = (firstName, lastName, email, password) => {
     try {
       if (password.length < 6) {
@@ -42,10 +47,17 @@ const LoginScreen = () => {
         alert("Please enter your last name");
         return;
       }
-      firebase.auth().createUserWithEmailAndPassword(email, password);
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((user) => console.log("user:", user));
     } catch (error) {
       console.log("error", error.toString());
     }
+    clearFirstName();
+    clearLastName();
+    clearPassword();
+    setNewAccount(false);
   };
 
   const loginUser = (email, password) => {
@@ -53,10 +65,17 @@ const LoginScreen = () => {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then((user) => console.log("user", user));
+        .then((user) => console.log("user", user.user.uid))
+        .catch((error) => {
+          console.log("error", error);
+          Alert.alert(
+            "Username and/or password does not match our records of a user. Please verify details or sign up for an account."
+          );
+        });
     } catch (error) {
       console.log("error", error.toString());
     }
+    clearPassword();
   };
 
   const isUserEqual = (googleUser, firebaseUser) => {
@@ -230,7 +249,12 @@ const LoginScreen = () => {
               </EmailContainer>
               <GeneralContainer justify="flex-end" width="80%" height="66px">
                 <MainText>Don't have an account?</MainText>
-                <SecondaryButton onPress={() => setNewAccount(true)}>
+                <SecondaryButton
+                  onPress={() => {
+                    clearPassword();
+                    setNewAccount(true);
+                  }}
+                >
                   Sign Up Here
                 </SecondaryButton>
               </GeneralContainer>
@@ -281,7 +305,12 @@ const LoginScreen = () => {
                 </PrimaryButton>
               </EmailContainer>
               <GeneralContainer padding="16px">
-                <TouchableOpacity onPress={() => setNewAccount(false)}>
+                <TouchableOpacity
+                  onPress={() => {
+                    clearPassword();
+                    setNewAccount(false);
+                  }}
+                >
                   <Ionicons name="arrow-left-circle" color="white" size={42} />
                 </TouchableOpacity>
               </GeneralContainer>
