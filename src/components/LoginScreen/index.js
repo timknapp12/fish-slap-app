@@ -50,7 +50,17 @@ const LoginScreen = () => {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then((user) => console.log("user:", user));
+        .then((result) => {
+          firebase
+            .database()
+            .ref("/users/" + result.user.uid)
+            .set({
+              email: result.user.email,
+              first_name: firstName,
+              last_name: lastName,
+              created_at: Date.now(),
+            });
+        });
     } catch (error) {
       console.log("error", error.toString());
     }
@@ -65,7 +75,14 @@ const LoginScreen = () => {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then((user) => console.log("user", user.user.uid))
+        .then((result) => {
+          firebase
+            .database()
+            .ref("/users/" + result.user.uid)
+            .update({
+              last_logged_in: Date.now(),
+            });
+        })
         .catch((error) => {
           console.log("error", error);
           Alert.alert(
