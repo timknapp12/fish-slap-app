@@ -258,11 +258,11 @@ const LoginScreen = () => {
         <LoginContainer>
           {!newAccount ? (
             <>
-              <GeneralContainer width="80%" padding="8px" height="40px">
+              <GeneralContainer width="80%" padding={8} height="40px">
                 {/* <LoginButton title="Facebook" onPress={loginFB} /> */}
                 <LoginButton onPress={signInWithGoogleAsync} />
               </GeneralContainer>
-              <GeneralContainer padding="8px">
+              <GeneralContainer padding={8}>
                 <H2>OR</H2>
               </GeneralContainer>
               <EmailContainer newAccount={newAccount}>
@@ -366,7 +366,7 @@ const LoginScreen = () => {
                   Create Account
                 </PrimaryButton>
               </EmailContainer>
-              <GeneralContainer padding="16px">
+              <GeneralContainer padding={16}>
                 <TouchableOpacity
                   onPress={() => {
                     setPassword("");

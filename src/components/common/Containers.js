@@ -17,7 +17,7 @@ const StlyedGeneral = styled.View`
   justify-content: ${({ justify }) => (justify ? justify : "space-between")};
   width: ${({ width }) => (width ? width : "100%")};
   height: ${({ height }) => (height ? height : "auto")};
-  padding: ${({ padding }) => (padding ? padding : "0px")};
+  padding: ${({ padding }) => (padding ? `${padding}px` : "0px")};
 `;
 
 export const GeneralContainer = ({
