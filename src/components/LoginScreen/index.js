@@ -26,26 +26,35 @@ const LoginScreen = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
-
-  const clearFirstName = () => setFirstName("");
-  const clearLastName = () => setLastName("");
-  const clearEmail = () => setEmail("");
-  const clearPassword = () => setPassword("");
 
   const signUpUser = (firstName, lastName, email, password) => {
     try {
-      if (password.length < 6) {
-        alert("Please use at least 6 characters for the password");
-        return;
-      }
       if (firstName.length < 1) {
-        alert("Please enter your first name");
+        Alert.alert("Please enter your first name");
         return;
       }
       if (lastName.length < 1) {
-        alert("Please enter your last name");
+        Alert.alert("Please enter your last name");
+        return;
+      }
+      if (email.length < 6) {
+        Alert.alert("Please enter your email");
+        return;
+      }
+      if (confirmEmail !== email) {
+        Alert.alert("Please confirm your email");
+        return;
+      }
+      if (password.length < 6) {
+        Alert.alert("Please use at least 6 characters for the password");
+        return;
+      }
+      if (confirmPassword !== password) {
+        Alert.alert("Please confirm your password");
         return;
       }
       firebase
@@ -69,9 +78,10 @@ const LoginScreen = () => {
     } catch (error) {
       console.log("error", error.toString());
     }
-    clearFirstName();
-    clearLastName();
-    clearPassword();
+    setFirstName("");
+    setLastName("");
+    setPassword("");
+    setConfirmPassword("");
     setNewAccount(false);
   };
 
@@ -96,7 +106,7 @@ const LoginScreen = () => {
     } catch (error) {
       console.log("error", error.toString());
     }
-    clearPassword();
+    setPassword("");
   };
 
   const isUserEqual = (googleUser, firebaseUser) => {
@@ -271,7 +281,7 @@ const LoginScreen = () => {
                 <MainText>Don't have an account?</MainText>
                 <SecondaryButton
                   onPress={() => {
-                    clearPassword();
+                    setPassword("");
                     setNewAccount(true);
                   }}
                 >
@@ -307,9 +317,28 @@ const LoginScreen = () => {
                   keyboardType="email-address"
                 />
                 <Input
+                  value={confirmEmail}
+                  onChangeText={(text) => setConfirmEmail(text)}
+                  placeholder="confirm email"
+                  textContentType="username"
+                  placeholderTextColor={lightBlue}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                <Input
                   value={password}
                   onChangeText={(text) => setPassword(text)}
                   placeholder="password"
+                  placeholderTextColor={lightBlue}
+                  textContentType="password"
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                <Input
+                  value={confirmPassword}
+                  onChangeText={(text) => setConfirmPassword(text)}
+                  placeholder="confirm password"
                   placeholderTextColor={lightBlue}
                   textContentType="password"
                   secureTextEntry={true}
@@ -327,7 +356,8 @@ const LoginScreen = () => {
               <GeneralContainer padding="16px">
                 <TouchableOpacity
                   onPress={() => {
-                    clearPassword();
+                    setPassword("");
+                    setConfirmPassword("");
                     setNewAccount(false);
                   }}
                 >
@@ -356,7 +386,7 @@ const EmailContainer = styled.View`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: ${(props) => (props.newAccount ? "300px" : "222px")};
+  height: ${(props) => (props.newAccount ? "360px" : "222px")};
   width: 75%;
   border: 1px solid ${white};
   border-radius: 2px;
