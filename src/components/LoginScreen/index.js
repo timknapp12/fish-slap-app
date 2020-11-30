@@ -64,8 +64,8 @@ const LoginScreen = () => {
             .catch((error) => {
               console.error("Error adding document: ", error);
             });
-        });
-      // .catch((error) => Alert.alert(error));
+        })
+        .catch((error) => alert(error));
     } catch (error) {
       console.log("error", error.toString());
     }
@@ -81,12 +81,11 @@ const LoginScreen = () => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((result) => {
-          firebase
-            .database()
-            .ref("/users/" + result.user.uid)
-            .update({
-              last_logged_in: Date.now(),
-            });
+          const db = firebase.firestore();
+          firebase;
+          db.collection("users").doc(result.user.uid).update({
+            lastLoggedIn: Date.now(),
+          });
         })
         .catch((error) => {
           console.log("error", error);
