@@ -35,6 +35,7 @@ const LoginScreen = () => {
     return () => {
       setFirstName("");
       setLastName("");
+      setEmail("");
       setConfirmEmail("");
       setPassword("");
       setConfirmPassword("");
@@ -90,6 +91,8 @@ const LoginScreen = () => {
     }
     setFirstName("");
     setLastName("");
+    setEmail("");
+    setConfirmEmail("");
     setPassword("");
     setConfirmPassword("");
     setNewAccount(false);
