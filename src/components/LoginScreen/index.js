@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ActivityIndicator, Alert } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
@@ -30,6 +30,16 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setFirstName("");
+      setLastName("");
+      setConfirmEmail("");
+      setPassword("");
+      setConfirmPassword("");
+    };
+  }, []);
 
   const signUpUser = (firstName, lastName, email, password) => {
     try {
