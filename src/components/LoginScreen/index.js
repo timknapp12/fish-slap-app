@@ -19,6 +19,7 @@ import {
 import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import "firebase/firestore";
 
 const LoginScreen = () => {
   const { loadingLogin, setLoadingLogin } = useContext(AppContext);
@@ -51,16 +52,20 @@ const LoginScreen = () => {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((result) => {
-          firebase
-            .database()
-            .ref("/users/" + result.user.uid)
+          const db = firebase.firestore();
+          db.collection("users")
+            .doc(result.user.uid)
             .set({
               email: result.user.email,
-              first_name: firstName,
-              last_name: lastName,
-              created_at: Date.now(),
+              firstName: firstName,
+              lastName: lastName,
+              createdAt: Date.now(),
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
             });
         });
+      // .catch((error) => Alert.alert(error));
     } catch (error) {
       console.log("error", error.toString());
     }
@@ -128,29 +133,28 @@ const LoginScreen = () => {
           .auth()
           .signInWithCredential(credential)
           .then((result) => {
+            const db = firebase.firestore();
             console.log("user signed in ");
             if (result.additionalUserInfo.isNewUser) {
-              firebase
-                .database()
-                .ref("/users/" + result.user.uid)
+              firebase;
+              db.collection("users")
+                .doc(result.user.uid)
                 .set({
-                  gmail: result.user.email,
-                  profile_picture: result.additionalUserInfo.profile.picture,
+                  email: result.user.email,
+                  profilePicture: result.additionalUserInfo.profile.picture,
                   locale: result.additionalUserInfo.profile.locale,
-                  first_name: result.additionalUserInfo.profile.given_name,
-                  last_name: result.additionalUserInfo.profile.family_name,
-                  created_at: Date.now(),
+                  firstName: result.additionalUserInfo.profile.given_name,
+                  lastName: result.additionalUserInfo.profile.family_name,
+                  createdAt: Date.now(),
                 })
                 .then((snapshot) => {
                   // console.log('Snapshot', snapshot);
                 });
             } else {
-              firebase
-                .database()
-                .ref("/users/" + result.user.uid)
-                .update({
-                  last_logged_in: Date.now(),
-                });
+              firebase;
+              db.collection("users").doc(result.user.uid).update({
+                lastLoggedIn: Date.now(),
+              });
             }
           })
           .catch((error) => {
