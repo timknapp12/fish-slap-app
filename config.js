@@ -13,3 +13,5 @@ export const androidClientId =
 
 export const iosClientId =
   "378539798943-j8jnl0lcob2e28odkncqmdbd9dph5u5g.apps.googleusercontent.com";
+
+export const faceBookAppId = "131989751762089";
