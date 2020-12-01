@@ -1,12 +1,12 @@
 import React from "react";
 import { Text } from "react-native";
-import { SecondaryScreenContainer } from "../../common";
+import { ScreenContainer } from "../../common";
 
 const ActivityScreen = () => {
   return (
-    <SecondaryScreenContainer>
+    <ScreenContainer>
       <Text>Activity Screen</Text>
-    </SecondaryScreenContainer>
+    </ScreenContainer>
   );
 };
 

@@ -10,7 +10,7 @@ import {
   Input,
   PrimaryButton,
   SecondaryButton,
-  SecondaryScreenContainer,
+  ScreenContainer,
   MainText,
   H2,
   LoginButton,
@@ -251,7 +251,7 @@ const LoginScreen = () => {
   // };
 
   return (
-    <SecondaryScreenContainer>
+    <ScreenContainer>
       {loadingLogin ? (
         <ActivityIndicator size="large" />
       ) : (
@@ -381,7 +381,7 @@ const LoginScreen = () => {
           )}
         </LoginContainer>
       )}
-    </SecondaryScreenContainer>
+    </ScreenContainer>
   );
 };
 

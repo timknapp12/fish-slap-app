@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ActivityIndicator } from "react-native";
 import firebase from "firebase";
-import { SecondaryScreenContainer } from "../common";
+import { ScreenContainer } from "../common";
 
 const LoadingScreen = (props) => {
   useEffect(() => {
@@ -20,9 +20,9 @@ const LoadingScreen = (props) => {
   };
 
   return (
-    <SecondaryScreenContainer>
+    <ScreenContainer>
       <ActivityIndicator size="large" />
-    </SecondaryScreenContainer>
+    </ScreenContainer>
   );
 };
 

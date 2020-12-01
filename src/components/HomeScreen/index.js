@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import { Text, StyleSheet, Button } from "react-native";
+import { Text, Button } from "react-native";
 import firebase from "firebase";
 import AppContext from "../../utils/AppContext";
-import { SecondaryScreenContainer } from "../common";
+import { ScreenContainer } from "../common";
 
 const HomeScreen = () => {
   const { setLoadingLogin } = useContext(AppContext);
   return (
-    <SecondaryScreenContainer>
+    <ScreenContainer>
       <Text style={{ color: "white" }}>HomeScreen</Text>
       <Button
         title="Sign out"
@@ -16,15 +16,7 @@ const HomeScreen = () => {
           setLoadingLogin(false);
         }}
       />
-    </SecondaryScreenContainer>
+    </ScreenContainer>
   );
 };
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

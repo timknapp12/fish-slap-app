@@ -1,12 +1,12 @@
 import React from "react";
 import { Text } from "react-native";
-import { SecondaryScreenContainer } from "../../common";
+import { ScreenContainer } from "../../common";
 
 const FriendsScreen = () => {
   return (
-    <SecondaryScreenContainer>
+    <ScreenContainer>
       <Text>Friends Screen</Text>
-    </SecondaryScreenContainer>
+    </ScreenContainer>
   );
 };
 
