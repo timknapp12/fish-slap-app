@@ -14,4 +14,6 @@ export const black = "#11141c";
 
 export const white = "#fcfcfc";
 
-export const yellow = "yellow";
+export const yellow = "#ffba00";
+
+export const orange = "#ff4500";
