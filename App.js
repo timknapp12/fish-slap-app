@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { LoginStack } from "./src/router";
 import AppContext from "./src/utils/AppContext";
+import { ThemeProvider } from "styled-components/native";
+import { galaxyTheme } from "./src/styles/themes";
 import * as firebase from "firebase";
 import { firebaseConfig } from "./config";
 
@@ -12,16 +13,20 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-const Stack = createStackNavigator();
-
 const App = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
+  const [theme, setTheme] = useState(galaxyTheme);
+
   return (
-    <AppContext.Provider value={{ loadingLogin, setLoadingLogin }}>
-      <NavigationContainer>
-        <LoginStack />
-      </NavigationContainer>
-    </AppContext.Provider>
+    <ThemeProvider theme={theme}>
+      <AppContext.Provider
+        value={{ loadingLogin, setLoadingLogin, theme, setTheme }}
+      >
+        <NavigationContainer>
+          <LoginStack />
+        </NavigationContainer>
+      </AppContext.Provider>
+    </ThemeProvider>
   );
 };
 export default App;
