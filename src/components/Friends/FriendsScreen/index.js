@@ -1,11 +1,10 @@
 import React from "react";
-import { Text } from "react-native";
-import { ScreenContainer } from "../../common";
+import { ScreenContainer, MainText } from "../../common";
 
 const FriendsScreen = () => {
   return (
     <ScreenContainer>
-      <Text>Friends Screen</Text>
+      <MainText>Friends Screen</MainText>
     </ScreenContainer>
   );
 };
