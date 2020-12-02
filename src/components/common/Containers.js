@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components/native";
 import { pink, darkBlue, black } from "../../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
+import AppContext from "../../utils/AppContext";
 
 const sharedCss = {
   flex: 1,
@@ -42,33 +43,18 @@ export const GeneralContainer = ({
 // SCREEN CONTAINER
 const Container = styled.View`
   ${sharedCss};
+  padding: 32px;
 `;
 
 export const ScreenContainer = ({ children }) => {
+  const { theme } = useContext(AppContext);
   return (
     <LinearGradient
-      colors={[darkBlue, black]}
+      colors={[theme.linearGradientOne, theme.linearGradientTwo]}
       start={{ x: 0.49, y: 0.2 }}
       style={{ height: "100%", width: "100%" }}
     >
       <Container>{children}</Container>
-    </LinearGradient>
-  );
-};
-
-//SECONDARY SREEN CONTAINER
-const SecondaryContainer = styled.View`
-  ${sharedCss};
-`;
-
-export const SecondaryScreenContainer = ({ children }) => {
-  return (
-    <LinearGradient
-      colors={[pink, darkBlue]}
-      start={{ x: 0.5, y: 0.0 }}
-      style={{ height: "100%", width: "100%" }}
-    >
-      <SecondaryContainer>{children}</SecondaryContainer>
     </LinearGradient>
   );
 };

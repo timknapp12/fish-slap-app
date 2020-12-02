@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -8,11 +8,12 @@ import HomeScreen from "./components/HomeScreen";
 import ProfileScreen from "./components/Profile/ProfileScreen";
 import FriendsScreen from "./components/Friends/FriendsScreen";
 import GesturesScreen from "./components/Gestures/GesturesScreen";
-import { lightBlue, darkBlue, black } from "./styles/colors";
+import AppContext from "./utils/AppContext";
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+  const { theme } = useContext(AppContext);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -33,10 +34,18 @@ const Tabs = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "white",
-        inactiveTintColor: lightBlue,
-        activeBackgroundColor: darkBlue,
-        inactiveBackgroundColor: black,
+        activeTintColor: theme.activeTint,
+        inactiveTintColor: theme.inactiveTint,
+        activeBackgroundColor: theme.activeBackground,
+        inactiveBackgroundColor: theme.inactiveBackground,
+        safeAreaInsets: {
+          bottom: 0,
+        },
+        tabStyle: {
+          paddingBottom: 20,
+          paddingTop: 4,
+        },
+        style: { height: 60 },
       }}
     >
       <Tab.Screen
