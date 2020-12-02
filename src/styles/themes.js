@@ -47,6 +47,6 @@ export const sunriseTheme = {
   linearGradientTwo: orange,
   activeBackground: yellow,
   inactiveBackground: orange,
-  activeTint: darkBlue,
+  activeTint: black,
   inactiveTint: white,
 };
