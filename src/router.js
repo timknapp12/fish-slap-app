@@ -38,6 +38,14 @@ const Tabs = () => {
         inactiveTintColor: theme.inactiveTint,
         activeBackgroundColor: theme.activeBackground,
         inactiveBackgroundColor: theme.inactiveBackground,
+        safeAreaInsets: {
+          bottom: 0,
+        },
+        tabStyle: {
+          paddingBottom: 20,
+          paddingTop: 4,
+        },
+        style: { height: 60 },
       }}
     >
       <Tab.Screen
