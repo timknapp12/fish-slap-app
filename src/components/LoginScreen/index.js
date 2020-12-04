@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ActivityIndicator, Alert } from "react-native";
+import { ActivityIndicator, Alert, useColorScheme } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";
@@ -30,6 +30,9 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
+
+  const colorScheme = useColorScheme() || "light";
+  console.log("colorScheme", colorScheme);
 
   useEffect(() => {
     return () => {
@@ -80,6 +83,7 @@ const LoginScreen = () => {
               firstName: firstName,
               lastName: lastName,
               createdAt: Date.now(),
+              colorScheme: colorScheme,
             })
             .catch((error) => {
               console.error("Error adding document: ", error);
@@ -168,6 +172,7 @@ const LoginScreen = () => {
                   firstName: result.additionalUserInfo.profile.given_name,
                   lastName: result.additionalUserInfo.profile.family_name,
                   createdAt: Date.now(),
+                  colorScheme: colorScheme,
                 })
                 .then((snapshot) => {
                   // console.log('Snapshot', snapshot);
