@@ -1,6 +1,12 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, Image } from "react-native";
-import { ScreenContainer, MainText, GeneralContainer } from "../../common";
+import {
+  ScreenContainer,
+  MainText,
+  GeneralContainer,
+  Avatar,
+  H1,
+} from "../../common";
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
@@ -25,23 +31,23 @@ const ProfileScreen = () => {
 
     setSelectedImage({ localUri: pickerResult.uri });
   };
-  if (selectedImage !== null) {
-    return (
-      <GeneralContainer>
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style={styles.thumbnail}
-        />
-      </GeneralContainer>
-    );
-  }
+
   return (
     <ScreenContainer>
-      <MainText>Profile Screen</MainText>
+      <H1>Profile Screen</H1>
       <GeneralContainer>
-        <TouchableOpacity onPress={openImagePickerAsync}>
-          <MainText>Upoad image</MainText>
-        </TouchableOpacity>
+        {selectedImage ? (
+          <>
+            <Avatar source={{ uri: selectedImage.localUri }} />
+            <TouchableOpacity onPress={openImagePickerAsync}>
+              <MainText>Upoad a different image</MainText>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <TouchableOpacity onPress={openImagePickerAsync}>
+            <MainText>Upoad image</MainText>
+          </TouchableOpacity>
+        )}
       </GeneralContainer>
 
       <GeneralContainer padding={16}>
@@ -61,12 +67,3 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
-
-const styles = StyleSheet.create({
-  /* Other styles hidden to keep the example brief... */
-  thumbnail: {
-    width: 300,
-    height: 300,
-    resizeMode: "contain",
-  },
-});
