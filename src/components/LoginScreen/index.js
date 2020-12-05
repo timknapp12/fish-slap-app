@@ -31,9 +31,6 @@ const LoginScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
 
-  const colorScheme = useColorScheme() || "light";
-  console.log("colorScheme", colorScheme);
-
   useEffect(() => {
     return () => {
       setFirstName("");

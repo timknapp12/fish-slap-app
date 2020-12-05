@@ -7,6 +7,7 @@ import { ThemeProvider } from "styled-components/native";
 import { galaxyTheme } from "./src/styles/themes";
 import * as firebase from "firebase";
 import { firebaseConfig } from "./config";
+import updateColorScheme from "./src/utils/updateColorScheme";
 
 // firebase.initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
@@ -16,6 +17,8 @@ if (!firebase.apps.length) {
 const App = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [theme, setTheme] = useState(galaxyTheme);
+
+  updateColorScheme();
 
   return (
     <ThemeProvider theme={theme}>
