@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, Image } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { Alert } from "react-native";
 import {
   ScreenContainer,
   MainText,
@@ -10,17 +10,27 @@ import {
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
+import { Camera } from "expo-camera";
 import { themes } from "./data";
+import * as firebase from "firebase";
 
 const ProfileScreen = () => {
   const { setTheme } = useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
 
   const openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
     if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
+      Alert.alert("Permission to access camera roll is required!");
       return;
     }
 
@@ -30,6 +40,31 @@ const ProfileScreen = () => {
     }
 
     setSelectedImage({ localUri: pickerResult.uri });
+  };
+
+  const openCamera = async () => {
+    if (hasPermission === null) {
+      Alert.alert("Permission to access camera is required!");
+    }
+    if (hasPermission === false) {
+      Alert.alert("Permission to access camera is required!");
+    }
+    let result = await ImagePicker.launchCameraAsync();
+    if (!result.cancelled) {
+      uploadImage(result.uri, "test-image")
+        .then(() => {
+          console.log("uload successful");
+        })
+        .catch((error) => console.log("error", error));
+    }
+  };
+
+  const uploadImage = async (uri, imageName) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    const ref = firebase.storage().ref().child(`images/${imageName}`);
+    return ref.put(blob);
   };
 
   return (
@@ -44,9 +79,14 @@ const ProfileScreen = () => {
             </TouchableOpacity>
           </>
         ) : (
-          <TouchableOpacity onPress={openImagePickerAsync}>
-            <MainText>Upoad image</MainText>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity onPress={openImagePickerAsync}>
+              <MainText>Upoad image</MainText>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={openCamera}>
+              <MainText>Take Photo</MainText>
+            </TouchableOpacity>
+          </>
         )}
       </GeneralContainer>
 
