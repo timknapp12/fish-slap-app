@@ -31,6 +31,8 @@ const LoginScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
 
+  const colorScheme = useColorScheme() || "light";
+
   useEffect(() => {
     return () => {
       setFirstName("");
@@ -159,7 +161,6 @@ const LoginScreen = () => {
             const db = firebase.firestore();
             console.log("user signed in ");
             if (result.additionalUserInfo.isNewUser) {
-              firebase;
               db.collection("users")
                 .doc(result.user.uid)
                 .set({
@@ -175,7 +176,6 @@ const LoginScreen = () => {
                   // console.log('Snapshot', snapshot);
                 });
             } else {
-              firebase;
               db.collection("users").doc(result.user.uid).update({
                 lastLoggedIn: Date.now(),
               });
