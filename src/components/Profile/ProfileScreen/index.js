@@ -49,13 +49,16 @@ const ProfileScreen = () => {
     if (hasPermission === false) {
       Alert.alert("Permission to access camera is required!");
     }
-    let result = await ImagePicker.launchCameraAsync();
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+    });
     if (!result.cancelled) {
       uploadImage(result.uri, "test-image")
         .then(() => {
-          console.log("uload successful");
+          console.log("upload successful");
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => console.log(" very sad error", error));
     }
   };
 
