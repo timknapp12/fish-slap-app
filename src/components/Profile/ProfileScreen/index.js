@@ -9,10 +9,13 @@ import {
 } from "../../common";
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { themes } from "./data";
-import * as firebase from "firebase";
+import {
+  openImagePickerAsync,
+  uploadImage,
+  openCamera,
+} from "./cameraFunctions";
 
 const ProfileScreen = () => {
   const { setTheme } = useContext(AppContext);
@@ -26,48 +29,14 @@ const ProfileScreen = () => {
     })();
   }, []);
 
-  const openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert("Permission to access camera roll is required!");
-      return;
+  const saveImage = async () => {
+    try {
+      const response = await uploadImage(selectedImage, "testing 1234");
+      console.log("upload succesful");
+      return response;
+    } catch (error) {
+      Alert.alert(error);
     }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-
-    setSelectedImage({ localUri: pickerResult.uri });
-  };
-
-  const openCamera = async () => {
-    if (hasPermission === null) {
-      Alert.alert("Permission to access camera is required!");
-    }
-    if (hasPermission === false) {
-      Alert.alert("Permission to access camera is required!");
-    }
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
-    });
-    if (!result.cancelled) {
-      uploadImage(result.uri, "test-image")
-        .then(() => {
-          console.log("upload successful");
-        })
-        .catch((error) => console.log(" very sad error", error));
-    }
-  };
-
-  const uploadImage = async (uri, imageName) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    const ref = firebase.storage().ref().child(`images/${imageName}`);
-    return ref.put(blob);
   };
 
   return (
@@ -77,16 +46,30 @@ const ProfileScreen = () => {
         {selectedImage ? (
           <>
             <Avatar source={{ uri: selectedImage.localUri }} />
-            <TouchableOpacity onPress={openImagePickerAsync}>
+            <TouchableOpacity
+              onPress={() => openImagePickerAsync(setSelectedImage)}
+            >
               <MainText>Upoad a different image</MainText>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => openCamera(hasPermission, setSelectedImage)}
+            >
+              <MainText>Take Photo</MainText>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={saveImage}>
+              <MainText>Save Photo</MainText>
             </TouchableOpacity>
           </>
         ) : (
           <>
-            <TouchableOpacity onPress={openImagePickerAsync}>
+            <TouchableOpacity
+              onPress={() => openImagePickerAsync(setSelectedImage)}
+            >
               <MainText>Upoad image</MainText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={openCamera}>
+            <TouchableOpacity
+              onPress={() => openCamera(hasPermission, setSelectedImage)}
+            >
               <MainText>Take Photo</MainText>
             </TouchableOpacity>
           </>
