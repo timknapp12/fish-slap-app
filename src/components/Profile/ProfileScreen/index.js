@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Alert } from "react-native";
+import { Alert, ActivityIndicator } from "react-native";
 import {
   ScreenContainer,
   MainText,
@@ -21,6 +21,7 @@ const ProfileScreen = () => {
   const { setTheme } = useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -30,14 +31,26 @@ const ProfileScreen = () => {
   }, []);
 
   const saveImage = async () => {
+    setIsLoadingImage(true);
     try {
       const response = await uploadImage(selectedImage, "testing 1234");
       console.log("upload succesful");
+      setIsLoadingImage(false);
       return response;
     } catch (error) {
-      Alert.alert(error);
+      setIsLoadingImage(false);
+      return Alert.alert(error);
     }
   };
+
+  if (isLoadingImage) {
+    return (
+      <ScreenContainer>
+        <ActivityIndicator size="large" />
+        <MainText>Loading...</MainText>
+      </ScreenContainer>
+    );
+  }
 
   return (
     <ScreenContainer>
