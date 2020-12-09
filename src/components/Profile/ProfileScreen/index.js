@@ -46,8 +46,10 @@ const ProfileScreen = () => {
   if (isLoadingImage) {
     return (
       <ScreenContainer>
-        <ActivityIndicator size="large" />
-        <MainText>Loading...</MainText>
+        <GeneralContainer height="90px" justify="space-between">
+          <ActivityIndicator size="large" />
+          <MainText>Saving...</MainText>
+        </GeneralContainer>
       </ScreenContainer>
     );
   }
