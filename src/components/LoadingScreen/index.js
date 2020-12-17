@@ -18,7 +18,8 @@ const LoadingScreen = (props) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          setUser(doc.data());
+          const data = doc.data();
+          setUser({ uid: uid, ...data });
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");

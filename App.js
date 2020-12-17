@@ -9,7 +9,6 @@ import * as firebase from "firebase";
 import { firebaseConfig } from "./config";
 import updateColorScheme from "./src/utils/updateColorScheme";
 
-// firebase.initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -21,7 +20,7 @@ const App = () => {
 
   console.log("user", user);
 
-  updateColorScheme();
+  // updateColorScheme();
 
   return (
     <ThemeProvider theme={theme}>
