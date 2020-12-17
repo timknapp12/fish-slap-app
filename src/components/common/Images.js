@@ -1,14 +1,35 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
 
-export const Thumbnail = ({ source, ...props }) => (
-  <Image style={styles.thumbnail} source={source} {...props} />
-);
+const ThemedIcon = styled(Ionicons)`
+  color: ${(props) => props.theme.color};
+`;
 
-export const Avatar = ({ source, ...props }) => (
-  <Image style={styles.avatar} source={source} {...props} />
-);
+export const Thumbnail = ({ source, ...props }) => {
+  return (
+    <>
+      {source !== null ? (
+        <Image style={styles.thumbnail} source={source} {...props} />
+      ) : (
+        <ThemedIcon name="account-circle" size={100} />
+      )}
+    </>
+  );
+};
+
+export const Avatar = ({ source, ...props }) => {
+  return (
+    <>
+      {source.uri ? (
+        <Image style={styles.avatar} source={source} {...props} />
+      ) : (
+        <ThemedIcon name="account-circle" size={300} />
+      )}
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   thumbnail: {
