@@ -17,13 +17,23 @@ if (!firebase.apps.length) {
 const App = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [theme, setTheme] = useState(galaxyTheme);
+  const [user, setUser] = useState(null);
+
+  console.log("user", user);
 
   updateColorScheme();
 
   return (
     <ThemeProvider theme={theme}>
       <AppContext.Provider
-        value={{ loadingLogin, setLoadingLogin, theme, setTheme }}
+        value={{
+          loadingLogin,
+          setLoadingLogin,
+          theme,
+          setTheme,
+          user,
+          setUser,
+        }}
       >
         <NavigationContainer>
           <LoginStack />
