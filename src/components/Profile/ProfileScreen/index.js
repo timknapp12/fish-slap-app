@@ -18,7 +18,7 @@ import {
 } from "./cameraFunctions";
 
 const ProfileScreen = () => {
-  const { setTheme } = useContext(AppContext);
+  const { setTheme, user } = useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
@@ -33,7 +33,11 @@ const ProfileScreen = () => {
   const saveImage = async () => {
     setIsLoadingImage(true);
     try {
-      const response = await uploadImage(selectedImage, "testing 1234");
+      const response = await uploadImage(
+        selectedImage,
+        "testing 1234",
+        user.uid
+      );
       console.log("upload succesful");
       setIsLoadingImage(false);
       return response;

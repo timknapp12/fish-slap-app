@@ -34,12 +34,25 @@ export const openCamera = async (hasPermission, callback) => {
   }
 };
 
-export const uploadImage = async (image, imageName) => {
+export const uploadImage = async (image, imageName, uid) => {
   try {
     const response = await fetch(image.localUri);
     const blob = await response.blob();
     const ref = firebase.storage().ref().child(`images/${imageName}`);
+    const downloadUrl = await ref.getDownloadURL();
+    console.log("downloadUrl", downloadUrl);
+    saveImageAsProfilePic(uid, downloadUrl);
     return ref.put(blob);
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+// upload to profilePicture at firestore
+const saveImageAsProfilePic = async (uid, url) => {
+  const db = firebase.firestore();
+  try {
+    db.collection("users").doc(uid).update({ profilePicture: url });
   } catch (error) {
     console.log("error", error);
   }
