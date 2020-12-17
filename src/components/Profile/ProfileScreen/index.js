@@ -10,12 +10,13 @@ import {
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Camera } from "expo-camera";
-import { themes } from "./data";
+import { themes } from "./colorThemes";
 import {
   openImagePickerAsync,
   uploadImage,
   openCamera,
 } from "./cameraFunctions";
+import AccountIcon from "./accountIcon";
 
 const ProfileScreen = () => {
   const { setTheme, user } = useContext(AppContext);
@@ -81,6 +82,7 @@ const ProfileScreen = () => {
           </>
         ) : (
           <>
+            <AccountIcon />
             <TouchableOpacity
               onPress={() => openImagePickerAsync(setSelectedImage)}
             >
