@@ -9,6 +9,7 @@ import {
   EditIcon,
   SaveIcon,
   CancelIcon,
+  GeneralIcon,
 } from "../../common";
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -26,9 +27,6 @@ const ProfileScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-
-  console.log("theme", theme);
-  console.log("isEditMode", isEditMode);
 
   useEffect(() => {
     (async () => {
@@ -70,8 +68,8 @@ const ProfileScreen = () => {
       <ScreenContainer>
         <GeneralContainer height="100%" justify="space-between">
           <GeneralContainer align="flex-end" style={{ flexDirection: "row" }}>
-            <CancelIcon />
-            <SaveIcon onPress={() => setIsEditMode(true)} />
+            <CancelIcon onPress={() => setIsEditMode(false)} />
+            <SaveIcon onPress={() => setIsEditMode(false)} />
           </GeneralContainer>
           <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
           <TouchableOpacity
@@ -79,11 +77,10 @@ const ProfileScreen = () => {
           >
             <MainText>Upoad image</MainText>
           </TouchableOpacity>
-          <TouchableOpacity
+          <GeneralIcon
+            name="camera"
             onPress={() => openCamera(hasPermission, setSelectedImage)}
-          >
-            <MainText>Take Photo</MainText>
-          </TouchableOpacity>
+          />
           <TouchableOpacity onPress={saveImage}>
             <MainText>Save Photo</MainText>
           </TouchableOpacity>

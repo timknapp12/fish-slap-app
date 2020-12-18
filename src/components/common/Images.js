@@ -3,7 +3,9 @@ import { Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
-import { green, lightPink } from "../../styles/colors";
+import { green } from "../../styles/colors";
+import PropTypes from "prop-types";
+import { GeneralContainer } from "./Containers";
 
 const ThemedIcon = styled(Ionicons)`
   /* if a color prop is given then it will overrule the theme prop */
@@ -65,6 +67,13 @@ export const GeneralIcon = ({
     <ThemedIcon size={size} {...props} name={name} color={color} />
   </TouchableOpacity>
 );
+
+GeneralIcon.propTypes = {
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  size: PropTypes.number,
+  onPress: PropTypes.func,
+};
 
 // EDIT ICON
 export const EditIcon = ({ size = 30, onPress = () => {}, ...props }) => (
