@@ -6,6 +6,9 @@ import {
   GeneralContainer,
   Avatar,
   H1,
+  EditIcon,
+  SaveIcon,
+  CancelIcon,
 } from "../../common";
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -62,31 +65,40 @@ const ProfileScreen = () => {
     );
   }
 
+  if (isEditMode) {
+    return (
+      <ScreenContainer>
+        <GeneralContainer height="100%" justify="space-between">
+          <GeneralContainer align="flex-end" style={{ flexDirection: "row" }}>
+            <CancelIcon />
+            <SaveIcon onPress={() => setIsEditMode(true)} />
+          </GeneralContainer>
+          <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
+          <TouchableOpacity
+            onPress={() => openImagePickerAsync(setSelectedImage)}
+          >
+            <MainText>Upoad image</MainText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => openCamera(hasPermission, setSelectedImage)}
+          >
+            <MainText>Take Photo</MainText>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={saveImage}>
+            <MainText>Save Photo</MainText>
+          </TouchableOpacity>
+        </GeneralContainer>
+      </ScreenContainer>
+    );
+  }
   return (
     <ScreenContainer>
-      <TouchableOpacity onPress={() => setIsEditMode((state) => !state)}>
-        <MainText>{isEditMode ? "save" : "edit"}</MainText>
-      </TouchableOpacity>
-      <GeneralContainer>
-        {isEditMode ? (
+      <GeneralContainer height="100%" justify="space-between">
+        <GeneralContainer>
           <>
-            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
-            <TouchableOpacity
-              onPress={() => openImagePickerAsync(setSelectedImage)}
-            >
-              <MainText>Upoad image</MainText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => openCamera(hasPermission, setSelectedImage)}
-            >
-              <MainText>Take Photo</MainText>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={saveImage}>
-              <MainText>Save Photo</MainText>
-            </TouchableOpacity>
-          </>
-        ) : (
-          <>
+            <GeneralContainer align="flex-end">
+              <EditIcon onPress={() => setIsEditMode(true)} />
+            </GeneralContainer>
             <H1>{`${user.firstName} ${user.lastName}`}</H1>
             <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
             <GeneralContainer padding={8}>
@@ -95,20 +107,20 @@ const ProfileScreen = () => {
               <MainText>{`Color Theme: ${theme.name}`}</MainText>
             </GeneralContainer>
           </>
-        )}
-      </GeneralContainer>
+        </GeneralContainer>
 
-      <GeneralContainer padding={16}>
-        {themes.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            onPress={() => {
-              setTheme(item.name);
-            }}
-          >
-            <MainText>{item.displayName}</MainText>
-          </TouchableOpacity>
-        ))}
+        <GeneralContainer padding={16}>
+          {themes.map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => {
+                setTheme(item.name);
+              }}
+            >
+              <MainText>{item.displayName}</MainText>
+            </TouchableOpacity>
+          ))}
+        </GeneralContainer>
       </GeneralContainer>
     </ScreenContainer>
   );
