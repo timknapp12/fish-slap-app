@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Alert, ActivityIndicator } from "react-native";
+import { Alert, ActivityIndicator, Modal } from "react-native";
 import {
   ScreenContainer,
   MainText,
@@ -27,6 +27,7 @@ const ProfileScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -66,38 +67,45 @@ const ProfileScreen = () => {
   if (isEditMode) {
     return (
       <ScreenContainer>
-        <GeneralContainer height="100%" justify="space-between">
-          <GeneralContainer align="flex-end" style={{ flexDirection: "row" }}>
+        <GeneralContainer height="100%" justify="flex-start">
+          <GeneralContainer align="flex-end" direction="row">
             <CancelIcon onPress={() => setIsEditMode(false)} />
             <SaveIcon onPress={() => setIsEditMode(false)} />
           </GeneralContainer>
-          <GeneralContainer>
-            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
-            <GeneralContainer
-              style={{ marginTop: -32 }}
-              width="75%"
-              align="flex-end"
-            >
-              <GeneralIcon name="image-plus" />
-            </GeneralContainer>
-          </GeneralContainer>
-          <GeneralIcon
-            onPress={() => openImagePickerAsync(setSelectedImage)}
-            name="image-outline"
-          />
-          <GeneralIcon
-            name="camera-outline"
-            onPress={() => openCamera(hasPermission, setSelectedImage)}
-          />
-          <TouchableOpacity onPress={saveImage}>
-            <MainText>Save Photo</MainText>
-          </TouchableOpacity>
+          <MainText>Edit Profile</MainText>
         </GeneralContainer>
       </ScreenContainer>
     );
   }
   return (
     <ScreenContainer>
+      {/* MODAL */}
+      <Modal animationType="slide" visible={isModalOpen}>
+        <ScreenContainer>
+          <GeneralContainer height="100%" justify="flex-start">
+            <GeneralContainer align="flex-end" direction="row">
+              <CancelIcon onPress={() => setIsModalOpen(false)} />
+              <SaveIcon onPress={() => setIsModalOpen(false)} />
+            </GeneralContainer>
+            <MainText>Edit Profile Picture</MainText>
+            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
+            <GeneralContainer width="50%" direction="row">
+              <GeneralIcon
+                onPress={() => openImagePickerAsync(setSelectedImage)}
+                name="image-outline"
+              />
+              <GeneralIcon
+                name="camera-outline"
+                onPress={() => openCamera(hasPermission, setSelectedImage)}
+              />
+            </GeneralContainer>
+          </GeneralContainer>
+          <TouchableOpacity onPress={saveImage}>
+            <MainText>Save Photo</MainText>
+          </TouchableOpacity>
+        </ScreenContainer>
+      </Modal>
+
       <GeneralContainer height="100%" justify="space-between">
         <GeneralContainer>
           <>
@@ -112,10 +120,13 @@ const ProfileScreen = () => {
                 width="75%"
                 align="flex-end"
               >
-                <GeneralIcon name="image-plus" />
+                <GeneralIcon
+                  onPress={() => setIsModalOpen(true)}
+                  name="image-plus"
+                />
               </GeneralContainer>
             </GeneralContainer>
-            <GeneralContainer padding={8}>
+            <GeneralContainer padding={24}>
               <MainText>{`Email: ${user.email}`}</MainText>
               <MainText>{`Username: ${user.username ?? "n/a"}`}</MainText>
               <MainText>{`Color Theme: ${theme.name}`}</MainText>
