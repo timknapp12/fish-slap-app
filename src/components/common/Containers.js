@@ -18,6 +18,7 @@ const StlyedGeneral = styled.View`
   width: ${({ width }) => (width ? width : "100%")};
   height: ${({ height }) => (height ? height : "auto")};
   padding: ${({ padding }) => (padding ? `${padding}px` : "0px")};
+  flex-direction: ${({ direction }) => (direction ? direction : "column")};
 `;
 
 export const GeneralContainer = ({
