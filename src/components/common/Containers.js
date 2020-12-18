@@ -43,7 +43,7 @@ export const GeneralContainer = ({
 // SCREEN CONTAINER
 const Container = styled.View`
   ${sharedCss};
-  padding: 32px;
+  padding: 64px 32px 32px 32px;
 `;
 
 export const ScreenContainer = ({ children }) => {
