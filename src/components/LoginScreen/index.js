@@ -22,7 +22,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import "firebase/firestore";
 
 const LoginScreen = () => {
-  const { loadingLogin, setLoadingLogin } = useContext(AppContext);
+  const { loadingLogin, setLoadingLogin, setUser } = useContext(AppContext);
+  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,6 +36,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     return () => {
+      setUsername("");
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -44,8 +46,12 @@ const LoginScreen = () => {
     };
   }, []);
 
-  const signUpUser = (firstName, lastName, email, password) => {
+  const signUpUser = (username, firstName, lastName, email, password) => {
     try {
+      if (username.length < 1) {
+        Alert.alert("Please enter your Username");
+        return;
+      }
       if (firstName.length < 1) {
         Alert.alert("Please enter your first name");
         return;
@@ -75,15 +81,18 @@ const LoginScreen = () => {
         .createUserWithEmailAndPassword(email, password)
         .then((result) => {
           const db = firebase.firestore();
+          const data = {
+            username: username,
+            email: result.user.email,
+            firstName: firstName,
+            lastName: lastName,
+            createdAt: Date.now(),
+            deviceColorScheme: colorScheme,
+          };
           db.collection("users")
             .doc(result.user.uid)
-            .set({
-              email: result.user.email,
-              firstName: firstName,
-              lastName: lastName,
-              createdAt: Date.now(),
-              colorScheme: colorScheme,
-            })
+            .set(data)
+            .then(() => setUser(data))
             .catch((error) => {
               console.error("Error adding document: ", error);
             });
@@ -92,6 +101,7 @@ const LoginScreen = () => {
     } catch (error) {
       console.log("error", error.toString());
     }
+    setUsername("");
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -159,21 +169,23 @@ const LoginScreen = () => {
           .signInWithCredential(credential)
           .then((result) => {
             const db = firebase.firestore();
+            const data = {
+              email: result.user.email,
+              profilePicture: result.additionalUserInfo.profile.picture,
+              locale: result.additionalUserInfo.profile.locale,
+              firstName: result.additionalUserInfo.profile.given_name,
+              lastName: result.additionalUserInfo.profile.family_name,
+              createdAt: Date.now(),
+              deviceColorScheme: colorScheme,
+            };
             console.log("user signed in ");
             if (result.additionalUserInfo.isNewUser) {
               db.collection("users")
                 .doc(result.user.uid)
-                .set({
-                  email: result.user.email,
-                  profilePicture: result.additionalUserInfo.profile.picture,
-                  locale: result.additionalUserInfo.profile.locale,
-                  firstName: result.additionalUserInfo.profile.given_name,
-                  lastName: result.additionalUserInfo.profile.family_name,
-                  createdAt: Date.now(),
-                  colorScheme: colorScheme,
-                })
+                .set(data)
                 .then((snapshot) => {
                   // console.log('Snapshot', snapshot);
+                  setUser(data);
                 });
             } else {
               db.collection("users").doc(result.user.uid).update({
@@ -309,6 +321,13 @@ const LoginScreen = () => {
               <EmailContainer newAccount={newAccount}>
                 <MainText>Create a new account</MainText>
                 <Input
+                  value={username}
+                  onChangeText={(text) => setUsername(text)}
+                  placeholder="Username"
+                  textContentType="givenName"
+                  placeholderTextColor={lightBlue}
+                />
+                <Input
                   value={firstName}
                   onChangeText={(text) => setFirstName(text)}
                   placeholder="first name"
@@ -362,7 +381,7 @@ const LoginScreen = () => {
                 />
                 <PrimaryButton
                   onPress={() =>
-                    signUpUser(firstName, lastName, email, password)
+                    signUpUser(username, firstName, lastName, email, password)
                   }
                 >
                   Create Account
