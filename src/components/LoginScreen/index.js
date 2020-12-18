@@ -175,6 +175,7 @@ const LoginScreen = () => {
               locale: result.additionalUserInfo.profile.locale,
               firstName: result.additionalUserInfo.profile.given_name,
               lastName: result.additionalUserInfo.profile.family_name,
+              username: `${result.additionalUserInfo.profile.given_name} ${result.additionalUserInfo.profile.family_name}`,
               createdAt: Date.now(),
               deviceColorScheme: colorScheme,
             };
