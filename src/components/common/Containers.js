@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import styled from "styled-components/native";
-import { pink, darkBlue, black } from "../../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import AppContext from "../../utils/AppContext";
 

@@ -71,14 +71,22 @@ const ProfileScreen = () => {
             <CancelIcon onPress={() => setIsEditMode(false)} />
             <SaveIcon onPress={() => setIsEditMode(false)} />
           </GeneralContainer>
-          <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
-          <TouchableOpacity
-            onPress={() => openImagePickerAsync(setSelectedImage)}
-          >
-            <MainText>Upoad image</MainText>
-          </TouchableOpacity>
+          <GeneralContainer>
+            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
+            <GeneralContainer
+              style={{ marginTop: -32 }}
+              width="75%"
+              align="flex-end"
+            >
+              <GeneralIcon name="image-plus" />
+            </GeneralContainer>
+          </GeneralContainer>
           <GeneralIcon
-            name="camera"
+            onPress={() => openImagePickerAsync(setSelectedImage)}
+            name="image-outline"
+          />
+          <GeneralIcon
+            name="camera-outline"
             onPress={() => openCamera(hasPermission, setSelectedImage)}
           />
           <TouchableOpacity onPress={saveImage}>
@@ -97,7 +105,16 @@ const ProfileScreen = () => {
               <EditIcon onPress={() => setIsEditMode(true)} />
             </GeneralContainer>
             <H1>{`${user.firstName} ${user.lastName}`}</H1>
-            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
+            <GeneralContainer>
+              <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
+              <GeneralContainer
+                style={{ marginTop: -32 }}
+                width="75%"
+                align="flex-end"
+              >
+                <GeneralIcon name="image-plus" />
+              </GeneralContainer>
+            </GeneralContainer>
             <GeneralContainer padding={8}>
               <MainText>{`Email: ${user.email}`}</MainText>
               <MainText>{`Username: ${user.username ?? "n/a"}`}</MainText>
