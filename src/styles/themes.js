@@ -12,6 +12,7 @@ import {
 } from "./colors";
 
 export const galaxyTheme = {
+  name: "Galaxy",
   color: white,
   linearGradientOne: pink,
   linearGradientTwo: darkBlue,
@@ -22,6 +23,7 @@ export const galaxyTheme = {
 };
 
 export const midnightTheme = {
+  name: "Midnight",
   color: white,
   linearGradientOne: darkBlue,
   linearGradientTwo: black,
@@ -32,6 +34,7 @@ export const midnightTheme = {
 };
 
 export const lightTheme = {
+  name: "Light",
   color: blue,
   linearGradientOne: white,
   linearGradientTwo: white,
@@ -42,6 +45,7 @@ export const lightTheme = {
 };
 
 export const sunriseTheme = {
+  name: "Sunrise",
   color: black,
   linearGradientOne: yellow,
   linearGradientTwo: orange,
