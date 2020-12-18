@@ -16,13 +16,16 @@ import {
   uploadImage,
   openCamera,
 } from "./cameraFunctions";
-import AccountIcon from "./accountIcon";
 
 const ProfileScreen = () => {
-  const { setTheme, user } = useContext(AppContext);
+  const { setTheme, theme, user } = useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  console.log("theme", theme);
+  console.log("isEditMode", isEditMode);
 
   useEffect(() => {
     (async () => {
@@ -61,15 +64,17 @@ const ProfileScreen = () => {
 
   return (
     <ScreenContainer>
-      <H1>Profile Screen</H1>
+      <TouchableOpacity onPress={() => setIsEditMode((state) => !state)}>
+        <MainText>{isEditMode ? "save" : "edit"}</MainText>
+      </TouchableOpacity>
       <GeneralContainer>
-        {selectedImage ? (
+        {isEditMode ? (
           <>
-            <Avatar source={{ uri: selectedImage.localUri }} />
+            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
             <TouchableOpacity
               onPress={() => openImagePickerAsync(setSelectedImage)}
             >
-              <MainText>Upoad a different image</MainText>
+              <MainText>Upoad image</MainText>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => openCamera(hasPermission, setSelectedImage)}
@@ -82,17 +87,13 @@ const ProfileScreen = () => {
           </>
         ) : (
           <>
-            <AccountIcon />
-            <TouchableOpacity
-              onPress={() => openImagePickerAsync(setSelectedImage)}
-            >
-              <MainText>Upoad image</MainText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => openCamera(hasPermission, setSelectedImage)}
-            >
-              <MainText>Take Photo</MainText>
-            </TouchableOpacity>
+            <H1>{`${user.firstName} ${user.lastName}`}</H1>
+            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
+            <GeneralContainer padding={8}>
+              <MainText>{`Email: ${user.email}`}</MainText>
+              <MainText>{`Username: ${user.username ?? "n/a"}`}</MainText>
+              <MainText>{`Color Theme: ${theme.name}`}</MainText>
+            </GeneralContainer>
           </>
         )}
       </GeneralContainer>
