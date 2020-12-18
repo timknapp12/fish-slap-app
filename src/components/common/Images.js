@@ -97,6 +97,6 @@ export const SaveIcon = ({ size = 30, onPress = () => {}, ...props }) => (
 // CANCEL ICON
 export const CancelIcon = ({ size = 30, onPress = () => {}, ...props }) => (
   <TouchableOpacity onPress={onPress}>
-    <ThemedIcon size={size} name="cancel" {...props} />
+    <ThemedIcon size={size} name="close-circle-outline" {...props} />
   </TouchableOpacity>
 );
