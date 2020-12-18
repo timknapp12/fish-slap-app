@@ -6,7 +6,9 @@ import styled from "styled-components/native";
 import { green, lightPink } from "../../styles/colors";
 
 const ThemedIcon = styled(Ionicons)`
-  color: ${(props) => props.theme.color};
+  /* if a color prop is given then it will overrule the theme prop */
+  color: ${(props) => (props.color ? props.color : props.theme.color)};
+  opacity: 0.8;
 `;
 // THUMBNAIL
 export const Thumbnail = ({ source, ...props }) => {
@@ -50,6 +52,19 @@ const styles = StyleSheet.create({
     margin: 4,
   },
 });
+
+// GENERAL ICON
+export const GeneralIcon = ({
+  size = 30,
+  name,
+  color,
+  onPress = () => {},
+  ...props
+}) => (
+  <TouchableOpacity onPress={onPress}>
+    <ThemedIcon size={size} {...props} name={name} color={color} />
+  </TouchableOpacity>
+);
 
 // EDIT ICON
 export const EditIcon = ({ size = 30, onPress = () => {}, ...props }) => (
