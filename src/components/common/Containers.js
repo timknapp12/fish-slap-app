@@ -14,8 +14,8 @@ const sharedCss = {
 // GENERAL CONTAINER
 const StlyedGeneral = styled.View`
   display: flex;
-  align-items: center;
   justify-content: ${({ justify }) => (justify ? justify : "space-between")};
+  align-items: ${({ align }) => (align ? align : "center")};
   width: ${({ width }) => (width ? width : "100%")};
   height: ${({ height }) => (height ? height : "auto")};
   padding: ${({ padding }) => (padding ? `${padding}px` : "0px")};
