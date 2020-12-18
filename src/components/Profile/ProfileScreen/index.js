@@ -37,6 +37,10 @@ const ProfileScreen = () => {
   }, []);
 
   const saveImage = async () => {
+    if (!selectedImage) {
+      Alert.alert("Please select an image");
+      return;
+    }
     setIsLoadingImage(true);
     try {
       const response = await uploadImage(
@@ -46,6 +50,7 @@ const ProfileScreen = () => {
       );
       console.log("upload succesful");
       setIsLoadingImage(false);
+      setIsModalOpen(false);
       return response;
     } catch (error) {
       setIsLoadingImage(false);
@@ -85,7 +90,7 @@ const ProfileScreen = () => {
           <GeneralContainer height="100%" justify="flex-start">
             <GeneralContainer align="flex-end" direction="row">
               <CancelIcon onPress={() => setIsModalOpen(false)} />
-              <SaveIcon onPress={() => setIsModalOpen(false)} />
+              <SaveIcon onPress={saveImage} />
             </GeneralContainer>
             <MainText>Edit Profile Picture</MainText>
             <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
@@ -100,9 +105,6 @@ const ProfileScreen = () => {
               />
             </GeneralContainer>
           </GeneralContainer>
-          <TouchableOpacity onPress={saveImage}>
-            <MainText>Save Photo</MainText>
-          </TouchableOpacity>
         </ScreenContainer>
       </Modal>
 
