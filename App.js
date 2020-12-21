@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginStack } from "./src/router";
 import AppContext from "./src/utils/AppContext";
@@ -34,6 +34,11 @@ const App = () => {
           setUser,
         }}
       >
+        <StatusBar
+          backgroundColor={theme.linearGradientOne}
+          barStyle={theme.statusBar}
+        />
+
         <NavigationContainer>
           <LoginStack />
         </NavigationContainer>
