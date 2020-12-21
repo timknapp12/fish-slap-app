@@ -41,7 +41,7 @@ const ProfileScreen = () => {
 
   const saveImage = async () => {
     const date = Date.now();
-    const imageName = `${user.uid}.${date}`;
+    const imageName = `${user.firstName}.${user.lastName}.${user.uid}.${date}`;
     if (!selectedImage) {
       Alert.alert("Please select an image");
       return;
@@ -62,7 +62,7 @@ const ProfileScreen = () => {
     return (
       <ScreenContainer>
         <GeneralContainer height="90px" justify="space-between">
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color={theme.color} />
           <MainText>Saving...</MainText>
         </GeneralContainer>
       </ScreenContainer>

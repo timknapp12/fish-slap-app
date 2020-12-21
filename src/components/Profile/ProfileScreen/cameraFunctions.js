@@ -41,7 +41,7 @@ export const uploadImage = async (image, imageName, uid) => {
     const ref = firebase.storage().ref().child(`images/${imageName}`);
     await ref.put(blob);
     const downloadUrl = await ref.getDownloadURL();
-    saveImageAsProfilePic(uid, downloadUrl);
+    return saveImageAsProfilePic(uid, downloadUrl);
   } catch (error) {
     console.log("error in upload:", error);
   }
