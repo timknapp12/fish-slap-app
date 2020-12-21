@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Alert, ActivityIndicator, Modal } from "react-native";
+import { Alert, Modal } from "react-native";
 import {
   ScreenContainer,
   MainText,
@@ -10,6 +10,7 @@ import {
   SaveIcon,
   CancelIcon,
   GeneralIcon,
+  Spinner,
 } from "../../common";
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -62,7 +63,7 @@ const ProfileScreen = () => {
     return (
       <ScreenContainer>
         <GeneralContainer height="90px" justify="space-between">
-          <ActivityIndicator size="large" color={theme.color} />
+          <Spinner />
           <MainText>Saving...</MainText>
         </GeneralContainer>
       </ScreenContainer>

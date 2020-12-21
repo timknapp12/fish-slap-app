@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ActivityIndicator, Alert, useColorScheme } from "react-native";
+import { Alert, useColorScheme } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../config";
@@ -15,6 +15,7 @@ import {
   H2,
   LoginButton,
   GeneralContainer,
+  Spinner,
 } from "../common";
 import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
@@ -268,7 +269,7 @@ const LoginScreen = () => {
   return (
     <ScreenContainer>
       {loadingLogin ? (
-        <ActivityIndicator size="large" />
+        <Spinner />
       ) : (
         <LoginContainer>
           {!newAccount ? (

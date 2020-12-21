@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
-import { ActivityIndicator } from "react-native";
 import firebase from "firebase";
-import { ScreenContainer } from "../common";
+import { ScreenContainer, Spinner } from "../common";
 import AppContext from "../../utils/AppContext";
 
 const LoadingScreen = (props) => {
@@ -44,7 +43,7 @@ const LoadingScreen = (props) => {
 
   return (
     <ScreenContainer>
-      <ActivityIndicator size="large" />
+      <Spinner />
     </ScreenContainer>
   );
 };
