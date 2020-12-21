@@ -23,7 +23,10 @@ import {
 
 const ProfileScreen = () => {
   const { setTheme, theme, user } = useContext(AppContext);
-  const [selectedImage, setSelectedImage] = useState(null);
+
+  const initialUrl = user.profilePicture && { localUri: user.profilePicture };
+
+  const [selectedImage, setSelectedImage] = useState(initialUrl);
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -37,18 +40,15 @@ const ProfileScreen = () => {
   }, []);
 
   const saveImage = async () => {
+    const date = Date.now();
+    const imageName = `${user.uid}.${date}`;
     if (!selectedImage) {
       Alert.alert("Please select an image");
       return;
     }
     setIsLoadingImage(true);
     try {
-      const response = await uploadImage(
-        selectedImage,
-        "testing 1234",
-        user.uid
-      );
-      console.log("upload succesful");
+      const response = await uploadImage(selectedImage, imageName, user.uid);
       setIsLoadingImage(false);
       setIsModalOpen(false);
       return response;

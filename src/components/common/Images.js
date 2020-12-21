@@ -5,7 +5,6 @@ import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
 import { green } from "../../styles/colors";
 import PropTypes from "prop-types";
-import { GeneralContainer } from "./Containers";
 
 const ThemedIcon = styled(Ionicons)`
   /* if a color prop is given then it will overrule the theme prop */
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
     height: 300,
     resizeMode: "cover",
     borderRadius: 150,
-    margin: 4,
+    margin: 8,
   },
 });
 
