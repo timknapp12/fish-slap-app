@@ -39,9 +39,26 @@ export const uploadImage = async (image, imageName, uid) => {
     const response = await fetch(image.localUri);
     const blob = await response.blob();
     const ref = firebase.storage().ref().child(`images/${imageName}`);
-    await ref.put(blob);
-    const downloadUrl = await ref.getDownloadURL();
-    return saveImageAsProfilePic(uid, downloadUrl);
+    const uploadTask = ref.put(blob);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {
+        console.log("error", error);
+      },
+      () => {
+        // Handle successful uploads on complete
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
+          return saveImageAsProfilePic(uid, downloadUrl);
+        });
+      }
+    );
+    await uploadTask;
   } catch (error) {
     console.log("error in upload:", error);
   }
