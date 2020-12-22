@@ -30,6 +30,7 @@ const ProfileScreen = () => {
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -56,7 +57,12 @@ const ProfileScreen = () => {
     }
     setIsLoadingImage(true);
     try {
-      const response = await uploadImage(selectedImage, imageName, user.uid);
+      const response = await uploadImage(
+        selectedImage,
+        imageName,
+        user.uid,
+        setUploadPercentage
+      );
       setIsLoadingImage(false);
       setIsModalOpen(false);
       return response;
@@ -72,6 +78,7 @@ const ProfileScreen = () => {
         <GeneralContainer height="90px" justify="space-between">
           <Spinner />
           <MainText>Saving...</MainText>
+          <MainText>{`${uploadPercentage}%`}</MainText>
         </GeneralContainer>
       </ScreenContainer>
     );

@@ -34,7 +34,7 @@ export const openCamera = async (hasPermission, callback) => {
   }
 };
 
-export const uploadImage = async (image, imageName, uid) => {
+export const uploadImage = async (image, imageName, uid, setPercentage) => {
   try {
     const response = await fetch(image.localUri);
     const blob = await response.blob();
@@ -45,8 +45,11 @@ export const uploadImage = async (image, imageName, uid) => {
       (snapshot) => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
+        let progress = calculatePercentage(
+          snapshot.bytesTransferred,
+          snapshot.totalBytes
+        );
+        setPercentage(progress);
       },
       (error) => {
         console.log("error", error);
@@ -73,3 +76,6 @@ const saveImageAsProfilePic = async (uid, url) => {
     console.log("error", error);
   }
 };
+
+export const calculatePercentage = (numerator = 0, denominator = 1) =>
+  Math.round((numerator / denominator) * 100);
