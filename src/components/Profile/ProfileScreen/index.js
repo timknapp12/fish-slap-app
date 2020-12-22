@@ -50,7 +50,7 @@ const ProfileScreen = () => {
 
   const saveImage = async () => {
     const date = Date.now();
-    const imageName = `.start.${user.firstName}.${user.lastName}.${user.uid}.${date}.end.`;
+    const imageName = `.startOfImageName.${user.firstName}.${user.lastName}.${user.uid}.${date}.endOfImageName.`;
     if (!selectedImage) {
       Alert.alert("Please select an image");
       return;
@@ -60,7 +60,7 @@ const ProfileScreen = () => {
       const response = await uploadImage(
         selectedImage,
         imageName,
-        user.uid,
+        user,
         setUploadPercentage
       );
       setIsLoadingImage(false);

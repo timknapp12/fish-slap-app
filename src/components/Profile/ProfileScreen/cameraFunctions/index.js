@@ -34,7 +34,9 @@ export const openCamera = async (hasPermission, callback) => {
   }
 };
 
-export const uploadImage = async (image, imageName, uid, setPercentage) => {
+export const uploadImage = async (image, imageName, user, setPercentage) => {
+  const path = findPath(user.profilePicture);
+  const refToBeDeleted = firebase.storage().ref().child(`images/${path}`);
   try {
     const response = await fetch(image.localUri);
     const blob = await response.blob();
@@ -58,11 +60,19 @@ export const uploadImage = async (image, imageName, uid, setPercentage) => {
         // Handle successful uploads on complete
         uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
           const newUrl = shapeImageName(downloadUrl);
-          return saveImageAsProfilePic(uid, newUrl);
+          return saveImageAsProfilePic(user.uid, newUrl);
         });
       }
     );
     await uploadTask;
+    refToBeDeleted
+      .delete()
+      .then(() => {
+        console.log("deletion successfull");
+      })
+      .catch((error) => {
+        console.log("error in deletion:", error);
+      });
   } catch (error) {
     console.log("error in upload:", error);
   }
@@ -82,5 +92,14 @@ export const calculatePercentage = (numerator = 0, denominator = 1) =>
   Math.round((numerator / denominator) * 100);
 
 export const shapeImageName = (url) => {
-  return url.replace(".end.", ".end._300x300");
+  return url.replace(".endOfImageName.", ".endOfImageName._300x300");
+};
+
+export const findPath = (url) => {
+  const array = url.split(".");
+  const start = array.findIndex((item) => item === "startOfImageName");
+  const end = array.findIndex((item) => item === "endOfImageName");
+  const path = array.slice(start, end + 1).join(".");
+  const imageName = `.${path}._300x300`;
+  return imageName;
 };
