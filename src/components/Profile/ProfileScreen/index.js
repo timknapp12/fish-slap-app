@@ -50,7 +50,7 @@ const ProfileScreen = () => {
 
   const saveImage = async () => {
     const date = Date.now();
-    const imageName = `${user.firstName}.${user.lastName}.${user.uid}.${date}`;
+    const imageName = `.start.${user.firstName}.${user.lastName}.${user.uid}.${date}.end.`;
     if (!selectedImage) {
       Alert.alert("Please select an image");
       return;

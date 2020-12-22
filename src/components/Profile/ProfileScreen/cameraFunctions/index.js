@@ -57,7 +57,8 @@ export const uploadImage = async (image, imageName, uid, setPercentage) => {
       () => {
         // Handle successful uploads on complete
         uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
-          return saveImageAsProfilePic(uid, downloadUrl);
+          const newUrl = shapeImageName(downloadUrl);
+          return saveImageAsProfilePic(uid, newUrl);
         });
       }
     );
@@ -79,3 +80,7 @@ const saveImageAsProfilePic = async (uid, url) => {
 
 export const calculatePercentage = (numerator = 0, denominator = 1) =>
   Math.round((numerator / denominator) * 100);
+
+export const shapeImageName = (url) => {
+  return url.replace(".end.", ".end._300x300");
+};
