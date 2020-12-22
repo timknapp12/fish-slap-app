@@ -6,8 +6,22 @@ import styled from "styled-components/native";
 import { green } from "../../styles/colors";
 import PropTypes from "prop-types";
 
+const ThemedImage = styled.Image`
+  /* border: ${(props) =>
+    props.border ? `1px solid ${props.theme.color}` : null}; */
+  border-width: 2px;
+  border-color: ${(props) => props.theme.color};
+`;
+
 const ThemedIcon = styled(Ionicons)`
   /* if a color prop is given then it will overrule the theme prop */
+  color: ${(props) => (props.color ? props.color : props.theme.color)};
+  opacity: 0.8;
+  border-width: 2px;
+  border-color: ${(props) => props.theme.color};
+`;
+
+const ThemedGeneralIcon = styled(Ionicons)`
   color: ${(props) => (props.color ? props.color : props.theme.color)};
   opacity: 0.8;
 `;
@@ -29,7 +43,7 @@ export const Avatar = ({ source, ...props }) => {
   return (
     <>
       {source.uri ? (
-        <Image style={styles.avatar} source={source} {...props} />
+        <ThemedImage style={styles.avatar} source={source} {...props} />
       ) : (
         <ThemedIcon name="account-circle" size={300} />
       )}
@@ -63,7 +77,7 @@ export const GeneralIcon = ({
   ...props
 }) => (
   <TouchableOpacity onPress={onPress}>
-    <ThemedIcon size={size} {...props} name={name} color={color} />
+    <ThemedGeneralIcon size={size} {...props} name={name} color={color} />
   </TouchableOpacity>
 );
 
@@ -77,7 +91,7 @@ GeneralIcon.propTypes = {
 // EDIT ICON
 export const EditIcon = ({ size = 30, onPress = () => {}, ...props }) => (
   <TouchableOpacity onPress={onPress}>
-    <ThemedIcon size={size} name="pencil" {...props} />
+    <ThemedGeneralIcon size={size} name="pencil" {...props} />
   </TouchableOpacity>
 );
 
@@ -96,6 +110,6 @@ export const SaveIcon = ({ size = 35, onPress = () => {}, ...props }) => (
 // CANCEL ICON
 export const CancelIcon = ({ size = 35, onPress = () => {}, ...props }) => (
   <TouchableOpacity onPress={onPress}>
-    <ThemedIcon size={size} name="close-circle-outline" {...props} />
+    <ThemedGeneralIcon size={size} name="close-circle-outline" {...props} />
   </TouchableOpacity>
 );
