@@ -25,9 +25,7 @@ import {
 const ProfileScreen = () => {
   const { setTheme, theme, user } = useContext(AppContext);
 
-  const initialUrl = user.profilePicture && { localUri: user.profilePicture };
-
-  const [selectedImage, setSelectedImage] = useState(initialUrl);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -39,6 +37,15 @@ const ProfileScreen = () => {
       setHasPermission(status === "granted");
     })();
   }, []);
+
+  // make sure profile image uri does not persist when new person logs in
+  useEffect(() => {
+    const initialUrl = user.profilePicture && { localUri: user.profilePicture };
+    setSelectedImage(initialUrl);
+    return () => {
+      setSelectedImage(null);
+    };
+  }, [user]);
 
   const saveImage = async () => {
     const date = Date.now();
