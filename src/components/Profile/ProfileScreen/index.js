@@ -25,6 +25,8 @@ import {
 const ProfileScreen = () => {
   const { setTheme, theme, user } = useContext(AppContext);
 
+  const initialUrl = user.profilePicture && { localUri: user.profilePicture };
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
@@ -41,7 +43,6 @@ const ProfileScreen = () => {
 
   // make sure profile image uri does not persist when new person logs in
   useEffect(() => {
-    const initialUrl = user.profilePicture && { localUri: user.profilePicture };
     setSelectedImage(initialUrl);
     return () => {
       setSelectedImage(null);
@@ -104,7 +105,12 @@ const ProfileScreen = () => {
         <ScreenContainer>
           <GeneralContainer height="100%" justify="flex-start">
             <GeneralContainer align="flex-end" direction="row">
-              <CancelIcon onPress={() => setIsModalOpen(false)} />
+              <CancelIcon
+                onPress={() => {
+                  setIsModalOpen(false);
+                  setSelectedImage(initialUrl);
+                }}
+              />
               <SaveIcon onPress={saveImage} />
             </GeneralContainer>
             <MainText>Edit Profile Picture</MainText>
