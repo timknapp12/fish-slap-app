@@ -1,17 +1,26 @@
 import React from "react";
-import { white } from "../../styles/colors";
 import styled from "styled-components/native";
-
-const Input = ({ ...props }) => {
-  return <StyledInput color={props.color} {...props} />;
-};
-
-export { Input };
+import { MainText } from "./Texts";
+import { GeneralContainer } from "./Containers";
 
 const StyledInput = styled.TextInput`
   width: 100%;
   padding: 4px;
-  border: 1px solid ${white};
+  border: ${(props) => `1px solid ${props.theme.color}`};
   border-radius: 2px;
-  color: ${(props) => (props.color ? props.color : white)};
+  color: ${(props) => props.theme.color};
 `;
+
+const Input = ({ label, ...props }) => {
+  if (label) {
+    return (
+      <GeneralContainer style={{ marginTop: 4 }} align="flex-start">
+        <MainText>{label}</MainText>
+        <StyledInput {...props} />
+      </GeneralContainer>
+    );
+  }
+  return <StyledInput {...props} />;
+};
+
+export { Input };
