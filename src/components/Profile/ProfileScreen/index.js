@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import * as firebase from "firebase";
 import { Alert, Modal } from "react-native";
 import {
   ScreenContainer,
@@ -11,6 +12,7 @@ import {
   CancelIcon,
   GeneralIcon,
   Spinner,
+  Input,
 } from "../../common";
 import AppContext from "../../../utils/AppContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -24,15 +26,31 @@ import {
 
 const ProfileScreen = () => {
   const { setTheme, theme, user } = useContext(AppContext);
+  const {
+    firstName = "",
+    lastName = "",
+    email = "",
+    username = "",
+    uid,
+    profilePicture,
+  } = user;
 
-  const initialUrl = user.profilePicture && { localUri: user.profilePicture };
-
+  const initialUrl = profilePicture && { localUri: profilePicture };
   const [selectedImage, setSelectedImage] = useState(null);
+
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadPercentage, setUploadPercentage] = useState(0);
+
+  const initialInfo = {
+    firstName,
+    lastName,
+    username,
+  };
+  const [userInfo, setUserInfo] = useState(null);
+  console.log("userInfo", userInfo);
 
   useEffect(() => {
     (async () => {
@@ -41,17 +59,33 @@ const ProfileScreen = () => {
     })();
   }, []);
 
-  // make sure profile image uri does not persist when new person logs in
+  // to make sure user data does not persist when new person logs in
   useEffect(() => {
     setSelectedImage(initialUrl);
+    setUserInfo(initialInfo);
     return () => {
       setSelectedImage(null);
+      setUserInfo(null);
+      setIsEditMode(false);
+      setIsModalOpen(false);
     };
   }, [user]);
 
+  const saveUserData = (data) => {
+    const db = firebase.firestore();
+    console.log("data", data);
+    db.collection("users")
+      .doc(uid)
+      .update(data)
+      .then(() => setIsEditMode(false))
+      .catch((error) => {
+        console.error("Error updating info: ", error);
+      });
+  };
+
   const saveImage = async () => {
     const date = Date.now();
-    const imageName = `.startOfImageName.${user.firstName}.${user.lastName}.${user.uid}.${date}.endOfImageName.`;
+    const imageName = `.startOfImageName.${firstName}.${lastName}.${uid}.${date}.endOfImageName.`;
     if (!selectedImage) {
       Alert.alert("Please select an image");
       return;
@@ -91,9 +125,35 @@ const ProfileScreen = () => {
         <GeneralContainer height="100%" justify="flex-start">
           <GeneralContainer align="flex-end" direction="row">
             <CancelIcon onPress={() => setIsEditMode(false)} />
-            <SaveIcon onPress={() => setIsEditMode(false)} />
+            <SaveIcon onPress={() => saveUserData(userInfo)} />
           </GeneralContainer>
           <MainText>Edit Profile</MainText>
+          <GeneralContainer>
+            <Input
+              label="First Name"
+              placeholder="first name"
+              value={userInfo.firstName}
+              onChangeText={(text) =>
+                setUserInfo({ ...userInfo, firstName: text })
+              }
+            />
+            <Input
+              label="Last Name"
+              placeholder="last name"
+              value={userInfo.lastName}
+              onChangeText={(text) =>
+                setUserInfo({ ...userInfo, lastName: text })
+              }
+            />
+            <Input
+              label="Username"
+              placeholder="username"
+              value={userInfo.username}
+              onChangeText={(text) =>
+                setUserInfo({ ...userInfo, username: text })
+              }
+            />
+          </GeneralContainer>
         </GeneralContainer>
       </ScreenContainer>
     );
@@ -135,7 +195,7 @@ const ProfileScreen = () => {
             <GeneralContainer align="flex-end">
               <EditIcon onPress={() => setIsEditMode(true)} />
             </GeneralContainer>
-            <H1>{`${user.firstName} ${user.lastName}`}</H1>
+            <H1>{`${firstName} ${lastName}`}</H1>
             <GeneralContainer>
               <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
               <GeneralContainer
@@ -150,8 +210,8 @@ const ProfileScreen = () => {
               </GeneralContainer>
             </GeneralContainer>
             <GeneralContainer padding={24}>
-              <MainText>{`Email: ${user.email}`}</MainText>
-              <MainText>{`Username: ${user.username ?? "n/a"}`}</MainText>
+              <MainText>{`Username: ${username ?? "n/a"}`}</MainText>
+              <MainText>{`Email: ${email}`}</MainText>
               <MainText>{`Color Theme: ${theme.name}`}</MainText>
             </GeneralContainer>
           </>

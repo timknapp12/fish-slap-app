@@ -325,7 +325,7 @@ const LoginScreen = () => {
                 <Input
                   value={username}
                   onChangeText={(text) => setUsername(text)}
-                  placeholder="Username"
+                  placeholder="username"
                   textContentType="givenName"
                   placeholderTextColor={lightBlue}
                 />
