@@ -50,7 +50,6 @@ const ProfileScreen = () => {
     username,
   };
   const [userInfo, setUserInfo] = useState(null);
-  console.log("userInfo", userInfo);
 
   useEffect(() => {
     (async () => {
@@ -73,13 +72,12 @@ const ProfileScreen = () => {
 
   const saveUserData = (data) => {
     const db = firebase.firestore();
-    console.log("data", data);
     db.collection("users")
       .doc(uid)
       .update(data)
       .then(() => setIsEditMode(false))
       .catch((error) => {
-        console.error("Error updating info: ", error);
+        Alert.alert(error);
       });
   };
 
