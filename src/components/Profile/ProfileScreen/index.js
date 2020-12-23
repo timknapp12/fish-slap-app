@@ -71,6 +71,14 @@ const ProfileScreen = () => {
   }, [user]);
 
   const saveUserData = (data) => {
+    if (data.firstName.length < 1) {
+      Alert.alert("Please enter your first name");
+      return;
+    }
+    if (data.lastName.length < 1) {
+      Alert.alert("Please enter your last name");
+      return;
+    }
     const db = firebase.firestore();
     db.collection("users")
       .doc(uid)
@@ -122,13 +130,18 @@ const ProfileScreen = () => {
       <ScreenContainer>
         <GeneralContainer height="100%" justify="flex-start">
           <GeneralContainer align="flex-end" direction="row">
-            <CancelIcon onPress={() => setIsEditMode(false)} />
+            <CancelIcon
+              onPress={() => {
+                setIsEditMode(false);
+                setUserInfo(initialInfo);
+              }}
+            />
             <SaveIcon onPress={() => saveUserData(userInfo)} />
           </GeneralContainer>
           <MainText>Edit Profile</MainText>
           <GeneralContainer>
             <Input
-              label="First Name"
+              label="First Name*"
               placeholder="first name"
               value={userInfo.firstName}
               onChangeText={(text) =>
@@ -136,7 +149,7 @@ const ProfileScreen = () => {
               }
             />
             <Input
-              label="Last Name"
+              label="Last Name*"
               placeholder="last name"
               value={userInfo.lastName}
               onChangeText={(text) =>
