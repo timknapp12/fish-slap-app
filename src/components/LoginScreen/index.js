@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Alert, useColorScheme } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
-import { iosClientId, androidClientId } from "../../../firebaseConfig";
+import { iosClientId, androidClientId } from "../../../fbConfig";
 // import * as Facebook from "expo-facebook";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import AppContext from "../../utils/AppContext";
