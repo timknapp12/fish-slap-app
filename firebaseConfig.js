@@ -1,5 +1,5 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyCicvIArbPezm8tB9grTS-mAaS0qSuxwbQ",
+  apiKey: "AIzaSyCicvIArbPezm8tB9grTS-mAaS0qSuxw",
   authDomain: "fish-slap-app.firebaseapp.com",
   databaseURL: "https://fish-slap-app.firebaseio.com",
   projectId: "fish-slap-app",
