@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginStack } from "./src/router";
 import AppContext from "./src/utils/AppContext";
@@ -7,8 +7,8 @@ import { ThemeProvider } from "styled-components/native";
 import { galaxyTheme } from "./src/styles/themes";
 import * as firebase from "firebase";
 import { firebaseConfig } from "./config";
+import updateColorScheme from "./src/utils/updateColorScheme";
 
-// firebase.initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -16,12 +16,29 @@ if (!firebase.apps.length) {
 const App = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [theme, setTheme] = useState(galaxyTheme);
+  const [user, setUser] = useState(null);
+
+  console.log("user", user);
+
+  // updateColorScheme();
 
   return (
     <ThemeProvider theme={theme}>
       <AppContext.Provider
-        value={{ loadingLogin, setLoadingLogin, theme, setTheme }}
+        value={{
+          loadingLogin,
+          setLoadingLogin,
+          theme,
+          setTheme,
+          user,
+          setUser,
+        }}
       >
+        <StatusBar
+          backgroundColor={theme.linearGradientOne}
+          barStyle={theme.statusBar}
+        />
+
         <NavigationContainer>
           <LoginStack />
         </NavigationContainer>

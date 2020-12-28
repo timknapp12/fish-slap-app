@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import styled from "styled-components/native";
-import { pink, darkBlue, black } from "../../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import AppContext from "../../utils/AppContext";
 
@@ -14,11 +13,12 @@ const sharedCss = {
 // GENERAL CONTAINER
 const StlyedGeneral = styled.View`
   display: flex;
-  align-items: center;
   justify-content: ${({ justify }) => (justify ? justify : "space-between")};
+  align-items: ${({ align }) => (align ? align : "center")};
   width: ${({ width }) => (width ? width : "100%")};
   height: ${({ height }) => (height ? height : "auto")};
   padding: ${({ padding }) => (padding ? `${padding}px` : "0px")};
+  flex-direction: ${({ direction }) => (direction ? direction : "column")};
 `;
 
 export const GeneralContainer = ({
@@ -43,7 +43,7 @@ export const GeneralContainer = ({
 // SCREEN CONTAINER
 const Container = styled.View`
   ${sharedCss};
-  padding: 32px;
+  padding: 64px 32px 32px 32px;
 `;
 
 export const ScreenContainer = ({ children }) => {
