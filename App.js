@@ -6,7 +6,7 @@ import AppContext from "./src/utils/AppContext";
 import { ThemeProvider } from "styled-components/native";
 import { galaxyTheme } from "./src/styles/themes";
 import * as firebase from "firebase";
-import { firebaseConfig } from "./config";
+import { firebaseConfig } from "./fbConfig";
 import updateColorScheme from "./src/utils/updateColorScheme";
 
 if (!firebase.apps.length) {
