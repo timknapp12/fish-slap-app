@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import { MainText } from "./Texts";
 import { GeneralContainer } from "./Containers";
+import PropTypes from "prop-types";
 
 const StyledInput = styled.TextInput`
   width: 100%;
@@ -21,6 +22,10 @@ const Input = ({ label, ...props }) => {
     );
   }
   return <StyledInput {...props} />;
+};
+
+Input.propTypes = {
+  label: PropTypes.string,
 };
 
 export { Input };

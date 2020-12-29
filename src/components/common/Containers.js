@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient";
 import AppContext from "../../utils/AppContext";
+import PropTypes from "prop-types";
 
 const sharedCss = {
   flex: 1,
@@ -21,24 +22,19 @@ const StlyedGeneral = styled.View`
   flex-direction: ${({ direction }) => (direction ? direction : "column")};
 `;
 
-export const GeneralContainer = ({
-  width,
-  height,
-  padding,
-  children,
-  justify,
-  ...props
-}) => (
-  <StlyedGeneral
-    justify={justify}
-    width={width}
-    height={height}
-    padding={padding}
-    {...props}
-  >
-    {children}
-  </StlyedGeneral>
+export const GeneralContainer = ({ children, ...props }) => (
+  <StlyedGeneral {...props}>{children}</StlyedGeneral>
 );
+
+GeneralContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+  padding: PropTypes.number,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  justify: PropTypes.string,
+  align: PropTypes.string,
+  direction: PropTypes.string,
+};
 
 // SCREEN CONTAINER
 const Container = styled.View`
