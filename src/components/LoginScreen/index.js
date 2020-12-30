@@ -88,7 +88,9 @@ const LoginScreen = () => {
             firstName: firstName,
             lastName: lastName,
             createdAt: Date.now(),
-            deviceColorScheme: colorScheme,
+            theme: {
+              deviceColorScheme: colorScheme,
+            },
           };
           db.collection("users")
             .doc(result.user.uid)
@@ -179,7 +181,9 @@ const LoginScreen = () => {
               lastName: result.additionalUserInfo.profile.family_name,
               username: `${result.additionalUserInfo.profile.given_name} ${result.additionalUserInfo.profile.family_name}`,
               createdAt: Date.now(),
-              deviceColorScheme: colorScheme,
+              theme: {
+                deviceColorScheme: colorScheme,
+              },
             };
             console.log("user signed in ");
             if (result.additionalUserInfo.isNewUser) {
