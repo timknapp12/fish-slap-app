@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginStack } from "./src/router";
@@ -17,10 +17,27 @@ const App = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [theme, setTheme] = useState(galaxyTheme);
   const [user, setUser] = useState(null);
+  const [updateToFirebasePending, setUpdateToFirebasePending] = useState(false);
 
-  console.log("user", user);
+  console.log("User from state:", user);
 
-  // updateColorScheme();
+  const db = firebase.firestore();
+  useEffect(() => {
+    if (user) {
+      const subscriber = db
+        .collection("users")
+        .doc(user.uid)
+        .onSnapshot(function (doc) {
+          console.log("Current data: ", doc.data());
+          setUser(doc.data());
+          setUpdateToFirebasePending(false);
+        });
+      return () => {
+        console.log("running cleanup");
+        subscriber();
+      };
+    }
+  }, [updateToFirebasePending]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -32,6 +49,7 @@ const App = () => {
           setTheme,
           user,
           setUser,
+          setUpdateToFirebasePending,
         }}
       >
         <StatusBar

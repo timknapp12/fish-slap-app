@@ -25,7 +25,9 @@ import {
 } from "./cameraFunctions";
 
 const ProfileScreen = () => {
-  const { setTheme, theme, user } = useContext(AppContext);
+  const { setTheme, theme, user, setUpdateToFirebasePending } = useContext(
+    AppContext
+  );
   const {
     firstName = "",
     lastName = "",
@@ -59,6 +61,7 @@ const ProfileScreen = () => {
   }, []);
 
   // to make sure user data does not persist when new person logs in
+  // TODO - check to see if this is no longer needed with auto updates from firestore
   useEffect(() => {
     setSelectedImage(initialUrl);
     setUserInfo(initialInfo);
@@ -87,6 +90,7 @@ const ProfileScreen = () => {
       .catch((error) => {
         Alert.alert(error);
       });
+    setUpdateToFirebasePending(true);
   };
 
   const saveImage = async () => {

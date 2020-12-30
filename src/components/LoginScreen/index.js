@@ -92,8 +92,9 @@ const LoginScreen = () => {
           };
           db.collection("users")
             .doc(result.user.uid)
-            .set(data)
-            .then(() => setUser(data))
+            .set({ uid: result.user.uid, ...data })
+            // TODO get rid of this function after realtime updates work
+            .then(() => setUser({ uid: result.user.uid, ...data }))
             .catch((error) => {
               console.error("Error adding document: ", error);
             });
@@ -184,10 +185,11 @@ const LoginScreen = () => {
             if (result.additionalUserInfo.isNewUser) {
               db.collection("users")
                 .doc(result.user.uid)
-                .set(data)
+                .set({ uid: result.user.uid, ...data })
                 .then((snapshot) => {
                   // console.log('Snapshot', snapshot);
-                  setUser(data);
+                  // TODO - remove this function after realtime update works
+                  setUser({ uid: result.user.uid, ...data });
                 });
             } else {
               db.collection("users").doc(result.user.uid).update({
