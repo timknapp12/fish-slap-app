@@ -1,24 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
 import * as firebase from "firebase";
 import styled from "styled-components/native";
-import { Alert, Modal } from "react-native";
+import { Alert } from "react-native";
 import {
   ScreenContainer,
   MainText,
   GeneralContainer,
   Avatar,
   H1,
-  H2,
   EditIcon,
-  SaveIcon,
-  CancelIcon,
   GeneralIcon,
   Spinner,
 } from "../../common";
 import AppContext from "../../../utils/AppContext";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Camera } from "expo-camera";
-import { themes } from "./colorThemes";
 import {
   openImagePickerAsync,
   uploadImage,
@@ -26,6 +21,7 @@ import {
 } from "./cameraFunctions";
 import ProfilePicModal from "../ProfilePicModal";
 import UserInfoModal from "../UserInfoModal";
+import ColorThemeModal from "../ColorThemeModal";
 
 const InfoBlock = styled(GeneralContainer)`
   position: relative;
@@ -169,40 +165,10 @@ const ProfileScreen = () => {
         userInfo={userInfo}
       />
 
-      <Modal animationType="slide" visible={isEditTheme}>
-        <ScreenContainer>
-          <GeneralContainer height="100%" justify="flex-start">
-            <GeneralContainer align="flex-end" direction="row">
-              <CancelIcon
-                onPress={() => {
-                  setIsEditTheme(false);
-                }}
-              />
-              <SaveIcon />
-            </GeneralContainer>
-            <H2>Edit Color Theme</H2>
-            <GeneralContainer padding={16}>
-              <MainText>Select a Color Theme</MainText>
-              <GeneralContainer
-                justify="space-between"
-                height="150px"
-                padding={16}
-              >
-                {themes.map((item) => (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => {
-                      setTheme(item.name);
-                    }}
-                  >
-                    <MainText>{item.displayName}</MainText>
-                  </TouchableOpacity>
-                ))}
-              </GeneralContainer>
-            </GeneralContainer>
-          </GeneralContainer>
-        </ScreenContainer>
-      </Modal>
+      <ColorThemeModal
+        isEditTheme={isEditTheme}
+        setIsEditTheme={setIsEditTheme}
+      />
 
       <GeneralContainer height="100%" justify="space-between">
         <GeneralContainer>

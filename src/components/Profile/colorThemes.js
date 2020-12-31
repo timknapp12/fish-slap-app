@@ -3,7 +3,7 @@ import {
   midnightTheme,
   sunriseTheme,
   galaxyTheme,
-} from "../../../styles/themes";
+} from "../../styles/themes";
 
 export const themes = [
   { id: 1, name: lightTheme, displayName: "Light Theme" },
