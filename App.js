@@ -28,9 +28,13 @@ const App = () => {
         .collection("users")
         .doc(user.uid)
         .onSnapshot(function (doc) {
-          console.log("Current data: ", doc.data());
-          setUser(doc.data());
-          setUpdateToFirebasePending(false);
+          if (doc.exists) {
+            console.log("Current data: ", doc.data());
+            setUser(doc.data());
+            setUpdateToFirebasePending(false);
+          } else {
+            console.log("no document exists");
+          }
         });
       return () => {
         console.log("running cleanup");

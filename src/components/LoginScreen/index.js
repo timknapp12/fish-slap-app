@@ -87,6 +87,7 @@ const LoginScreen = () => {
             email: result.user.email,
             firstName: firstName,
             lastName: lastName,
+            profilePicture: "",
             createdAt: Date.now(),
             theme: {
               deviceColorScheme: colorScheme,
@@ -174,12 +175,12 @@ const LoginScreen = () => {
           .then((result) => {
             const db = firebase.firestore();
             const data = {
+              username: `${result.additionalUserInfo.profile.given_name} ${result.additionalUserInfo.profile.family_name}`,
               email: result.user.email,
-              profilePicture: result.additionalUserInfo.profile.picture,
-              locale: result.additionalUserInfo.profile.locale,
               firstName: result.additionalUserInfo.profile.given_name,
               lastName: result.additionalUserInfo.profile.family_name,
-              username: `${result.additionalUserInfo.profile.given_name} ${result.additionalUserInfo.profile.family_name}`,
+              profilePicture: result.additionalUserInfo.profile.picture,
+              locale: result.additionalUserInfo.profile.locale,
               createdAt: Date.now(),
               theme: {
                 deviceColorScheme: colorScheme,
