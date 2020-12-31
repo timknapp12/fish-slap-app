@@ -22,5 +22,5 @@ export const H1 = styled.Text`
 export const H2 = styled.Text`
   ${sharedCss};
   color: ${(props) => props.theme.color};
-  font-size: 18px;
+  font-size: 20px;
 `;
