@@ -131,7 +131,7 @@ const LoginScreen = () => {
         .catch((error) => {
           console.log("error", error);
           Alert.alert(
-            "Username and/or password does not match our records of a user. Please verify details or sign up for an account."
+            "Email and/or password does not match our records of a user. Please verify details or sign up for an account."
           );
         });
     } catch (error) {
