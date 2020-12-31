@@ -51,7 +51,7 @@ const ProfileScreen = () => {
     lastName,
     username,
   };
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(initialInfo);
 
   useEffect(() => {
     (async () => {
@@ -61,13 +61,10 @@ const ProfileScreen = () => {
   }, []);
 
   // to make sure user data does not persist when new person logs in
-  // TODO - check to see if this is no longer needed with auto updates from firestore
   useEffect(() => {
     setSelectedImage(initialUrl);
-    setUserInfo(initialInfo);
     return () => {
       setSelectedImage(null);
-      setUserInfo(null);
       setIsEditMode(false);
       setIsModalOpen(false);
     };
