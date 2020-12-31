@@ -27,8 +27,9 @@ const InfoBlock = styled(GeneralContainer)`
   position: relative;
   padding: 4px 0;
   margin-top: 20px;
-  /* border-color: ${(props) => props.theme.color};
-  border-width: 0.5px; */
+  border-color: ${(props) => props.theme.color};
+  border-width: 0.5px;
+  border-radius: 4px;
 `;
 
 const IconContainerAbsolute = styled(GeneralContainer)`
@@ -38,9 +39,7 @@ const IconContainerAbsolute = styled(GeneralContainer)`
 `;
 
 const ProfileScreen = () => {
-  const { setTheme, theme, user, setUpdateToFirebasePending } = useContext(
-    AppContext
-  );
+  const { theme, user, setUpdateToFirebasePending } = useContext(AppContext);
   const {
     firstName = "",
     lastName = "",
@@ -170,40 +169,38 @@ const ProfileScreen = () => {
         setIsEditTheme={setIsEditTheme}
       />
 
-      <GeneralContainer height="100%" justify="space-between">
+      <GeneralContainer height="100%" justify="flex-start">
         <GeneralContainer>
-          <>
-            <H1>Profile</H1>
-            <GeneralContainer>
-              <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
-              <GeneralContainer
-                style={{ marginTop: -32 }}
-                width="75%"
-                align="flex-end"
-              >
-                <GeneralIcon
-                  onPress={() => setIsModalOpen(true)}
-                  name="image-plus"
-                />
-              </GeneralContainer>
+          <H1>Profile</H1>
+          <GeneralContainer>
+            <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
+            <GeneralContainer
+              style={{ marginTop: -32 }}
+              width="75%"
+              align="flex-end"
+            >
+              <GeneralIcon
+                onPress={() => setIsModalOpen(true)}
+                name="image-plus"
+              />
             </GeneralContainer>
-            <InfoBlock>
-              <IconContainerAbsolute align="flex-end">
-                <EditIcon onPress={() => setIsEditMode(true)} />
-              </IconContainerAbsolute>
-              <MainText>{`First Name: ${firstName}`}</MainText>
-              <MainText>{`First Name: ${lastName}`}</MainText>
-              <MainText>{`Username: ${username ?? "n/a"}`}</MainText>
-              <MainText>{`Email: ${email}`}</MainText>
-            </InfoBlock>
-            <InfoBlock>
-              <IconContainerAbsolute align="flex-end">
-                <EditIcon onPress={() => setIsEditTheme(true)} />
-              </IconContainerAbsolute>
-              <MainText>{`Color Theme: ${theme.name}`}</MainText>
-            </InfoBlock>
-          </>
+          </GeneralContainer>
         </GeneralContainer>
+        <InfoBlock>
+          <IconContainerAbsolute align="flex-end">
+            <EditIcon onPress={() => setIsEditMode(true)} />
+          </IconContainerAbsolute>
+          <MainText>{`First Name: ${firstName}`}</MainText>
+          <MainText>{`First Name: ${lastName}`}</MainText>
+          <MainText>{`Username: ${username ?? "n/a"}`}</MainText>
+          <MainText>{`Email: ${email}`}</MainText>
+        </InfoBlock>
+        <InfoBlock>
+          <IconContainerAbsolute align="flex-end">
+            <EditIcon onPress={() => setIsEditTheme(true)} />
+          </IconContainerAbsolute>
+          <MainText>{`Color Theme: ${theme.name}`}</MainText>
+        </InfoBlock>
       </GeneralContainer>
     </ScreenContainer>
   );
