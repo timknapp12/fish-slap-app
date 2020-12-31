@@ -85,7 +85,7 @@ GeneralIcon.propTypes = {
 };
 
 // EDIT ICON
-export const EditIcon = ({ size = 30, onPress = () => {}, ...props }) => (
+export const EditIcon = ({ size = 20, onPress = () => {}, ...props }) => (
   <TouchableOpacity onPress={onPress}>
     <ThemedGeneralIcon size={size} name="pencil" {...props} />
   </TouchableOpacity>
