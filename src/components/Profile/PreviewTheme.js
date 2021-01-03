@@ -5,7 +5,7 @@ import { MainText, GeneralContainer } from "../common";
 import AppContext from "../../utils/AppContext";
 
 const Wrapper = styled(GeneralContainer)`
-  opacity: ${(props) => (props.selected ? 1 : 0.7)};
+  opacity: ${(props) => (props.selected ? 1 : 0.4)};
 `;
 
 const PreviewTheme = ({ item }) => {
