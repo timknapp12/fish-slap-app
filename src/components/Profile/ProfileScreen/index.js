@@ -191,7 +191,7 @@ const ProfileScreen = () => {
             <EditIcon onPress={() => setIsEditMode(true)} />
           </IconContainerAbsolute>
           <MainText>{`First Name: ${firstName}`}</MainText>
-          <MainText>{`First Name: ${lastName}`}</MainText>
+          <MainText>{`Last Name: ${lastName}`}</MainText>
           <MainText>{`Username: ${username ?? "n/a"}`}</MainText>
           <MainText>{`Email: ${email}`}</MainText>
         </InfoBlock>
@@ -199,7 +199,7 @@ const ProfileScreen = () => {
           <IconContainerAbsolute align="flex-end">
             <EditIcon onPress={() => setIsEditTheme(true)} />
           </IconContainerAbsolute>
-          <MainText>{`Color Theme: ${theme.name}`}</MainText>
+          <MainText>{`Color Theme: ${theme.displayName}`}</MainText>
         </InfoBlock>
       </GeneralContainer>
     </ScreenContainer>

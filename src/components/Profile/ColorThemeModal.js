@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
+import styled from "styled-components/native";
 import { Modal } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   ScreenContainer,
   GeneralContainer,
@@ -10,10 +10,16 @@ import {
   CancelIcon,
 } from "../common";
 import { themes } from "./colorThemes";
-import AppContext from "../../utils/AppContext";
+import PreviewTheme from "./PreviewTheme";
+
+const InfoBlock = styled(GeneralContainer)`
+  padding: 4px 0;
+  border-color: ${(props) => props.theme.color};
+  border-width: 0.5px;
+  border-radius: 4px;
+`;
 
 const ColorThemeModal = ({ isEditTheme, setIsEditTheme }) => {
-  const { setTheme } = useContext(AppContext);
   return (
     <Modal animationType="slide" visible={isEditTheme}>
       <ScreenContainer>
@@ -28,23 +34,12 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme }) => {
           </GeneralContainer>
           <H2>Edit Color Theme</H2>
           <GeneralContainer padding={16}>
-            <MainText>Select a Color Theme</MainText>
-            <GeneralContainer
-              justify="space-between"
-              height="150px"
-              padding={16}
-            >
+            <MainText>Select a Theme to Preview</MainText>
+            <InfoBlock justify="space-between">
               {themes.map((item) => (
-                <TouchableOpacity
-                  key={item.id}
-                  onPress={() => {
-                    setTheme(item.name);
-                  }}
-                >
-                  <MainText>{item.displayName}</MainText>
-                </TouchableOpacity>
+                <PreviewTheme item={item} />
               ))}
-            </GeneralContainer>
+            </InfoBlock>
           </GeneralContainer>
         </GeneralContainer>
       </ScreenContainer>
@@ -53,3 +48,11 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme }) => {
 };
 
 export default ColorThemeModal;
+
+// const theme = {
+//   deviceColorScheme: 'light',
+//   isSyncedToDevice: false,
+//   selectedDefaultTheme: 'galaxy',
+//   selectedLightTheme: 'sunrise',
+//   selectedDarkTheme: 'light',
+// }
