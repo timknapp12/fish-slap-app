@@ -12,7 +12,7 @@ const PreviewTheme = ({ item }) => {
   const { setTheme, theme } = useContext(AppContext);
 
   return (
-    <Wrapper selected={item.name === theme.name} key={item.id}>
+    <Wrapper selected={item.name === theme.name}>
       <TouchableOpacity
         onPress={() => {
           setTheme(item);

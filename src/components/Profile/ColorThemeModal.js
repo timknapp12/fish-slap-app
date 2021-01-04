@@ -37,7 +37,7 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme }) => {
             <MainText>Select a Theme to Preview</MainText>
             <InfoBlock justify="space-between">
               {themes.map((item) => (
-                <PreviewTheme item={item} />
+                <PreviewTheme key={item.id} item={item} />
               ))}
             </InfoBlock>
           </GeneralContainer>
