@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
-import { Modal } from "react-native";
+import { Modal, TouchableWithoutFeedback } from "react-native";
 import {
   ScreenContainer,
   GeneralContainer,
   MainText,
+  SecondaryText,
   H2,
   SaveIcon,
   CancelIcon,
@@ -30,6 +31,7 @@ const RadioOutline = styled(GeneralContainer)`
   border-radius: ${buttonHeight / 2}px;
   justify-content: center;
   margin-right: 8px;
+  margin-bottom: 4px;
 `;
 
 const RadioFill = styled.View`
@@ -39,7 +41,12 @@ const RadioFill = styled.View`
   background-color: ${green};
 `;
 
-const ColorThemeModal = ({ isEditTheme, setIsEditTheme }) => {
+const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
+  const initialValue = userTheme?.isSyncedToDevice ?? false;
+
+  const [isSyncedToDevice, setIsSyncedToDevice] = useState(initialValue);
+  console.log("isSyncedTpDevice", isSyncedToDevice);
+
   return (
     <Modal animationType="slide" visible={isEditTheme}>
       <ScreenContainer>
@@ -64,30 +71,53 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme }) => {
 
           <GeneralContainer padding={16}>
             <GeneralContainer direction="row" justify="flex-start">
-              <RadioOutline>
-                <RadioFill />
-              </RadioOutline>
-              <MainText>Set Theme</MainText>
+              <TouchableWithoutFeedback
+                onPress={() => setIsSyncedToDevice(false)}
+              >
+                <RadioOutline>
+                  {!isSyncedToDevice && <RadioFill />}
+                </RadioOutline>
+              </TouchableWithoutFeedback>
+              <MainText>Set One Constant Theme</MainText>
             </GeneralContainer>
-            {/* <InfoBlock justify="space-between">
-              {themes.map((item) => (
-                <PreviewTheme key={item.id} item={item} />
+            {!isSyncedToDevice && (
+              <InfoBlock justify="space-between">
+                {themes.map((item) => (
+                  <PreviewTheme key={item.id} item={item} />
                 ))}
-              </InfoBlock> */}
+              </InfoBlock>
+            )}
           </GeneralContainer>
 
           <GeneralContainer padding={16}>
             <GeneralContainer direction="row" justify="flex-start">
-              <RadioOutline>
-                <RadioFill />
-              </RadioOutline>
+              <TouchableWithoutFeedback
+                onPress={() => setIsSyncedToDevice(true)}
+              >
+                <RadioOutline>{isSyncedToDevice && <RadioFill />}</RadioOutline>
+              </TouchableWithoutFeedback>
               <MainText>Sync Theme to Device Settings</MainText>
             </GeneralContainer>
-            {/* <InfoBlock justify="space-between">
-              {themes.map((item) => (
-                <PreviewTheme key={item.id} item={item} />
-                ))}
-              </InfoBlock> */}
+            {isSyncedToDevice && (
+              <GeneralContainer>
+                <SecondaryText>
+                  Select a theme to use when your device is on "light" theme:
+                </SecondaryText>
+                <InfoBlock justify="space-between">
+                  {themes.map((item) => (
+                    <PreviewTheme key={item.id} item={item} />
+                  ))}
+                </InfoBlock>
+                <SecondaryText style={{ marginTop: 6 }}>
+                  Select a theme to use when your device is on "dark" theme:
+                </SecondaryText>
+                <InfoBlock justify="space-between">
+                  {themes.map((item) => (
+                    <PreviewTheme key={item.id} item={item} />
+                  ))}
+                </InfoBlock>
+              </GeneralContainer>
+            )}
           </GeneralContainer>
         </GeneralContainer>
       </ScreenContainer>

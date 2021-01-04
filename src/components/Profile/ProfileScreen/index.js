@@ -167,6 +167,7 @@ const ProfileScreen = () => {
       <ColorThemeModal
         isEditTheme={isEditTheme}
         setIsEditTheme={setIsEditTheme}
+        userTheme={user.theme}
       />
 
       <GeneralContainer height="100%" justify="flex-start">
