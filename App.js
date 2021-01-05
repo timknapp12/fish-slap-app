@@ -8,19 +8,34 @@ import { galaxyTheme } from "./src/styles/themes";
 import * as firebase from "firebase";
 import { firebaseConfig } from "./fbConfig";
 import updateColorScheme from "./src/utils/updateColorScheme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
 const App = () => {
+  const readItemFromStorage = async () => {
+    const jsonValue = await AsyncStorage.getItem("@storage_Key");
+    const item = jsonValue != null ? JSON.parse(jsonValue) : null;
+    setTheme(item);
+  };
+
+  const writeItemToStorage = async (newValue) => {
+    const jsonValue = JSON.stringify(newValue);
+    await AsyncStorage.setItem("@storage_Key", jsonValue);
+    setTheme(newValue);
+  };
+
+  useEffect(() => {
+    readItemFromStorage();
+  }, []);
+
   const colorScheme = useColorScheme();
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [user, setUser] = useState(null);
-  const [theme, setTheme] = useState(user?.theme?.currentTheme ?? galaxyTheme);
+  const [theme, setTheme] = useState(galaxyTheme);
   const [updateToFirebasePending, setUpdateToFirebasePending] = useState(false);
-
-  // console.log("User from state:", user);
 
   const db = firebase.firestore();
   useEffect(() => {
@@ -32,7 +47,7 @@ const App = () => {
           if (doc.exists) {
             console.log("Current data: ", doc.data());
             setUser(doc.data());
-            setTheme(doc.data().theme.currentTheme);
+            writeItemToStorage(doc.data().theme.currentTheme);
             setUpdateToFirebasePending(false);
           } else {
             console.log("no document exists");
@@ -49,7 +64,7 @@ const App = () => {
     if (user) {
       updateColorScheme(colorScheme, user, setUpdateToFirebasePending);
     }
-    return setTheme(user?.theme?.currentTheme ?? galaxyTheme);
+    // return setTheme(user?.theme?.currentTheme ?? galaxyTheme);
   }, [colorScheme]);
 
   return (
