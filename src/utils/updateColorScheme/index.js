@@ -6,6 +6,8 @@ import {
   galaxyTheme,
 } from "../../styles/themes";
 
+// This function takes a string (of the 4 theme types) and sets the current color theme according to settings in user theme object in the firebase cloud firestore and updates the currentTheme field back in the firestore database
+
 const updateColorScheme = (colorScheme, user, setUpdateToFirebasePending) => {
   let newTheme;
   if (!user.theme.isSyncedToDevice) {
