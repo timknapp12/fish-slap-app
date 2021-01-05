@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Alert, useColorScheme } from "react-native";
+import { Alert } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../fbConfig";
@@ -21,6 +21,7 @@ import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import "firebase/firestore";
+import { galaxyTheme } from "../../styles/themes";
 
 const LoginScreen = () => {
   const { loadingLogin, setLoadingLogin, setUser } = useContext(AppContext);
@@ -32,8 +33,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
-
-  const colorScheme = useColorScheme() || "light";
 
   useEffect(() => {
     return () => {
@@ -90,7 +89,11 @@ const LoginScreen = () => {
             profilePicture: "",
             createdAt: Date.now(),
             theme: {
-              deviceColorScheme: colorScheme,
+              currentTheme: galaxyTheme,
+              isSyncedToDevice: false,
+              defaultTheme: "galaxyTheme",
+              lightTheme: "lightTheme",
+              darkTheme: "midnightTheme",
             },
           };
           db.collection("users")
@@ -183,7 +186,11 @@ const LoginScreen = () => {
               locale: result.additionalUserInfo.profile.locale,
               createdAt: Date.now(),
               theme: {
-                deviceColorScheme: colorScheme,
+                currentTheme: galaxyTheme,
+                isSyncedToDevice: false,
+                defaultTheme: "galaxyTheme",
+                lightTheme: "lightTheme",
+                darkTheme: "midnightTheme",
               },
             };
             console.log("user signed in ");

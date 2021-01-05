@@ -20,7 +20,7 @@ import {
   galaxyTheme,
 } from "../../styles/themes";
 
-export const themes = [lightTheme, midnightTheme, sunriseTheme, galaxyTheme];
+const themes = [lightTheme, midnightTheme, sunriseTheme, galaxyTheme];
 
 const InfoBlock = styled(GeneralContainer)`
   padding: 4px 0;
@@ -177,11 +177,3 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
 };
 
 export default ColorThemeModal;
-
-// const theme = {
-//   deviceColorScheme: 'light',
-//   isSyncedToDevice: false,
-//   selectedDefaultTheme: 'galaxy',
-//   selectedLightTheme: 'sunrise',
-//   selectedDarkTheme: 'light',
-// }
