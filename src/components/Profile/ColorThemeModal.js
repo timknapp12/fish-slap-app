@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components/native";
 import { Modal, TouchableWithoutFeedback } from "react-native";
 import {
@@ -10,9 +10,17 @@ import {
   SaveIcon,
   CancelIcon,
 } from "../common";
-import { themes } from "./colorThemes";
 import PreviewTheme from "./PreviewTheme";
 import { green } from "../../styles/colors";
+import AppContext from "../../utils/AppContext";
+import {
+  lightTheme,
+  midnightTheme,
+  sunriseTheme,
+  galaxyTheme,
+} from "../../styles/themes";
+
+export const themes = [lightTheme, midnightTheme, sunriseTheme, galaxyTheme];
 
 const InfoBlock = styled(GeneralContainer)`
   padding: 4px 0;
@@ -42,10 +50,25 @@ const RadioFill = styled.View`
 `;
 
 const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
-  const initialValue = userTheme?.isSyncedToDevice ?? false;
+  const { setTheme, theme } = useContext(AppContext);
 
+  const initialValue = userTheme?.isSyncedToDevice ?? false;
   const [isSyncedToDevice, setIsSyncedToDevice] = useState(initialValue);
-  console.log("isSyncedTpDevice", isSyncedToDevice);
+
+  const initialDefaultTheme = userTheme?.selectedLightTheme ?? theme;
+  const [selectedDefaultTheme, setSelectedDefaultTheme] = useState(
+    initialDefaultTheme
+  );
+
+  const initialLightTheme = userTheme?.selectedLightTheme ?? lightTheme;
+  const [selectedLightTheme, setSelectedLightTheme] = useState(
+    initialLightTheme
+  );
+
+  const initialDarkTheme = userTheme?.selectedDarkTheme ?? midnightTheme;
+  const [selectedDarkTheme, setSelectedDarkTheme] = useState(initialDarkTheme);
+
+  const saveTheme = () => {};
 
   return (
     <Modal animationType="slide" visible={isEditTheme}>
@@ -64,7 +87,14 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
             <MainText>Select a Theme to Preview</MainText>
             <InfoBlock justify="space-between">
               {themes.map((item) => (
-                <PreviewTheme key={item.id} item={item} />
+                <PreviewTheme
+                  key={item.id}
+                  item={item}
+                  selected={item.name === theme.name}
+                  onPress={() => {
+                    setTheme(item);
+                  }}
+                />
               ))}
             </InfoBlock>
           </GeneralContainer>
@@ -83,7 +113,14 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
             {!isSyncedToDevice && (
               <InfoBlock justify="space-between">
                 {themes.map((item) => (
-                  <PreviewTheme key={item.id} item={item} />
+                  <PreviewTheme
+                    key={item.id}
+                    item={item}
+                    selected={item.name === selectedDefaultTheme.name}
+                    onPress={() => {
+                      setSelectedDefaultTheme(item);
+                    }}
+                  />
                 ))}
               </InfoBlock>
             )}
@@ -105,7 +142,14 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
                 </SecondaryText>
                 <InfoBlock justify="space-between">
                   {themes.map((item) => (
-                    <PreviewTheme key={item.id} item={item} />
+                    <PreviewTheme
+                      key={item.id}
+                      item={item}
+                      selected={item.name === selectedLightTheme.name}
+                      onPress={() => {
+                        setSelectedLightTheme(item);
+                      }}
+                    />
                   ))}
                 </InfoBlock>
                 <SecondaryText style={{ marginTop: 6 }}>
@@ -113,7 +157,14 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
                 </SecondaryText>
                 <InfoBlock justify="space-between">
                   {themes.map((item) => (
-                    <PreviewTheme key={item.id} item={item} />
+                    <PreviewTheme
+                      key={item.id}
+                      item={item}
+                      selected={item.name === selectedDarkTheme.name}
+                      onPress={() => {
+                        setSelectedDarkTheme(item);
+                      }}
+                    />
                   ))}
                 </InfoBlock>
               </GeneralContainer>
