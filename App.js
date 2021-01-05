@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, StatusBar } from "react-native";
+import { StyleSheet, StatusBar, useColorScheme } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginStack } from "./src/router";
 import AppContext from "./src/utils/AppContext";
@@ -14,12 +14,13 @@ if (!firebase.apps.length) {
 }
 
 const App = () => {
+  const colorScheme = useColorScheme();
   const [loadingLogin, setLoadingLogin] = useState(false);
-  const [theme, setTheme] = useState(galaxyTheme);
   const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState(user?.theme?.currentTheme ?? galaxyTheme);
   const [updateToFirebasePending, setUpdateToFirebasePending] = useState(false);
 
-  console.log("User from state:", user);
+  // console.log("User from state:", user);
 
   const db = firebase.firestore();
   useEffect(() => {
@@ -31,6 +32,7 @@ const App = () => {
           if (doc.exists) {
             console.log("Current data: ", doc.data());
             setUser(doc.data());
+            setTheme(doc.data().theme.currentTheme);
             setUpdateToFirebasePending(false);
           } else {
             console.log("no document exists");
@@ -42,6 +44,13 @@ const App = () => {
       };
     }
   }, [updateToFirebasePending]);
+
+  useEffect(() => {
+    if (user) {
+      updateColorScheme(colorScheme, user, setUpdateToFirebasePending);
+    }
+    return setTheme(user?.theme?.currentTheme ?? galaxyTheme);
+  }, [colorScheme]);
 
   return (
     <ThemeProvider theme={theme}>

@@ -8,7 +8,7 @@ const LoadingScreen = (props) => {
     checkIfLoggedIn();
   }, []);
 
-  const { setUser } = useContext(AppContext);
+  const { setUser, setTheme } = useContext(AppContext);
 
   const getUser = (uid) => {
     const db = firebase.firestore();
@@ -19,6 +19,7 @@ const LoadingScreen = (props) => {
         if (doc.exists) {
           const data = doc.data();
           setUser(data);
+          setTheme(data.theme.currentTheme);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
