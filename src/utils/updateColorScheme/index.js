@@ -22,7 +22,7 @@ const updateColorScheme = (colorScheme, user, setUpdateToFirebasePending) => {
 };
 export default updateColorScheme;
 
-const matchTheme = (themeName) => {
+export const matchTheme = (themeName) => {
   switch (themeName) {
     case "lightTheme":
       return lightTheme;
