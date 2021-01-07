@@ -7,7 +7,6 @@ import {
   H2,
   SaveIcon,
   CancelIcon,
-  GeneralIcon,
 } from "../common";
 
 const UserInfoModal = ({

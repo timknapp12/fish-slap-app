@@ -167,7 +167,7 @@ const ProfileScreen = () => {
       <ColorThemeModal
         isEditTheme={isEditTheme}
         setIsEditTheme={setIsEditTheme}
-        userTheme={user.theme}
+        setUpdateToFirebasePending={setUpdateToFirebasePending}
       />
 
       <GeneralContainer height="100%" justify="flex-start">
