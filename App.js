@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, StatusBar, useColorScheme } from "react-native";
+import { StatusBar, useColorScheme } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginStack } from "./src/router";
 import AppContext from "./src/utils/AppContext";
 import { ThemeProvider } from "styled-components/native";
 import { galaxyTheme } from "./src/styles/themes";
+import { pink } from "./src/styles/colors";
 import * as firebase from "firebase";
 import { firebaseConfig } from "./fbConfig";
 import updateColorScheme from "./src/utils/updateColorScheme";
@@ -32,7 +33,7 @@ const App = () => {
   useEffect(() => {
     readItemFromStorage();
     return () => {
-      writeItemToStorage(user.theme.currentTheme);
+      writeItemToStorage(user?.theme?.currentTheme ?? galaxyTheme);
     };
   }, []);
 
@@ -87,8 +88,8 @@ const App = () => {
         }}
       >
         <StatusBar
-          backgroundColor={theme.linearGradientOne}
-          barStyle={theme.statusBar}
+          backgroundColor={theme?.linearGradientOne ?? pink}
+          barStyle={theme?.statusBar ?? "light-content"}
         />
 
         <NavigationContainer>
@@ -99,12 +100,3 @@ const App = () => {
   );
 };
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
