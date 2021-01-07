@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components/native";
+import * as firebase from "firebase";
 import { Modal, TouchableWithoutFeedback } from "react-native";
 import {
   ScreenContainer,
@@ -11,6 +12,7 @@ import {
   CancelIcon,
 } from "../common";
 import PreviewTheme from "./PreviewTheme";
+import ThemeStrings from "./ThemeStrings";
 import { green } from "../../styles/colors";
 import AppContext from "../../utils/AppContext";
 import {
@@ -21,6 +23,12 @@ import {
 } from "../../styles/themes";
 
 const themes = [lightTheme, midnightTheme, sunriseTheme, galaxyTheme];
+const themeNames = [
+  "lightTheme",
+  "midnightTheme",
+  "sunriseTheme",
+  "galaxyTheme",
+];
 
 const InfoBlock = styled(GeneralContainer)`
   padding: 4px 0;
@@ -49,26 +57,57 @@ const RadioFill = styled.View`
   background-color: ${green};
 `;
 
-const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
-  const { setTheme, theme } = useContext(AppContext);
+const ColorThemeModal = ({
+  isEditTheme,
+  setIsEditTheme,
+  setUpdateToFirebasePending,
+}) => {
+  const { setTheme, theme, user } = useContext(AppContext);
+  // currentTheme
+  // console.log("user.theme", user.theme);
 
-  const initialValue = userTheme?.isSyncedToDevice ?? false;
+  const initialValue = user.theme.isSyncedToDevice;
   const [isSyncedToDevice, setIsSyncedToDevice] = useState(initialValue);
+  console.log("isSyncedToDevice", isSyncedToDevice);
 
-  const initialDefaultTheme = userTheme?.selectedLightTheme ?? theme;
+  const initialDefaultTheme = user.theme.defaultTheme;
   const [selectedDefaultTheme, setSelectedDefaultTheme] = useState(
     initialDefaultTheme
   );
+  console.log("selectedDefaultTheme", selectedDefaultTheme);
 
-  const initialLightTheme = userTheme?.selectedLightTheme ?? lightTheme;
+  const initialLightTheme = user.theme.lightTheme;
   const [selectedLightTheme, setSelectedLightTheme] = useState(
     initialLightTheme
   );
+  console.log("selectedLightTheme", selectedLightTheme);
 
-  const initialDarkTheme = userTheme?.selectedDarkTheme ?? midnightTheme;
+  const initialDarkTheme = user.theme.darkTheme;
   const [selectedDarkTheme, setSelectedDarkTheme] = useState(initialDarkTheme);
 
-  const saveTheme = () => {};
+  console.log("selectedDarkTheme", selectedDarkTheme);
+
+  const saveTheme = () => {
+    const data = {
+      theme: {
+        ...user.theme,
+        isSyncedToDevice: isSyncedToDevice,
+        defaultTheme: selectedDefaultTheme,
+        lightTheme: selectedLightTheme,
+        darkTheme: selectedDarkTheme,
+      },
+    };
+    console.log("data", data);
+    const db = firebase.firestore();
+    db.collection("users")
+      .doc(user.uid)
+      .update(data)
+      .then(() => setIsEditTheme(false))
+      .catch((error) => {
+        Alert.alert(error);
+      });
+    setUpdateToFirebasePending(true);
+  };
 
   return (
     <Modal animationType="slide" visible={isEditTheme}>
@@ -77,10 +116,11 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
           <GeneralContainer align="flex-end" direction="row">
             <CancelIcon
               onPress={() => {
+                setTheme(user.theme.currentTheme);
                 setIsEditTheme(false);
               }}
             />
-            <SaveIcon />
+            <SaveIcon onPress={saveTheme} />
           </GeneralContainer>
           <H2>Edit Color Theme</H2>
           <GeneralContainer padding={16}>
@@ -112,11 +152,11 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
             </GeneralContainer>
             {!isSyncedToDevice && (
               <InfoBlock justify="space-between">
-                {themes.map((item) => (
-                  <PreviewTheme
-                    key={item.id}
+                {themeNames.map((item) => (
+                  <ThemeStrings
+                    key={item}
                     item={item}
-                    selected={item.name === selectedDefaultTheme.name}
+                    selected={item === selectedDefaultTheme}
                     onPress={() => {
                       setSelectedDefaultTheme(item);
                     }}
@@ -141,11 +181,11 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
                   Select a theme to use when your device is on "light" theme:
                 </SecondaryText>
                 <InfoBlock justify="space-between">
-                  {themes.map((item) => (
-                    <PreviewTheme
-                      key={item.id}
+                  {themeNames.map((item) => (
+                    <ThemeStrings
+                      key={item}
                       item={item}
-                      selected={item.name === selectedLightTheme.name}
+                      selected={item === selectedLightTheme}
                       onPress={() => {
                         setSelectedLightTheme(item);
                       }}
@@ -156,11 +196,11 @@ const ColorThemeModal = ({ isEditTheme, setIsEditTheme, userTheme }) => {
                   Select a theme to use when your device is on "dark" theme:
                 </SecondaryText>
                 <InfoBlock justify="space-between">
-                  {themes.map((item) => (
-                    <PreviewTheme
-                      key={item.id}
+                  {themeNames.map((item) => (
+                    <ThemeStrings
+                      key={item}
                       item={item}
-                      selected={item.name === selectedDarkTheme.name}
+                      selected={item === selectedDarkTheme}
                       onPress={() => {
                         setSelectedDarkTheme(item);
                       }}
