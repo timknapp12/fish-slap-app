@@ -10,6 +10,7 @@
     "postinstall": "husky install"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
     "@react-navigation/native": "^5.8.9",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^5.0.6",
     "jest-expo": "^39.0.0",
     "pinst": "^2.1.1",

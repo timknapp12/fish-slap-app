@@ -1,15 +1,9 @@
 import React, { useContext } from "react";
+import { ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient";
 import AppContext from "../../utils/AppContext";
 import PropTypes from "prop-types";
-
-const sharedCss = {
-  flex: 1,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
 
 // GENERAL CONTAINER
 const StlyedGeneral = styled.View`
@@ -37,11 +31,6 @@ GeneralContainer.propTypes = {
 };
 
 // SCREEN CONTAINER
-const Container = styled.View`
-  ${sharedCss};
-  padding: 64px 32px 32px 32px;
-`;
-
 export const ScreenContainer = ({ children }) => {
   const { theme } = useContext(AppContext);
   return (
@@ -50,7 +39,18 @@ export const ScreenContainer = ({ children }) => {
       start={{ x: 0.49, y: 0.2 }}
       style={{ height: "100%", width: "100%" }}
     >
-      <Container>{children}</Container>
+      <ScrollView contentContainerStyle={container}>{children}</ScrollView>
     </LinearGradient>
   );
+};
+
+const container = {
+  flex: 1,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: 32,
+  paddingTop: 64,
+  height: "100%",
+  width: "100%",
 };

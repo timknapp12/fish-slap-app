@@ -7,8 +7,6 @@ import { green } from "../../styles/colors";
 import PropTypes from "prop-types";
 
 const ThemedImage = styled.Image`
-  /* border: ${(props) =>
-    props.border ? `1px solid ${props.theme.color}` : null}; */
   border-width: 2px;
   border-color: ${(props) => props.theme.color};
 `;
@@ -17,8 +15,6 @@ const ThemedIcon = styled(Ionicons)`
   /* if a color prop is given then it will overrule the theme prop */
   color: ${(props) => (props.color ? props.color : props.theme.color)};
   opacity: 0.8;
-  border-width: 2px;
-  border-color: ${(props) => props.theme.color};
 `;
 
 const ThemedGeneralIcon = styled(Ionicons)`
@@ -89,7 +85,7 @@ GeneralIcon.propTypes = {
 };
 
 // EDIT ICON
-export const EditIcon = ({ size = 30, onPress = () => {}, ...props }) => (
+export const EditIcon = ({ size = 20, onPress = () => {}, ...props }) => (
   <TouchableOpacity onPress={onPress}>
     <ThemedGeneralIcon size={size} name="pencil" {...props} />
   </TouchableOpacity>

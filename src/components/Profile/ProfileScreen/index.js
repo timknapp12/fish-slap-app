@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import * as firebase from "firebase";
-import { Alert, Modal } from "react-native";
+import styled from "styled-components/native";
+import { Alert } from "react-native";
 import {
   ScreenContainer,
   MainText,
@@ -8,24 +9,37 @@ import {
   Avatar,
   H1,
   EditIcon,
-  SaveIcon,
-  CancelIcon,
   GeneralIcon,
   Spinner,
-  Input,
 } from "../../common";
 import AppContext from "../../../utils/AppContext";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Camera } from "expo-camera";
-import { themes } from "./colorThemes";
 import {
   openImagePickerAsync,
   uploadImage,
   openCamera,
 } from "./cameraFunctions";
+import ProfilePicModal from "../ProfilePicModal";
+import UserInfoModal from "../UserInfoModal";
+import ColorThemeModal from "../ColorThemeModal";
+
+const InfoBlock = styled(GeneralContainer)`
+  position: relative;
+  padding: 4px 0;
+  margin-top: 20px;
+  border-color: ${(props) => props.theme.color};
+  border-width: 0.5px;
+  border-radius: 4px;
+`;
+
+const IconContainerAbsolute = styled(GeneralContainer)`
+  position: absolute;
+  top: 2px;
+  right: 2px;
+`;
 
 const ProfileScreen = () => {
-  const { setTheme, theme, user } = useContext(AppContext);
+  const { theme, user, setUpdateToFirebasePending } = useContext(AppContext);
   const {
     firstName = "",
     lastName = "",
@@ -41,6 +55,7 @@ const ProfileScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditTheme, setIsEditTheme] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
@@ -49,7 +64,7 @@ const ProfileScreen = () => {
     lastName,
     username,
   };
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(initialInfo);
 
   useEffect(() => {
     (async () => {
@@ -61,16 +76,16 @@ const ProfileScreen = () => {
   // to make sure user data does not persist when new person logs in
   useEffect(() => {
     setSelectedImage(initialUrl);
-    setUserInfo(initialInfo);
     return () => {
       setSelectedImage(null);
-      setUserInfo(null);
-      setIsEditMode(false);
-      setIsModalOpen(false);
     };
   }, [user]);
 
   const saveUserData = (data) => {
+    if (data.username.length < 1) {
+      Alert.alert("Please enter your username");
+      return;
+    }
     if (data.firstName.length < 1) {
       Alert.alert("Please enter your first name");
       return;
@@ -87,6 +102,7 @@ const ProfileScreen = () => {
       .catch((error) => {
         Alert.alert(error);
       });
+    setUpdateToFirebasePending(true);
   };
 
   const saveImage = async () => {
@@ -125,121 +141,67 @@ const ProfileScreen = () => {
     );
   }
 
-  if (isEditMode) {
-    return (
-      <ScreenContainer>
-        <GeneralContainer height="100%" justify="flex-start">
-          <GeneralContainer align="flex-end" direction="row">
-            <CancelIcon
-              onPress={() => {
-                setIsEditMode(false);
-                setUserInfo(initialInfo);
-              }}
-            />
-            <SaveIcon onPress={() => saveUserData(userInfo)} />
-          </GeneralContainer>
-          <MainText>Edit Profile</MainText>
-          <GeneralContainer>
-            <Input
-              label="First Name*"
-              placeholder="first name"
-              value={userInfo.firstName}
-              onChangeText={(text) =>
-                setUserInfo({ ...userInfo, firstName: text })
-              }
-            />
-            <Input
-              label="Last Name*"
-              placeholder="last name"
-              value={userInfo.lastName}
-              onChangeText={(text) =>
-                setUserInfo({ ...userInfo, lastName: text })
-              }
-            />
-            <Input
-              label="Username"
-              placeholder="username"
-              value={userInfo.username}
-              onChangeText={(text) =>
-                setUserInfo({ ...userInfo, username: text })
-              }
-            />
-          </GeneralContainer>
-        </GeneralContainer>
-      </ScreenContainer>
-    );
-  }
   return (
     <ScreenContainer>
-      {/* MODAL */}
-      <Modal animationType="slide" visible={isModalOpen}>
-        <ScreenContainer>
-          <GeneralContainer height="100%" justify="flex-start">
-            <GeneralContainer align="flex-end" direction="row">
-              <CancelIcon
-                onPress={() => {
-                  setIsModalOpen(false);
-                  setSelectedImage(initialUrl);
-                }}
-              />
-              <SaveIcon onPress={saveImage} />
-            </GeneralContainer>
-            <MainText>Edit Profile Picture</MainText>
+      <ProfilePicModal
+        setIsModalOpen={setIsModalOpen}
+        openCamera={openCamera}
+        hasPermission={hasPermission}
+        openImagePickerAsync={openImagePickerAsync}
+        isModalOpen={isModalOpen}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+        saveImage={saveImage}
+        initialUrl={initialUrl}
+      />
+
+      <UserInfoModal
+        isEditMode={isEditMode}
+        setIsEditMode={setIsEditMode}
+        setUserInfo={setUserInfo}
+        saveUserData={saveUserData}
+        initialInfo={initialInfo}
+        userInfo={userInfo}
+      />
+
+      <ColorThemeModal
+        isEditTheme={isEditTheme}
+        setIsEditTheme={setIsEditTheme}
+        setUpdateToFirebasePending={setUpdateToFirebasePending}
+      />
+
+      <GeneralContainer height="100%" justify="flex-start">
+        <GeneralContainer>
+          <H1>Profile</H1>
+          <GeneralContainer>
             <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
-            <GeneralContainer width="50%" direction="row">
+            <GeneralContainer
+              style={{ marginTop: -32 }}
+              width="75%"
+              align="flex-end"
+            >
               <GeneralIcon
-                onPress={() => openImagePickerAsync(setSelectedImage)}
-                name="image-outline"
-              />
-              <GeneralIcon
-                name="camera-outline"
-                onPress={() => openCamera(hasPermission, setSelectedImage)}
+                onPress={() => setIsModalOpen(true)}
+                name="image-plus"
               />
             </GeneralContainer>
           </GeneralContainer>
-        </ScreenContainer>
-      </Modal>
-
-      <GeneralContainer height="100%" justify="space-between">
-        <GeneralContainer>
-          <>
-            <GeneralContainer align="flex-end">
-              <EditIcon onPress={() => setIsEditMode(true)} />
-            </GeneralContainer>
-            <H1>{`${firstName} ${lastName}`}</H1>
-            <GeneralContainer>
-              <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
-              <GeneralContainer
-                style={{ marginTop: -32 }}
-                width="75%"
-                align="flex-end"
-              >
-                <GeneralIcon
-                  onPress={() => setIsModalOpen(true)}
-                  name="image-plus"
-                />
-              </GeneralContainer>
-            </GeneralContainer>
-            <GeneralContainer padding={24}>
-              <MainText>{`Username: ${username ?? "n/a"}`}</MainText>
-              <MainText>{`Email: ${email}`}</MainText>
-              <MainText>{`Color Theme: ${theme.name}`}</MainText>
-            </GeneralContainer>
-          </>
         </GeneralContainer>
-
-        <GeneralContainer padding={16}>
-          {themes.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => {
-                setTheme(item.name);
-              }}
-            >
-              <MainText>{item.displayName}</MainText>
-            </TouchableOpacity>
-          ))}
-        </GeneralContainer>
+        <InfoBlock>
+          <IconContainerAbsolute align="flex-end">
+            <EditIcon onPress={() => setIsEditMode(true)} />
+          </IconContainerAbsolute>
+          <MainText>{`First Name: ${firstName}`}</MainText>
+          <MainText>{`Last Name: ${lastName}`}</MainText>
+          <MainText>{`Username: ${username ?? "n/a"}`}</MainText>
+          <MainText>{`Email: ${email}`}</MainText>
+        </InfoBlock>
+        <InfoBlock>
+          <IconContainerAbsolute align="flex-end">
+            <EditIcon onPress={() => setIsEditTheme(true)} />
+          </IconContainerAbsolute>
+          <MainText>{`Color Theme: ${theme.displayName}`}</MainText>
+        </InfoBlock>
       </GeneralContainer>
     </ScreenContainer>
   );

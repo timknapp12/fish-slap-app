@@ -11,6 +11,14 @@ export const MainText = styled.Text`
   font-size: 16px;
 `;
 
+// SECONDARY
+
+export const SecondaryText = styled.Text`
+  color: ${(props) => props.theme.color};
+  font-size: 16px;
+  font-weight: normal;
+`;
+
 // MAIN HEADING
 export const H1 = styled.Text`
   ${sharedCss};
@@ -22,5 +30,5 @@ export const H1 = styled.Text`
 export const H2 = styled.Text`
   ${sharedCss};
   color: ${(props) => props.theme.color};
-  font-size: 18px;
+  font-size: 20px;
 `;

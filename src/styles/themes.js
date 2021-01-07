@@ -1,8 +1,6 @@
 import {
-  green,
   blue,
   pink,
-  lighPink,
   lightBlue,
   black,
   darkBlue,
@@ -11,32 +9,10 @@ import {
   orange,
 } from "./colors";
 
-export const galaxyTheme = {
-  name: "Galaxy",
-  color: white,
-  linearGradientOne: pink,
-  linearGradientTwo: darkBlue,
-  activeBackground: pink,
-  inactiveBackground: darkBlue,
-  activeTint: white,
-  inactiveTint: lightBlue,
-  statusBar: "light-content",
-};
-
-export const midnightTheme = {
-  name: "Midnight",
-  color: white,
-  linearGradientOne: darkBlue,
-  linearGradientTwo: black,
-  activeBackground: darkBlue,
-  inactiveBackground: black,
-  activeTint: white,
-  inactiveTint: lightBlue,
-  statusBar: "light-content",
-};
-
 export const lightTheme = {
-  name: "Light",
+  id: 1,
+  name: "lightTheme",
+  displayName: "Light Theme",
   color: blue,
   linearGradientOne: white,
   linearGradientTwo: white,
@@ -47,8 +23,24 @@ export const lightTheme = {
   statusBar: "dark-content",
 };
 
+export const midnightTheme = {
+  id: 2,
+  name: "midnightTheme",
+  displayName: "Midnight Theme",
+  color: white,
+  linearGradientOne: darkBlue,
+  linearGradientTwo: black,
+  activeBackground: darkBlue,
+  inactiveBackground: black,
+  activeTint: white,
+  inactiveTint: lightBlue,
+  statusBar: "light-content",
+};
+
 export const sunriseTheme = {
-  name: "Sunrise",
+  id: 3,
+  name: "sunriseTheme",
+  displayName: "Sunrise Theme",
   color: black,
   linearGradientOne: yellow,
   linearGradientTwo: orange,
@@ -57,4 +49,18 @@ export const sunriseTheme = {
   activeTint: black,
   inactiveTint: white,
   statusBar: "dark-content",
+};
+
+export const galaxyTheme = {
+  id: 4,
+  name: "galaxyTheme",
+  displayName: "Galaxy Theme",
+  color: white,
+  linearGradientOne: pink,
+  linearGradientTwo: darkBlue,
+  activeBackground: pink,
+  inactiveBackground: darkBlue,
+  activeTint: white,
+  inactiveTint: lightBlue,
+  statusBar: "light-content",
 };

@@ -25,6 +25,7 @@
     },
     "facebookScheme": "fb131989751762089",
     "facebookAppId": "131989751762089",
-    "facebookDisplayName": "fish-slap-app"
+    "facebookDisplayName": "fish-slap-app",
+    "userInterfaceStyle": "automatic"
   }
 }

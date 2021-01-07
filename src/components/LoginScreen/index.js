@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Alert, useColorScheme } from "react-native";
+import { Alert } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../fbConfig";
@@ -21,6 +21,7 @@ import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import "firebase/firestore";
+import { galaxyTheme } from "../../styles/themes";
 
 const LoginScreen = () => {
   const { loadingLogin, setLoadingLogin, setUser } = useContext(AppContext);
@@ -32,8 +33,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
-
-  const colorScheme = useColorScheme() || "light";
 
   useEffect(() => {
     return () => {
@@ -87,13 +86,21 @@ const LoginScreen = () => {
             email: result.user.email,
             firstName: firstName,
             lastName: lastName,
+            profilePicture: "",
             createdAt: Date.now(),
-            deviceColorScheme: colorScheme,
+            theme: {
+              currentTheme: galaxyTheme,
+              isSyncedToDevice: false,
+              defaultTheme: "galaxyTheme",
+              lightTheme: "lightTheme",
+              darkTheme: "midnightTheme",
+            },
           };
           db.collection("users")
             .doc(result.user.uid)
-            .set(data)
-            .then(() => setUser(data))
+            .set({ uid: result.user.uid, ...data })
+            // TODO get rid of this function after realtime updates work
+            .then(() => setUser({ uid: result.user.uid, ...data }))
             .catch((error) => {
               console.error("Error adding document: ", error);
             });
@@ -127,7 +134,7 @@ const LoginScreen = () => {
         .catch((error) => {
           console.log("error", error);
           Alert.alert(
-            "Username and/or password does not match our records of a user. Please verify details or sign up for an account."
+            "Email and/or password does not match our records of a user. Please verify details or sign up for an account."
           );
         });
     } catch (error) {
@@ -171,23 +178,30 @@ const LoginScreen = () => {
           .then((result) => {
             const db = firebase.firestore();
             const data = {
+              username: `${result.additionalUserInfo.profile.given_name} ${result.additionalUserInfo.profile.family_name}`,
               email: result.user.email,
-              profilePicture: result.additionalUserInfo.profile.picture,
-              locale: result.additionalUserInfo.profile.locale,
               firstName: result.additionalUserInfo.profile.given_name,
               lastName: result.additionalUserInfo.profile.family_name,
-              username: `${result.additionalUserInfo.profile.given_name} ${result.additionalUserInfo.profile.family_name}`,
+              profilePicture: result.additionalUserInfo.profile.picture,
+              locale: result.additionalUserInfo.profile.locale,
               createdAt: Date.now(),
-              deviceColorScheme: colorScheme,
+              theme: {
+                currentTheme: galaxyTheme,
+                isSyncedToDevice: false,
+                defaultTheme: "galaxyTheme",
+                lightTheme: "lightTheme",
+                darkTheme: "midnightTheme",
+              },
             };
             console.log("user signed in ");
             if (result.additionalUserInfo.isNewUser) {
               db.collection("users")
                 .doc(result.user.uid)
-                .set(data)
+                .set({ uid: result.user.uid, ...data })
                 .then((snapshot) => {
                   // console.log('Snapshot', snapshot);
-                  setUser(data);
+                  // TODO - remove this function after realtime update works
+                  setUser({ uid: result.user.uid, ...data });
                 });
             } else {
               db.collection("users").doc(result.user.uid).update({
