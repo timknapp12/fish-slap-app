@@ -9,20 +9,25 @@ import {
 // This function takes a string (of the 4 theme types) and sets the current color theme according to settings in user theme object in the firebase cloud firestore and updates the currentTheme field back in the firestore database
 
 const updateColorScheme = (colorScheme, user, setUpdateToFirebasePending) => {
+  const newTheme = findTheme(colorScheme, user);
+  saveThemeToDB(user, newTheme, setUpdateToFirebasePending);
+};
+export default updateColorScheme;
+
+export const findTheme = (colorScheme, user) => {
   let newTheme;
   if (!user.theme.isSyncedToDevice) {
     newTheme = matchTheme(user.theme.defaultTheme);
-    return saveThemeToDB(user, newTheme, setUpdateToFirebasePending);
+    return newTheme;
   }
   if (user.theme.isSyncedToDevice) {
     newTheme =
       colorScheme === "light"
         ? matchTheme(user.theme.lightTheme)
         : matchTheme(user.theme.darkTheme);
-    return saveThemeToDB(user, newTheme, setUpdateToFirebasePending);
+    return newTheme;
   }
 };
-export default updateColorScheme;
 
 export const matchTheme = (themeName) => {
   switch (themeName) {

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components/native";
 import * as firebase from "firebase";
-import { Modal, TouchableWithoutFeedback } from "react-native";
+import { Modal, TouchableWithoutFeedback, useColorScheme } from "react-native";
 import {
   ScreenContainer,
   GeneralContainer,
@@ -12,7 +12,6 @@ import {
   CancelIcon,
 } from "../common";
 import PreviewTheme from "./PreviewTheme";
-import ThemeStrings from "./ThemeStrings";
 import { green } from "../../styles/colors";
 import AppContext from "../../utils/AppContext";
 import {
@@ -21,14 +20,9 @@ import {
   sunriseTheme,
   galaxyTheme,
 } from "../../styles/themes";
+import { matchTheme } from "../../utils/updateColorScheme";
 
 const themes = [lightTheme, midnightTheme, sunriseTheme, galaxyTheme];
-const themeNames = [
-  "lightTheme",
-  "midnightTheme",
-  "sunriseTheme",
-  "galaxyTheme",
-];
 
 const InfoBlock = styled(GeneralContainer)`
   padding: 4px 0;
@@ -63,41 +57,51 @@ const ColorThemeModal = ({
   setUpdateToFirebasePending,
 }) => {
   const { setTheme, theme, user } = useContext(AppContext);
-  // currentTheme
-  // console.log("user.theme", user.theme);
+  const colorScheme = useColorScheme();
 
   const initialValue = user.theme.isSyncedToDevice;
   const [isSyncedToDevice, setIsSyncedToDevice] = useState(initialValue);
-  console.log("isSyncedToDevice", isSyncedToDevice);
 
   const initialDefaultTheme = user.theme.defaultTheme;
   const [selectedDefaultTheme, setSelectedDefaultTheme] = useState(
     initialDefaultTheme
   );
-  console.log("selectedDefaultTheme", selectedDefaultTheme);
 
   const initialLightTheme = user.theme.lightTheme;
   const [selectedLightTheme, setSelectedLightTheme] = useState(
     initialLightTheme
   );
-  console.log("selectedLightTheme", selectedLightTheme);
 
   const initialDarkTheme = user.theme.darkTheme;
   const [selectedDarkTheme, setSelectedDarkTheme] = useState(initialDarkTheme);
 
-  console.log("selectedDarkTheme", selectedDarkTheme);
+  const findTheme = () => {
+    let newTheme;
+    if (!isSyncedToDevice) {
+      newTheme = matchTheme(selectedDefaultTheme);
+      return newTheme;
+    }
+    if (isSyncedToDevice) {
+      newTheme =
+        colorScheme === "light"
+          ? matchTheme(selectedLightTheme)
+          : matchTheme(selectedDarkTheme);
+      return newTheme;
+    }
+  };
 
   const saveTheme = () => {
+    const newTheme = findTheme();
     const data = {
       theme: {
         ...user.theme,
+        currentTheme: newTheme,
         isSyncedToDevice: isSyncedToDevice,
         defaultTheme: selectedDefaultTheme,
         lightTheme: selectedLightTheme,
         darkTheme: selectedDarkTheme,
       },
     };
-    console.log("data", data);
     const db = firebase.firestore();
     db.collection("users")
       .doc(user.uid)
@@ -106,6 +110,7 @@ const ColorThemeModal = ({
       .catch((error) => {
         Alert.alert(error);
       });
+    setTheme(newTheme);
     setUpdateToFirebasePending(true);
   };
 
@@ -152,13 +157,13 @@ const ColorThemeModal = ({
             </GeneralContainer>
             {!isSyncedToDevice && (
               <InfoBlock justify="space-between">
-                {themeNames.map((item) => (
-                  <ThemeStrings
-                    key={item}
+                {themes.map((item) => (
+                  <PreviewTheme
+                    key={item.id}
                     item={item}
-                    selected={item === selectedDefaultTheme}
+                    selected={item.name === selectedDefaultTheme}
                     onPress={() => {
-                      setSelectedDefaultTheme(item);
+                      setSelectedDefaultTheme(item.name);
                     }}
                   />
                 ))}
@@ -178,31 +183,31 @@ const ColorThemeModal = ({
             {isSyncedToDevice && (
               <GeneralContainer>
                 <SecondaryText>
-                  Select a theme to use when your device is on "light" theme:
+                  Select a theme to use when your device is on "light" mode:
                 </SecondaryText>
                 <InfoBlock justify="space-between">
-                  {themeNames.map((item) => (
-                    <ThemeStrings
-                      key={item}
+                  {themes.map((item) => (
+                    <PreviewTheme
+                      key={item.id}
                       item={item}
-                      selected={item === selectedLightTheme}
+                      selected={item.name === selectedLightTheme}
                       onPress={() => {
-                        setSelectedLightTheme(item);
+                        setSelectedLightTheme(item.name);
                       }}
                     />
                   ))}
                 </InfoBlock>
                 <SecondaryText style={{ marginTop: 6 }}>
-                  Select a theme to use when your device is on "dark" theme:
+                  Select a theme to use when your device is on "dark" mode:
                 </SecondaryText>
                 <InfoBlock justify="space-between">
-                  {themeNames.map((item) => (
-                    <ThemeStrings
-                      key={item}
+                  {themes.map((item) => (
+                    <PreviewTheme
+                      key={item.id}
                       item={item}
-                      selected={item === selectedDarkTheme}
+                      selected={item.name === selectedDarkTheme}
                       onPress={() => {
-                        setSelectedDarkTheme(item);
+                        setSelectedDarkTheme(item.name);
                       }}
                     />
                   ))}

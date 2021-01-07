@@ -15,20 +15,25 @@ if (!firebase.apps.length) {
 }
 
 const App = () => {
+  // this pulls data from async storage and sets the user current theme
   const readItemFromStorage = async () => {
     const jsonValue = await AsyncStorage.getItem("@storage_Key");
     const item = jsonValue != null ? JSON.parse(jsonValue) : null;
     setTheme(item);
   };
 
+  // this saves to async storage and also updates theme in local state
   const writeItemToStorage = async (newValue) => {
     const jsonValue = JSON.stringify(newValue);
     await AsyncStorage.setItem("@storage_Key", jsonValue);
     setTheme(newValue);
   };
-
+  // this reads the current theme from async storage on first render
   useEffect(() => {
     readItemFromStorage();
+    return () => {
+      writeItemToStorage(user.theme.currentTheme);
+    };
   }, []);
 
   const colorScheme = useColorScheme();
@@ -60,11 +65,12 @@ const App = () => {
     }
   }, [updateToFirebasePending]);
 
+  // This checks the Theme of the user's device and updates the current color theme accordingly
   useEffect(() => {
     if (user) {
+      console.log("useEffect is running to update color scheme");
       updateColorScheme(colorScheme, user, setUpdateToFirebasePending);
     }
-    // return setTheme(user?.theme?.currentTheme ?? galaxyTheme);
   }, [colorScheme]);
 
   return (
