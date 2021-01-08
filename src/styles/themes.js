@@ -7,6 +7,8 @@ import {
   white,
   yellow,
   orange,
+  lightGray,
+  darkGray,
 } from "./colors";
 
 export const lightTheme = {
@@ -21,6 +23,7 @@ export const lightTheme = {
   activeTint: white,
   inactiveTint: blue,
   statusBar: "dark-content",
+  placeholderTextColor: lightBlue,
 };
 
 export const midnightTheme = {
@@ -35,6 +38,7 @@ export const midnightTheme = {
   activeTint: white,
   inactiveTint: lightBlue,
   statusBar: "light-content",
+  placeholderTextColor: lightBlue,
 };
 
 export const sunriseTheme = {
@@ -49,6 +53,7 @@ export const sunriseTheme = {
   activeTint: black,
   inactiveTint: white,
   statusBar: "dark-content",
+  placeholderTextColor: darkGray,
 };
 
 export const galaxyTheme = {
@@ -63,4 +68,5 @@ export const galaxyTheme = {
   activeTint: white,
   inactiveTint: lightBlue,
   statusBar: "light-content",
+  placeholderTextColor: lightGray,
 };

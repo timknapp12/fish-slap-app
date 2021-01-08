@@ -17,14 +17,15 @@ import {
   GeneralContainer,
   Spinner,
 } from "../common";
-import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import "firebase/firestore";
 import { galaxyTheme } from "../../styles/themes";
 
 const LoginScreen = () => {
-  const { loadingLogin, setLoadingLogin, setUser } = useContext(AppContext);
+  const { loadingLogin, setLoadingLogin, setUser, theme } = useContext(
+    AppContext
+  );
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -99,7 +100,6 @@ const LoginScreen = () => {
           db.collection("users")
             .doc(result.user.uid)
             .set({ uid: result.user.uid, ...data })
-            // TODO get rid of this function after realtime updates work
             .then(() => setUser({ uid: result.user.uid, ...data }))
             .catch((error) => {
               console.error("Error adding document: ", error);
@@ -199,8 +199,6 @@ const LoginScreen = () => {
                 .doc(result.user.uid)
                 .set({ uid: result.user.uid, ...data })
                 .then((snapshot) => {
-                  // console.log('Snapshot', snapshot);
-                  // TODO - remove this function after realtime update works
                   setUser({ uid: result.user.uid, ...data });
                 });
             } else {
@@ -302,7 +300,7 @@ const LoginScreen = () => {
                   onChangeText={(text) => setEmail(text)}
                   placeholder="email"
                   textContentType="username"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
@@ -310,7 +308,7 @@ const LoginScreen = () => {
                   value={password}
                   onChangeText={(text) => setPassword(text)}
                   placeholder="password"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   textContentType="newPassword"
                   secureTextEntry={true}
                   autoCapitalize="none"
@@ -341,28 +339,28 @@ const LoginScreen = () => {
                   onChangeText={(text) => setUsername(text)}
                   placeholder="username"
                   textContentType="givenName"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                 />
                 <Input
                   value={firstName}
                   onChangeText={(text) => setFirstName(text)}
                   placeholder="first name"
                   textContentType="givenName"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                 />
                 <Input
                   value={lastName}
                   onChangeText={(text) => setLastName(text)}
                   placeholder="last name"
                   textContentType="familyName"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                 />
                 <Input
                   value={email}
                   onChangeText={(text) => setEmail(text)}
                   placeholder="email"
                   textContentType="username"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
@@ -371,7 +369,7 @@ const LoginScreen = () => {
                   onChangeText={(text) => setConfirmEmail(text)}
                   placeholder="confirm email"
                   textContentType="username"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
@@ -379,7 +377,7 @@ const LoginScreen = () => {
                   value={password}
                   onChangeText={(text) => setPassword(text)}
                   placeholder="password"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   textContentType="password"
                   secureTextEntry={true}
                   autoCapitalize="none"
@@ -389,7 +387,7 @@ const LoginScreen = () => {
                   value={confirmPassword}
                   onChangeText={(text) => setConfirmPassword(text)}
                   placeholder="confirm password"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   textContentType="password"
                   secureTextEntry={true}
                   autoCapitalize="none"
@@ -438,6 +436,7 @@ const EmailContainer = styled.View`
   justify-content: space-around;
   height: ${(props) => (props.newAccount ? "360px" : "222px")};
   width: 75%;
-  border: 1px solid ${white};
+  border: 1px;
+  border-color: ${(props) => props.theme.color};
   border-radius: 2px;
 `;

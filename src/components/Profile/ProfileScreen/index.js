@@ -162,6 +162,7 @@ const ProfileScreen = () => {
         saveUserData={saveUserData}
         initialInfo={initialInfo}
         userInfo={userInfo}
+        theme={theme}
       />
 
       <ColorThemeModal

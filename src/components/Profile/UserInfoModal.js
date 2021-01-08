@@ -16,6 +16,7 @@ const UserInfoModal = ({
   saveUserData,
   initialInfo,
   userInfo,
+  theme,
 }) => (
   <Modal animationType="slide" visible={isEditMode}>
     <ScreenContainer>
@@ -38,6 +39,7 @@ const UserInfoModal = ({
             onChangeText={(text) =>
               setUserInfo({ ...userInfo, username: text })
             }
+            placeholderTextColor={theme.placeholderTextColor}
           />
           <Input
             label="First Name*"
@@ -46,6 +48,7 @@ const UserInfoModal = ({
             onChangeText={(text) =>
               setUserInfo({ ...userInfo, firstName: text })
             }
+            placeholderTextColor={theme.placeholderTextColor}
           />
           <Input
             label="Last Name*"
@@ -54,6 +57,7 @@ const UserInfoModal = ({
             onChangeText={(text) =>
               setUserInfo({ ...userInfo, lastName: text })
             }
+            placeholderTextColor={theme.placeholderTextColor}
           />
         </GeneralContainer>
       </GeneralContainer>
