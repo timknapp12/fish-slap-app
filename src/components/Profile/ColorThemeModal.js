@@ -28,7 +28,7 @@ const InfoBlock = styled(GeneralContainer)`
   padding: 4px 0;
   border-color: ${(props) => props.theme.color};
   border-width: 0.5px;
-  border-radius: 4px;
+  border-radius: 24px;
 `;
 
 const buttonHeight = 18;
@@ -49,6 +49,13 @@ const RadioFill = styled.View`
   width: ${buttonHeight / 2}px;
   border-radius: ${buttonHeight / 4}px;
   background-color: ${green};
+`;
+
+const DivisionLine = styled.View`
+  height: 1px;
+  width: 100%;
+  border-top-width: 1px;
+  border-color: ${(props) => props.theme.color};
 `;
 
 const ColorThemeModal = ({
@@ -127,22 +134,7 @@ const ColorThemeModal = ({
             />
             <SaveIcon onPress={saveTheme} />
           </GeneralContainer>
-          <H2>Edit Color Theme</H2>
-          <GeneralContainer padding={16}>
-            <MainText>Select a Theme to Preview</MainText>
-            <InfoBlock justify="space-between">
-              {themes.map((item) => (
-                <PreviewTheme
-                  key={item.id}
-                  item={item}
-                  selected={item.name === theme.name}
-                  onPress={() => {
-                    setTheme(item);
-                  }}
-                />
-              ))}
-            </InfoBlock>
-          </GeneralContainer>
+          <H2>Choose A Theme Option</H2>
 
           <GeneralContainer padding={16}>
             <GeneralContainer direction="row" justify="flex-start">
@@ -153,7 +145,7 @@ const ColorThemeModal = ({
                   {!isSyncedToDevice && <RadioFill />}
                 </RadioOutline>
               </TouchableWithoutFeedback>
-              <MainText>Set One Constant Theme</MainText>
+              <MainText>1. Set One Constant Theme</MainText>
             </GeneralContainer>
             {!isSyncedToDevice && (
               <InfoBlock justify="space-between">
@@ -178,7 +170,7 @@ const ColorThemeModal = ({
               >
                 <RadioOutline>{isSyncedToDevice && <RadioFill />}</RadioOutline>
               </TouchableWithoutFeedback>
-              <MainText>Sync Theme to Device Settings</MainText>
+              <MainText>2. Sync Theme to Device Settings</MainText>
             </GeneralContainer>
             {isSyncedToDevice && (
               <GeneralContainer>
@@ -214,6 +206,24 @@ const ColorThemeModal = ({
                 </InfoBlock>
               </GeneralContainer>
             )}
+          </GeneralContainer>
+
+          <DivisionLine />
+
+          <GeneralContainer padding={16}>
+            <MainText>Select a Theme to Preview</MainText>
+            <InfoBlock justify="space-between">
+              {themes.map((item) => (
+                <PreviewTheme
+                  key={item.id}
+                  item={item}
+                  selected={item.name === theme.name}
+                  onPress={() => {
+                    setTheme(item);
+                  }}
+                />
+              ))}
+            </InfoBlock>
           </GeneralContainer>
         </GeneralContainer>
       </ScreenContainer>
