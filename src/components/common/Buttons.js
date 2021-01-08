@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { blue, green, white, lightBlue, lightPink } from "../../styles/colors";
+import { blue, green, white, lightPink } from "../../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import styled from "styled-components/native";
 import { MainText } from "../common/Texts";
@@ -24,7 +24,11 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
   },
-  text: {
+  primaryText: {
+    letterSpacing: 1.5,
+    color: white,
+  },
+  secondaryText: {
     letterSpacing: 1.5,
   },
 });
@@ -37,7 +41,7 @@ export const PrimaryButton = ({ children = "Button", ...props }) => (
       start={{ x: 0.49, y: 0.2 }}
     >
       <Container {...props}>
-        <MainText style={styles.text}>{children}</MainText>
+        <MainText style={styles.primaryText}>{children}</MainText>
       </Container>
     </LinearGradient>
   </View>
@@ -46,14 +50,15 @@ export const PrimaryButton = ({ children = "Button", ...props }) => (
 // SECONDARY BUTTON
 const StyledSecondary = styled.TouchableOpacity`
   ${sharedCss};
-  border: 1px solid white;
+  border: 1px;
+  border-color: ${(props) => props.theme.color};
   border-radius: 12px;
   /* background-color: ${lightPink}; */
 `;
 
 export const SecondaryButton = ({ children, ...props }) => (
   <StyledSecondary {...props}>
-    <MainText style={styles.text}>{children}</MainText>
+    <MainText style={styles.secondaryText}>{children}</MainText>
   </StyledSecondary>
 );
 
@@ -99,7 +104,7 @@ export const LoginButton = ({
         color={white}
         size={16}
       />
-      <MainText>{`Sign in with ${title}`}</MainText>
+      <MainText style={{ color: white }}>{`Sign in with ${title}`}</MainText>
     </LogoAndTextContainer>
   </StyledLoginButton>
 );
