@@ -10,10 +10,9 @@ const HomeScreen = () => {
   return (
     <ScreenContainer>
       <GeneralContainer height="100%" justify="flex-start">
-        <HamburgerMenu style={{ zIndex: 2 }} />
+        <HamburgerMenu />
         <MainText>Home Screen</MainText>
         <Button
-          style={{ zIndex: 1 }}
           title="Sign out right now please"
           onPress={() => {
             firebase.auth().signOut();
