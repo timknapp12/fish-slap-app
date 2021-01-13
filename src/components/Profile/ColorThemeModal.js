@@ -26,9 +26,10 @@ const themes = [lightTheme, midnightTheme, sunriseTheme, galaxyTheme];
 
 const InfoBlock = styled(GeneralContainer)`
   padding: 4px 0;
-  border-color: ${(props) => props.theme.color};
   border-width: 0.5px;
   border-radius: 24px;
+  margin-top: 2px;
+  background-color: ${(props) => props.theme.color};
 `;
 
 const buttonHeight = 18;
@@ -54,8 +55,9 @@ const RadioFill = styled.View`
 const DivisionLine = styled.View`
   height: 1px;
   width: 100%;
-  border-top-width: 1px;
+  border-top-width: 6px;
   border-color: ${(props) => props.theme.color};
+  margin: 6px 0px;
 `;
 
 const ColorThemeModal = ({
@@ -174,7 +176,7 @@ const ColorThemeModal = ({
             </GeneralContainer>
             {isSyncedToDevice && (
               <GeneralContainer>
-                <SecondaryText>
+                <SecondaryText style={{ marginTop: 6 }}>
                   Select a theme to use when your device is on "light" mode:
                 </SecondaryText>
                 <InfoBlock justify="space-between">
@@ -189,7 +191,7 @@ const ColorThemeModal = ({
                     />
                   ))}
                 </InfoBlock>
-                <SecondaryText style={{ marginTop: 6 }}>
+                <SecondaryText style={{ marginTop: 12 }}>
                   Select a theme to use when your device is on "dark" mode:
                 </SecondaryText>
                 <InfoBlock justify="space-between">
