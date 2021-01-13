@@ -7,8 +7,8 @@ const ItemsWrapper = styled(GeneralContainer)`
   padding: 8px;
   border-color: ${(props) => props.theme.color};
   background-color: ${(props) => props.theme.linearGradientOne};
-  border-width: 1px;
-  border-radius: 1px;
+  border-width: 2px;
+  border-radius: 2px;
 `;
 
 const TextWrapper = styled(GeneralContainer)`
@@ -24,7 +24,7 @@ const HamburgerMenu = () => {
       align="flex-end"
       style={{ position: "absolute", top: 0, right: 0, zIndex: 2 }}
     >
-      <GeneralIcon name="menu" />
+      <GeneralIcon style={{ opacity: 1 }} name="menu" />
       <ItemsWrapper width="auto" align="flex-end" padding={4}>
         <TouchableOpacity onPress={() => alert("this is pushed")}>
           <TextWrapper>
