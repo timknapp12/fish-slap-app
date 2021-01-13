@@ -17,33 +17,45 @@ const TextWrapper = styled(GeneralContainer)`
   border-bottom-width: 1px;
 `;
 
-const HamburgerMenu = () => {
+const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   return (
     <GeneralContainer
       width="auto"
       align="flex-end"
-      style={{ position: "absolute", top: 0, right: 0, zIndex: 2 }}
+      style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        zIndex: 2,
+        elevation: 2,
+      }}
     >
-      <GeneralIcon style={{ opacity: 1 }} name="menu" />
-      <ItemsWrapper width="auto" align="flex-end" padding={4}>
-        <TouchableOpacity onPress={() => alert("this is pushed")}>
-          <TextWrapper>
-            <SecondaryText>FAQs</SecondaryText>
-          </TextWrapper>
-        </TouchableOpacity>
+      <GeneralIcon
+        style={{ opacity: 1 }}
+        name="menu"
+        onPress={() => setIsMenuOpen((state) => !state)}
+      />
+      {isMenuOpen && (
+        <ItemsWrapper width="auto" align="flex-end" padding={4}>
+          <TouchableOpacity onPress={() => alert("this is pushed")}>
+            <TextWrapper>
+              <SecondaryText>FAQs</SecondaryText>
+            </TextWrapper>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => alert("this is pushed")}>
-          <TextWrapper>
-            <SecondaryText>Origin Story</SecondaryText>
-          </TextWrapper>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => alert("this is pushed")}>
+            <TextWrapper>
+              <SecondaryText>Origin Story</SecondaryText>
+            </TextWrapper>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => alert("this is pushed")}>
-          <TextWrapper style={{ marginBottom: 0 }}>
-            <SecondaryText>Sign Out</SecondaryText>
-          </TextWrapper>
-        </TouchableOpacity>
-      </ItemsWrapper>
+          <TouchableOpacity onPress={() => alert("this is pushed")}>
+            <TextWrapper style={{ marginBottom: 0 }}>
+              <SecondaryText>Sign Out</SecondaryText>
+            </TextWrapper>
+          </TouchableOpacity>
+        </ItemsWrapper>
+      )}
     </GeneralContainer>
   );
 };
