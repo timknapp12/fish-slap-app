@@ -1,13 +1,22 @@
 import React, { useState, useContext } from "react";
-import { Button } from "react-native";
+import { Button, TouchableWithoutFeedback } from "react-native";
+import styled from "styled-components/native";
 import firebase from "firebase";
 import AppContext from "../../utils/AppContext";
 import { ScreenContainer, MainText, GeneralContainer } from "../common";
 import HamburgerMenu from "./HamburgerMenu";
+import logoLeft from "../../assets/fish-slap-icon-tail-left.png";
+import logoRight from "../../assets/fish-slap-icon-tail-right.png";
+
+const Logo = styled.Image`
+  height: 200px;
+  width: 200px;
+`;
 
 const HomeScreen = () => {
   const { setLoadingLogin } = useContext(AppContext);
 
+  const [isLogoLeft, setIsLogoLeft] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <ScreenContainer>
@@ -21,6 +30,11 @@ const HomeScreen = () => {
             setLoadingLogin(false);
           }}
         />
+        <TouchableWithoutFeedback
+          onPress={() => setIsLogoLeft((state) => !state)}
+        >
+          <Logo source={isLogoLeft ? logoLeft : logoRight} />
+        </TouchableWithoutFeedback>
       </GeneralContainer>
     </ScreenContainer>
   );
