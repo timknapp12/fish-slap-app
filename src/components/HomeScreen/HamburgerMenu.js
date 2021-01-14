@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useRef } from "react";
+import { Animated } from "react-native";
 import { GeneralContainer, SecondaryText, GeneralIcon } from "../common";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
-const ItemsWrapper = styled(GeneralContainer)`
+const ItemsWrapper = styled(Animated.View)`
   padding: 8px;
   border-color: ${(props) => props.theme.color};
   background-color: ${(props) => props.theme.linearGradientOne};
   border-width: 2px;
   border-radius: 2px;
+  padding: 4px;
+  display: flex;
+  width: auto;
+  align-items: flex-end;
+  opacity: 1;
 `;
 
 const TextWrapper = styled(GeneralContainer)`
@@ -18,6 +24,34 @@ const TextWrapper = styled(GeneralContainer)`
 `;
 
 const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const fadeIn = () => {
+    setIsMenuOpen(true);
+    // Will change fadeAnim value to 1 in .5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const fadeOut = () => {
+    // Will change fadeAnim value to 0 in .5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => setIsMenuOpen(false));
+  };
+
+  const toggleMenu = () => {
+    if (isMenuOpen) {
+      fadeOut();
+    } else {
+      fadeIn();
+    }
+  };
   return (
     <GeneralContainer
       width="auto"
@@ -30,13 +64,19 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
         elevation: 2,
       }}
     >
-      <GeneralIcon
-        style={{ opacity: 1 }}
-        name="menu"
-        onPress={() => setIsMenuOpen((state) => !state)}
-      />
+      <GeneralIcon name="menu" onPress={toggleMenu} />
       {isMenuOpen && (
-        <ItemsWrapper width="auto" align="flex-end" padding={4}>
+        <ItemsWrapper
+          style={[
+            {
+              opacity: fadeAnim, // Bind opacity to animated value
+              transform: [{ scale: fadeAnim }], // Bind opacity to animated value
+            },
+          ]}
+          width="auto"
+          align="flex-end"
+          padding={4}
+        >
           <TouchableOpacity onPress={() => alert("this is pushed")}>
             <TextWrapper>
               <SecondaryText>FAQs</SecondaryText>
