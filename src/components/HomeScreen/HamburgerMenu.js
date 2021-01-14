@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { Animated } from "react-native";
 import { GeneralContainer, SecondaryText, GeneralIcon } from "../common";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import firebase from "firebase";
+import AppContext from "../../utils/AppContext";
 
 const ItemsWrapper = styled(Animated.View)`
   padding: 8px;
@@ -23,7 +25,9 @@ const TextWrapper = styled(GeneralContainer)`
   border-bottom-width: 1px;
 `;
 
-const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
+const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen, setIsLogoLeft }) => {
+  const { setLoadingLogin } = useContext(AppContext);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const fadeIn = () => {
@@ -89,7 +93,14 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
             </TextWrapper>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => alert("this is pushed")}>
+          <TouchableOpacity
+            onPress={() => {
+              firebase.auth().signOut();
+              setLoadingLogin(false);
+              setIsLogoLeft(true);
+              setIsMenuOpen(false);
+            }}
+          >
             <TextWrapper style={{ marginBottom: 0 }}>
               <SecondaryText>Sign Out</SecondaryText>
             </TextWrapper>
