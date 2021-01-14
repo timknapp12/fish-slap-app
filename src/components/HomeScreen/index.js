@@ -12,7 +12,7 @@ const Logo = styled.Image`
 `;
 
 const HomeScreen = () => {
-  const [isLogoLeft, setIsLogoLeft] = useState(false);
+  const [isLogoLeft, setIsLogoLeft] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <ScreenContainer>
