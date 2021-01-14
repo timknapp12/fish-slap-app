@@ -26,11 +26,13 @@ const HomeScreen = () => {
   const animatedValue1 = useRef(new Animated.Value(0)).current;
   const animatedValue2 = useRef(new Animated.Value(0)).current;
   const animatedValue3 = useRef(new Animated.Value(0)).current;
+  const animatedValue4 = useRef(new Animated.Value(0)).current;
 
   const animate = () => {
     animatedValue1.setValue(0);
     animatedValue2.setValue(0);
     animatedValue3.setValue(0);
+    animatedValue4.setValue(0);
     const createAnimation = (value, duration, easing, delay = 0) => {
       return Animated.timing(value, {
         toValue: 1,
@@ -44,6 +46,7 @@ const HomeScreen = () => {
       createAnimation(animatedValue1, 2000, Easing.ease),
       createAnimation(animatedValue2, 1000, Easing.ease, 1000),
       createAnimation(animatedValue3, 1000, Easing.ease, 2000),
+      createAnimation(animatedValue4, 1000, Easing.ease, 6000),
     ]).start();
   };
 
@@ -65,9 +68,14 @@ const HomeScreen = () => {
     inputRange: [0, 1],
     outputRange: ["0deg", "720deg"],
   });
-  let logoAnimation = animatedValue3.interpolate({
+  const logoAnimation = animatedValue3.interpolate({
     inputRange: [0, 1],
-    outputRange: [-400, 0],
+    outputRange: [-400, 60],
+  });
+
+  const moveUp = animatedValue4.interpolate({
+    inputRange: [0, 1],
+    outputRange: [220, 12],
   });
 
   const logoDisappear = () => {
@@ -101,7 +109,7 @@ const HomeScreen = () => {
         </Animated.View>
 
         {isLogoVisible && (
-          <Animated.View style={{ top: logoAnimation }}>
+          <Animated.View style={{ top: logoAnimation, position: "absolute" }}>
             <TouchableWithoutFeedback
               onPress={() => {
                 Vibration.vibrate();
@@ -112,9 +120,12 @@ const HomeScreen = () => {
             </TouchableWithoutFeedback>
           </Animated.View>
         )}
-        <MainText>This is more stuff in the app</MainText>
-        <MainText>This is more stuff in the app</MainText>
-        <MainText>This is more stuff in the app</MainText>
+
+        <Animated.View style={{ marginTop: moveUp }}>
+          <MainText>This is more stuff in the app</MainText>
+          <MainText>This is more stuff in the app</MainText>
+          <MainText>This is more stuff in the app</MainText>
+        </Animated.View>
       </GeneralContainer>
     </ScreenContainer>
   );
