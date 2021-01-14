@@ -21,6 +21,7 @@ const HomeScreen = () => {
   const { user } = useContext(AppContext);
   const [isLogoLeft, setIsLogoLeft] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLogoVisible, setIsLogoVisible] = useState(true);
 
   const animatedValue1 = useRef(new Animated.Value(0)).current;
   const animatedValue2 = useRef(new Animated.Value(0)).current;
@@ -48,6 +49,12 @@ const HomeScreen = () => {
 
   useEffect(() => {
     animate();
+    setTimeout(() => {
+      logoDisappear();
+    }, 6000);
+    return () => {
+      setIsLogoVisible(true);
+    };
   }, []);
 
   const scaleText = animatedValue1.interpolate({
@@ -58,10 +65,19 @@ const HomeScreen = () => {
     inputRange: [0, 1],
     outputRange: ["0deg", "720deg"],
   });
-  const logoAnimation = animatedValue3.interpolate({
+  let logoAnimation = animatedValue3.interpolate({
     inputRange: [0, 1],
     outputRange: [-400, 0],
   });
+
+  const logoDisappear = () => {
+    Animated.timing(animatedValue3, {
+      toValue: 0,
+      duration: 500,
+      easing: Easing.ease,
+      useNativeDriver: false,
+    }).start(() => setIsLogoVisible(false));
+  };
 
   return (
     <ScreenContainer>
@@ -79,20 +95,23 @@ const HomeScreen = () => {
         <Animated.View
           style={{ marginTop: 8, transform: [{ rotate: spinText }] }}
         >
-          <MainText style={{ fontSize: 20 }}>{`${user.username}!`}</MainText>
+          <MainText style={{ fontSize: 20 }}>
+            {user?.username ? `${user.username}!` : ""}
+          </MainText>
         </Animated.View>
 
-        <Animated.View style={{ top: logoAnimation }}>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              Vibration.vibrate();
-              setIsLogoLeft((state) => !state);
-            }}
-          >
-            <Logo source={isLogoLeft ? logoLeft : logoRight} />
-          </TouchableWithoutFeedback>
-        </Animated.View>
-
+        {isLogoVisible && (
+          <Animated.View style={{ top: logoAnimation }}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                Vibration.vibrate();
+                setIsLogoLeft((state) => !state);
+              }}
+            >
+              <Logo source={isLogoLeft ? logoLeft : logoRight} />
+            </TouchableWithoutFeedback>
+          </Animated.View>
+        )}
         <MainText>This is more stuff in the app</MainText>
         <MainText>This is more stuff in the app</MainText>
         <MainText>This is more stuff in the app</MainText>

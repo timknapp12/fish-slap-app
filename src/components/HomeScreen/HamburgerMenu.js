@@ -36,7 +36,7 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen, setIsLogoLeft }) => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -45,7 +45,7 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen, setIsLogoLeft }) => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => setIsMenuOpen(false));
   };
 
