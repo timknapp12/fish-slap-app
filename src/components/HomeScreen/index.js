@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Button, TouchableWithoutFeedback } from "react-native";
+import { Button, TouchableWithoutFeedback, Vibration } from "react-native";
 import styled from "styled-components/native";
 import firebase from "firebase";
 import AppContext from "../../utils/AppContext";
@@ -31,7 +31,10 @@ const HomeScreen = () => {
           }}
         />
         <TouchableWithoutFeedback
-          onPress={() => setIsLogoLeft((state) => !state)}
+          onPress={() => {
+            Vibration.vibrate();
+            setIsLogoLeft((state) => !state);
+          }}
         >
           <Logo source={isLogoLeft ? logoLeft : logoRight} />
         </TouchableWithoutFeedback>
