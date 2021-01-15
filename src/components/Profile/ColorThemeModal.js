@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components/native";
 import * as firebase from "firebase";
-import { Modal, TouchableWithoutFeedback, useColorScheme } from "react-native";
+import { Modal, useColorScheme, Pressable } from "react-native";
 import {
   ScreenContainer,
   GeneralContainer,
@@ -140,13 +140,11 @@ const ColorThemeModal = ({
 
           <GeneralContainer padding={16}>
             <GeneralContainer direction="row" justify="flex-start">
-              <TouchableWithoutFeedback
-                onPress={() => setIsSyncedToDevice(false)}
-              >
+              <Pressable hitSlop={8} onPress={() => setIsSyncedToDevice(false)}>
                 <RadioOutline>
                   {!isSyncedToDevice && <RadioFill />}
                 </RadioOutline>
-              </TouchableWithoutFeedback>
+              </Pressable>
               <MainText>1. Set One Constant Theme</MainText>
             </GeneralContainer>
             {!isSyncedToDevice && (
@@ -167,11 +165,9 @@ const ColorThemeModal = ({
 
           <GeneralContainer padding={16}>
             <GeneralContainer direction="row" justify="flex-start">
-              <TouchableWithoutFeedback
-                onPress={() => setIsSyncedToDevice(true)}
-              >
+              <Pressable hitSlop={8} onPress={() => setIsSyncedToDevice(true)}>
                 <RadioOutline>{isSyncedToDevice && <RadioFill />}</RadioOutline>
-              </TouchableWithoutFeedback>
+              </Pressable>
               <MainText>2. Sync Theme to Device Settings</MainText>
             </GeneralContainer>
             {isSyncedToDevice && (
