@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Animated } from "react-native";
-import { GeneralContainer, SecondaryText, GeneralIcon } from "../common";
+import { GeneralContainer, NormalText, GeneralIcon } from "../common";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import firebase from "firebase";
@@ -85,13 +85,13 @@ const HamburgerMenu = ({
         >
           <TouchableOpacity onPress={() => alert("this is pushed")}>
             <TextWrapper>
-              <SecondaryText>FAQs</SecondaryText>
+              <NormalText>FAQs</NormalText>
             </TextWrapper>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => alert("this is pushed")}>
             <TextWrapper>
-              <SecondaryText>Origin Story</SecondaryText>
+              <NormalText>Origin Story</NormalText>
             </TextWrapper>
           </TouchableOpacity>
 
@@ -104,7 +104,7 @@ const HamburgerMenu = ({
             }}
           >
             <TextWrapper style={{ marginBottom: 0 }}>
-              <SecondaryText>Sign Out</SecondaryText>
+              <NormalText>Sign Out</NormalText>
             </TextWrapper>
           </TouchableOpacity>
         </ItemsWrapper>

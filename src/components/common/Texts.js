@@ -18,8 +18,8 @@ export const InvertedMainText = styled.Text`
   font-size: 16px;
 `;
 
-// SECONDARY
-export const SecondaryText = styled.Text`
+// NORMAL FONT
+export const NormalText = styled.Text`
   color: ${(props) => props.theme.color};
   font-size: 16px;
   font-weight: normal;

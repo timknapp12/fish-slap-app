@@ -6,7 +6,7 @@ import {
   ScreenContainer,
   GeneralContainer,
   MainText,
-  SecondaryText,
+  NormalText,
   H2,
   SaveIcon,
   CancelIcon,
@@ -172,9 +172,9 @@ const ColorThemeModal = ({
             </GeneralContainer>
             {isSyncedToDevice && (
               <GeneralContainer>
-                <SecondaryText style={{ marginTop: 6 }}>
+                <NormalText style={{ marginTop: 6 }}>
                   Select a theme to use when your device is on "light" mode:
-                </SecondaryText>
+                </NormalText>
                 <InfoBlock justify="space-between">
                   {themes.map((item) => (
                     <PreviewTheme
@@ -187,9 +187,9 @@ const ColorThemeModal = ({
                     />
                   ))}
                 </InfoBlock>
-                <SecondaryText style={{ marginTop: 12 }}>
+                <NormalText style={{ marginTop: 12 }}>
                   Select a theme to use when your device is on "dark" mode:
-                </SecondaryText>
+                </NormalText>
                 <InfoBlock justify="space-between">
                   {themes.map((item) => (
                     <PreviewTheme
