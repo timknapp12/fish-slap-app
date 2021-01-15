@@ -4,7 +4,6 @@ import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../fbConfig";
 // import * as Facebook from "expo-facebook";
-import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import AppContext from "../../utils/AppContext";
 import {
   Input,
@@ -16,9 +15,9 @@ import {
   LoginButton,
   GeneralContainer,
   Spinner,
+  GeneralIcon,
 } from "../common";
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import "firebase/firestore";
 import { galaxyTheme } from "../../styles/themes";
 
@@ -402,15 +401,15 @@ const LoginScreen = () => {
                 </PrimaryButton>
               </EmailContainer>
               <GeneralContainer padding={16}>
-                <TouchableOpacity
+                <GeneralIcon
                   onPress={() => {
                     setPassword("");
                     setConfirmPassword("");
                     setNewAccount(false);
                   }}
-                >
-                  <Ionicons name="arrow-left-circle" color="white" size={42} />
-                </TouchableOpacity>
+                  name="arrow-left-circle"
+                  size={42}
+                />
               </GeneralContainer>
             </>
           )}
