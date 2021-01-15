@@ -11,8 +11,14 @@ export const MainText = styled.Text`
   font-size: 16px;
 `;
 
-// SECONDARY
+// INVERTED MAIN
+export const InvertedMainText = styled.Text`
+  ${sharedCss};
+  color: ${(props) => props.theme.linearGradientOne};
+  font-size: 16px;
+`;
 
+// SECONDARY
 export const SecondaryText = styled.Text`
   color: ${(props) => props.theme.color};
   font-size: 16px;

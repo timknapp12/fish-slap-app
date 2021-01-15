@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useContext } from "react";
 import { Animated } from "react-native";
 import { GeneralContainer, SecondaryText, GeneralIcon } from "../common";
 import { TouchableOpacity } from "react-native";
