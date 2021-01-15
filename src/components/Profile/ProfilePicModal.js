@@ -8,6 +8,7 @@ import {
   SaveIcon,
   CancelIcon,
   GeneralIcon,
+  MainText,
 } from "../common";
 
 const ProfilePicModal = ({
@@ -35,15 +36,23 @@ const ProfilePicModal = ({
         </GeneralContainer>
         <H2>Edit Profile Picture</H2>
         <Avatar source={{ uri: selectedImage?.localUri ?? null }} />
-        <GeneralContainer width="50%" direction="row">
-          <GeneralIcon
-            onPress={() => openImagePickerAsync(setSelectedImage)}
-            name="image-outline"
-          />
-          <GeneralIcon
-            name="camera-outline"
-            onPress={() => openCamera(hasPermission, setSelectedImage)}
-          />
+
+        <GeneralContainer width="50%" direction="row" justify="center">
+          <GeneralContainer>
+            <GeneralIcon
+              onPress={() => openImagePickerAsync(setSelectedImage)}
+              name="image-outline"
+            />
+            <MainText>Upload Photo</MainText>
+          </GeneralContainer>
+
+          <GeneralContainer>
+            <GeneralIcon
+              name="camera-outline"
+              onPress={() => openCamera(hasPermission, setSelectedImage)}
+            />
+            <MainText>Take Photo</MainText>
+          </GeneralContainer>
         </GeneralContainer>
       </GeneralContainer>
     </ScreenContainer>
