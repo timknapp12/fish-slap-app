@@ -23,6 +23,7 @@ const HomeScreen = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogoVisible, setIsLogoVisible] = useState(true);
 
+  // Animations for welcome, username, and fish logo
   const animatedValue1 = useRef(new Animated.Value(0)).current;
   const animatedValue2 = useRef(new Animated.Value(0)).current;
   const animatedValue3 = useRef(new Animated.Value(0)).current;
@@ -87,46 +88,67 @@ const HomeScreen = () => {
     }).start(() => setIsLogoVisible(false));
   };
 
+  // FADE OUT FOR HAMBURGER MENU - Fade in method is declared in HamburgerMenu.js
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const fadeOut = () => {
+    // Will change fadeAnim value to 0 in .5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start(() => setIsMenuOpen(false));
+  };
+
   return (
     <ScreenContainer>
-      <GeneralContainer height="100%" justify="flex-start">
-        <HamburgerMenu
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-          setIsLogoLeft={setIsLogoLeft}
-        />
+      <TouchableWithoutFeedback onPress={fadeOut}>
+        <GeneralContainer height="100%" justify="flex-start">
+          <HamburgerMenu
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            setIsLogoLeft={setIsLogoLeft}
+            fadeAnim={fadeAnim}
+            fadeOut={fadeOut}
+          />
+          <TouchableWithoutFeedback
+            onPress={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <Animated.View style={{ transform: [{ scale: scaleText }] }}>
+              <MainText>Welcome</MainText>
+            </Animated.View>
+          </TouchableWithoutFeedback>
 
-        <Animated.View style={{ transform: [{ scale: scaleText }] }}>
-          <MainText>Welcome</MainText>
-        </Animated.View>
-
-        <Animated.View
-          style={{ marginTop: 8, transform: [{ rotate: spinText }] }}
-        >
-          <MainText style={{ fontSize: 20 }}>
-            {user?.username ? `${user.username}!` : ""}
-          </MainText>
-        </Animated.View>
-
-        {isLogoVisible && (
-          <Animated.View style={{ top: logoAnimation, position: "absolute" }}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                Vibration.vibrate();
-                setIsLogoLeft((state) => !state);
-              }}
-            >
-              <Logo source={isLogoLeft ? logoLeft : logoRight} />
-            </TouchableWithoutFeedback>
+          <Animated.View
+            style={{ marginTop: 8, transform: [{ rotate: spinText }] }}
+          >
+            <MainText style={{ fontSize: 20 }}>
+              {user?.username ? `${user.username}!` : ""}
+            </MainText>
           </Animated.View>
-        )}
 
-        <Animated.View style={{ marginTop: moveUp }}>
-          <MainText>This is more stuff in the app</MainText>
-          <MainText>This is more stuff in the app</MainText>
-          <MainText>This is more stuff in the app</MainText>
-        </Animated.View>
-      </GeneralContainer>
+          {isLogoVisible && (
+            <Animated.View style={{ top: logoAnimation, position: "absolute" }}>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  Vibration.vibrate();
+                  setIsLogoLeft((state) => !state);
+                }}
+              >
+                <Logo source={isLogoLeft ? logoLeft : logoRight} />
+              </TouchableWithoutFeedback>
+            </Animated.View>
+          )}
+
+          <Animated.View style={{ marginTop: moveUp }}>
+            <MainText>This is more stuff in the app</MainText>
+            <MainText>This is more stuff in the app</MainText>
+            <MainText>This is more stuff in the app</MainText>
+          </Animated.View>
+        </GeneralContainer>
+      </TouchableWithoutFeedback>
     </ScreenContainer>
   );
 };

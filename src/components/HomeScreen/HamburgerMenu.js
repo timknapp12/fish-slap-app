@@ -25,10 +25,14 @@ const TextWrapper = styled(GeneralContainer)`
   border-bottom-width: 1px;
 `;
 
-const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen, setIsLogoLeft }) => {
+const HamburgerMenu = ({
+  isMenuOpen,
+  setIsMenuOpen,
+  setIsLogoLeft,
+  fadeOut,
+  fadeAnim,
+}) => {
   const { setLoadingLogin } = useContext(AppContext);
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const fadeIn = () => {
     setIsMenuOpen(true);
@@ -38,15 +42,6 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen, setIsLogoLeft }) => {
       duration: 500,
       useNativeDriver: false,
     }).start();
-  };
-
-  const fadeOut = () => {
-    // Will change fadeAnim value to 0 in .5 seconds
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: false,
-    }).start(() => setIsMenuOpen(false));
   };
 
   const toggleMenu = () => {
@@ -68,7 +63,14 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen, setIsLogoLeft }) => {
         elevation: 2,
       }}
     >
-      <GeneralIcon name="menu" onPress={toggleMenu} />
+      <TouchableOpacity
+        onPress={(e) => {
+          e.stopPropagation();
+          toggleMenu();
+        }}
+      >
+        <GeneralIcon name="menu" />
+      </TouchableOpacity>
       {isMenuOpen && (
         <ItemsWrapper
           style={[
