@@ -24,6 +24,7 @@ export const lightTheme = {
   inactiveTint: blue,
   statusBar: "dark-content",
   placeholderTextColor: lightBlue,
+  secondaryColor: pink,
 };
 
 export const midnightTheme = {
@@ -39,6 +40,7 @@ export const midnightTheme = {
   inactiveTint: lightBlue,
   statusBar: "light-content",
   placeholderTextColor: lightBlue,
+  secondaryColor: pink,
 };
 
 export const sunriseTheme = {
@@ -54,6 +56,7 @@ export const sunriseTheme = {
   inactiveTint: white,
   statusBar: "dark-content",
   placeholderTextColor: darkGray,
+  secondaryColor: pink,
 };
 
 export const galaxyTheme = {
@@ -69,4 +72,5 @@ export const galaxyTheme = {
   inactiveTint: lightBlue,
   statusBar: "light-content",
   placeholderTextColor: lightGray,
+  secondaryColor: darkBlue,
 };

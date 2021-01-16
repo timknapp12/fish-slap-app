@@ -6,7 +6,12 @@ import {
   Easing,
 } from "react-native";
 import styled from "styled-components/native";
-import { ScreenContainer, GeneralContainer, MainText } from "../common";
+import {
+  ScreenContainer,
+  GeneralContainer,
+  MainText,
+  SecondaryText,
+} from "../common";
 import HamburgerMenu from "./HamburgerMenu";
 import logoLeft from "../../assets/fish-slap-icon-tail-left.png";
 import logoRight from "../../assets/fish-slap-icon-tail-right.png";
@@ -63,7 +68,7 @@ const HomeScreen = () => {
 
   const scaleText = animatedValue1.interpolate({
     inputRange: [0, 1],
-    outputRange: [0.5, 1.5],
+    outputRange: [0.2, 1.2],
   });
   const spinText = animatedValue2.interpolate({
     inputRange: [0, 1],
@@ -71,7 +76,7 @@ const HomeScreen = () => {
   });
   const logoAnimation = animatedValue3.interpolate({
     inputRange: [0, 1],
-    outputRange: [-400, 60],
+    outputRange: [-400, 80],
   });
 
   const moveUp = animatedValue4.interpolate({
@@ -116,17 +121,24 @@ const HomeScreen = () => {
               e.stopPropagation();
             }}
           >
-            <Animated.View style={{ transform: [{ scale: scaleText }] }}>
-              <MainText>Welcome</MainText>
+            <Animated.View
+              style={{
+                width: "60%",
+                transform: [{ scale: scaleText }],
+              }}
+            >
+              <MainText style={{ textAlign: "center" }}>
+                What up {user?.username ? `${user.username}?` : ""}
+              </MainText>
             </Animated.View>
           </TouchableWithoutFeedback>
 
           <Animated.View
             style={{ marginTop: 8, transform: [{ rotate: spinText }] }}
           >
-            <MainText style={{ fontSize: 20 }}>
-              {user?.username ? `${user.username}!` : ""}
-            </MainText>
+            <SecondaryText style={{ textAlign: "center" }}>
+              Send and receive digital gestures!
+            </SecondaryText>
           </Animated.View>
 
           {isLogoVisible && (
@@ -146,6 +158,31 @@ const HomeScreen = () => {
             <MainText>This is more stuff in the app</MainText>
             <MainText>This is more stuff in the app</MainText>
             <MainText>This is more stuff in the app</MainText>
+            <SecondaryText>
+              {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
+            <SecondaryText>
+              {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
+            <SecondaryText>
+              {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
+            <SecondaryText>
+              {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
+            <SecondaryText>
+              {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
+            <SecondaryText>
+              Welcome {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
+            <SecondaryText>Send and receive digital gestures</SecondaryText>
+            <SecondaryText>
+              {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
+            <SecondaryText>
+              {user?.username ? `${user.username}!` : ""}
+            </SecondaryText>
           </Animated.View>
         </GeneralContainer>
       </TouchableWithoutFeedback>
