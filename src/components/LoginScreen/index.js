@@ -56,8 +56,20 @@ const LoginScreen = () => {
         Alert.alert("Please enter your first name");
         return;
       }
+      if (firstName.length > 20) {
+        Alert.alert(
+          "Is your name really that long? Sorry, keep it under 20 characters"
+        );
+        return;
+      }
       if (lastName.length < 1) {
         Alert.alert("Please enter your last name");
+        return;
+      }
+      if (lastName.length > 20) {
+        Alert.alert(
+          "Is your name really that long? Sorry, keep it under 20 characters"
+        );
         return;
       }
       if (email.length < 6) {
