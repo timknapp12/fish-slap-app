@@ -25,6 +25,15 @@ export const NormalText = styled.Text`
   font-weight: normal;
 `;
 
+// SECONDARY TEXT
+export const SecondaryText = styled.Text`
+  color: ${(props) => props.theme.secondaryColor};
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 2.5px;
+  font-style: italic;
+`;
+
 // MAIN HEADING
 export const H1 = styled.Text`
   ${sharedCss};
