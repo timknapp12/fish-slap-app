@@ -57,7 +57,7 @@ const HamburgerMenu = ({
       align="flex-end"
       style={{
         position: "absolute",
-        top: 0,
+        top: -6,
         right: 0,
         zIndex: 2,
         elevation: 2,

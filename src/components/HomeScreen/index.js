@@ -22,11 +22,23 @@ const Logo = styled.Image`
   width: 200px;
 `;
 
+const DivisionLine = styled.View`
+  height: 1px;
+  width: 100%;
+  border-top-width: 1px;
+  border-color: ${(props) => props.theme.color};
+  margin: 12px 0px;
+`;
+
 const HomeScreen = () => {
   const { user } = useContext(AppContext);
   const [isLogoLeft, setIsLogoLeft] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogoVisible, setIsLogoVisible] = useState(true);
+  const initialWelcome = user?.username
+    ? `What up ${user.username}?`
+    : "What up?";
+  const [welcome, setWelcome] = useState(initialWelcome);
 
   // Animations for welcome, username, and fish logo
   const animatedValue1 = useRef(new Animated.Value(0)).current;
@@ -65,6 +77,13 @@ const HomeScreen = () => {
       setIsLogoVisible(true);
     };
   }, []);
+
+  useEffect(() => {
+    setWelcome(user?.username ? user.username : "Fish Slap App");
+    return () => {
+      setWelcome(initialWelcome);
+    };
+  }, [user]);
 
   const scaleText = animatedValue1.interpolate({
     inputRange: [0, 1],
@@ -116,26 +135,16 @@ const HomeScreen = () => {
             fadeAnim={fadeAnim}
             fadeOut={fadeOut}
           />
-          <TouchableWithoutFeedback
-            onPress={(e) => {
-              e.stopPropagation();
+          <Animated.View
+            style={{
+              width: "60%",
+              transform: [{ scale: scaleText }],
             }}
           >
-            <Animated.View
-              style={{
-                width: "60%",
-                transform: [{ scale: scaleText }],
-              }}
-            >
-              <MainText style={{ textAlign: "center" }}>
-                What up {user?.username ? `${user.username}?` : ""}
-              </MainText>
-            </Animated.View>
-          </TouchableWithoutFeedback>
-
-          <Animated.View
-            style={{ marginTop: 8, transform: [{ rotate: spinText }] }}
-          >
+            <MainText style={{ textAlign: "center" }}>{welcome}</MainText>
+          </Animated.View>
+          <DivisionLine />
+          <Animated.View style={{ transform: [{ rotate: spinText }] }}>
             <SecondaryText style={{ textAlign: "center" }}>
               Send and receive digital gestures!
             </SecondaryText>
