@@ -79,7 +79,9 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    setWelcome(user?.username ? user.username : "Fish Slap App");
+    setTimeout(() => {
+      setWelcome(user?.username ? user.username : "Fish Slap App");
+    }, 6000);
     return () => {
       setWelcome(initialWelcome);
     };

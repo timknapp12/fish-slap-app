@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Alert } from "react-native";
+import { Alert, Keyboard } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../fbConfig";
@@ -297,7 +297,7 @@ const LoginScreen = () => {
         <LoginContainer>
           {!newAccount ? (
             <>
-              <GeneralContainer width="80%" padding={8} height="40px">
+              <GeneralContainer width="90%" padding={8} height="40px">
                 {/* <LoginButton title="Facebook" onPress={loginFB} /> */}
                 <LoginButton onPress={signInWithGoogleAsync} />
               </GeneralContainer>
@@ -329,9 +329,10 @@ const LoginScreen = () => {
                   Login
                 </PrimaryButton>
               </EmailContainer>
-              <GeneralContainer justify="flex-end" width="80%" height="66px">
+              <GeneralContainer padding={28} justify="flex-end" width="90%">
                 <MainText>Don't have an account?</MainText>
                 <SecondaryButton
+                  style={{ marginTop: 12 }}
                   onPress={() => {
                     setPassword("");
                     setNewAccount(true);
@@ -403,6 +404,9 @@ const LoginScreen = () => {
                   secureTextEntry={true}
                   autoCapitalize="none"
                   keyboardType="email-address"
+                  returnKeyLabel="Done"
+                  returnKeyType="done"
+                  onSubmitEditing={Keyboard.dismiss}
                 />
                 <PrimaryButton
                   onPress={() =>
@@ -435,18 +439,20 @@ export default LoginScreen;
 
 const LoginContainer = styled.View`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 20%;
   align-items: center;
   width: 100%;
+  height: 100%;
 `;
 
-const EmailContainer = styled.View`
+const EmailContainer = styled.KeyboardAvoidingView`
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: ${(props) => (props.newAccount ? "360px" : "222px")};
-  width: 75%;
+  width: 90%;
   border: 1px;
   border-color: ${(props) => props.theme.color};
   border-radius: 2px;
