@@ -86,12 +86,30 @@ const ProfileScreen = () => {
       Alert.alert("Please enter your username");
       return;
     }
+    if (data.username.length > 20) {
+      Alert.alert(
+        "Can you think of a username under under 20 characters, please? Thanks :)"
+      );
+      return;
+    }
     if (data.firstName.length < 1) {
       Alert.alert("Please enter your first name");
       return;
     }
+    if (data.firstName.length > 20) {
+      Alert.alert(
+        "Is your name really that long? Sorry, keep it under 20 characters"
+      );
+      return;
+    }
     if (data.lastName.length < 1) {
       Alert.alert("Please enter your last name");
+      return;
+    }
+    if (data.lastName.length > 20) {
+      Alert.alert(
+        "Is your name really that long? Sorry, keep it under 20 characters"
+      );
       return;
     }
     const db = firebase.firestore();
@@ -162,6 +180,7 @@ const ProfileScreen = () => {
         saveUserData={saveUserData}
         initialInfo={initialInfo}
         userInfo={userInfo}
+        theme={theme}
       />
 
       <ColorThemeModal

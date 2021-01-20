@@ -11,12 +11,27 @@ export const MainText = styled.Text`
   font-size: 16px;
 `;
 
-// SECONDARY
+// INVERTED MAIN
+export const InvertedMainText = styled.Text`
+  ${sharedCss};
+  color: ${(props) => props.theme.linearGradientOne};
+  font-size: 16px;
+`;
 
-export const SecondaryText = styled.Text`
+// NORMAL FONT
+export const NormalText = styled.Text`
   color: ${(props) => props.theme.color};
   font-size: 16px;
   font-weight: normal;
+`;
+
+// SECONDARY TEXT
+export const SecondaryText = styled.Text`
+  color: ${(props) => props.theme.secondaryColor};
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 2.5px;
+  font-style: italic;
 `;
 
 // MAIN HEADING

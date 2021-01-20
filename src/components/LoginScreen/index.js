@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Alert } from "react-native";
+import { Alert, Keyboard } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { iosClientId, androidClientId } from "../../../fbConfig";
 // import * as Facebook from "expo-facebook";
-import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import AppContext from "../../utils/AppContext";
 import {
   Input,
@@ -16,15 +15,16 @@ import {
   LoginButton,
   GeneralContainer,
   Spinner,
+  GeneralIcon,
 } from "../common";
-import { white, lightBlue } from "../../styles/colors";
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import "firebase/firestore";
 import { galaxyTheme } from "../../styles/themes";
 
 const LoginScreen = () => {
-  const { loadingLogin, setLoadingLogin, setUser } = useContext(AppContext);
+  const { loadingLogin, setLoadingLogin, setUser, theme } = useContext(
+    AppContext
+  );
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -56,8 +56,20 @@ const LoginScreen = () => {
         Alert.alert("Please enter your first name");
         return;
       }
+      if (firstName.length > 20) {
+        Alert.alert(
+          "Is your name really that long? Sorry, keep it under 20 characters"
+        );
+        return;
+      }
       if (lastName.length < 1) {
         Alert.alert("Please enter your last name");
+        return;
+      }
+      if (lastName.length > 20) {
+        Alert.alert(
+          "Is your name really that long? Sorry, keep it under 20 characters"
+        );
         return;
       }
       if (email.length < 6) {
@@ -99,7 +111,6 @@ const LoginScreen = () => {
           db.collection("users")
             .doc(result.user.uid)
             .set({ uid: result.user.uid, ...data })
-            // TODO get rid of this function after realtime updates work
             .then(() => setUser({ uid: result.user.uid, ...data }))
             .catch((error) => {
               console.error("Error adding document: ", error);
@@ -199,8 +210,6 @@ const LoginScreen = () => {
                 .doc(result.user.uid)
                 .set({ uid: result.user.uid, ...data })
                 .then((snapshot) => {
-                  // console.log('Snapshot', snapshot);
-                  // TODO - remove this function after realtime update works
                   setUser({ uid: result.user.uid, ...data });
                 });
             } else {
@@ -288,7 +297,7 @@ const LoginScreen = () => {
         <LoginContainer>
           {!newAccount ? (
             <>
-              <GeneralContainer width="80%" padding={8} height="40px">
+              <GeneralContainer width="90%" padding={8} height="40px">
                 {/* <LoginButton title="Facebook" onPress={loginFB} /> */}
                 <LoginButton onPress={signInWithGoogleAsync} />
               </GeneralContainer>
@@ -302,7 +311,7 @@ const LoginScreen = () => {
                   onChangeText={(text) => setEmail(text)}
                   placeholder="email"
                   textContentType="username"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
@@ -310,19 +319,23 @@ const LoginScreen = () => {
                   value={password}
                   onChangeText={(text) => setPassword(text)}
                   placeholder="password"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   textContentType="newPassword"
                   secureTextEntry={true}
                   autoCapitalize="none"
                   keyboardType="email-address"
+                  returnKeyLabel="Done"
+                  returnKeyType="done"
+                  onSubmitEditing={Keyboard.dismiss}
                 />
                 <PrimaryButton onPress={() => loginUser(email, password)}>
                   Login
                 </PrimaryButton>
               </EmailContainer>
-              <GeneralContainer justify="flex-end" width="80%" height="66px">
+              <GeneralContainer padding={28} justify="flex-end" width="90%">
                 <MainText>Don't have an account?</MainText>
                 <SecondaryButton
+                  style={{ marginTop: 12 }}
                   onPress={() => {
                     setPassword("");
                     setNewAccount(true);
@@ -341,28 +354,28 @@ const LoginScreen = () => {
                   onChangeText={(text) => setUsername(text)}
                   placeholder="username"
                   textContentType="givenName"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                 />
                 <Input
                   value={firstName}
                   onChangeText={(text) => setFirstName(text)}
                   placeholder="first name"
                   textContentType="givenName"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                 />
                 <Input
                   value={lastName}
                   onChangeText={(text) => setLastName(text)}
                   placeholder="last name"
                   textContentType="familyName"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                 />
                 <Input
                   value={email}
                   onChangeText={(text) => setEmail(text)}
                   placeholder="email"
                   textContentType="username"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
@@ -371,7 +384,7 @@ const LoginScreen = () => {
                   onChangeText={(text) => setConfirmEmail(text)}
                   placeholder="confirm email"
                   textContentType="username"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
@@ -379,7 +392,7 @@ const LoginScreen = () => {
                   value={password}
                   onChangeText={(text) => setPassword(text)}
                   placeholder="password"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   textContentType="password"
                   secureTextEntry={true}
                   autoCapitalize="none"
@@ -389,11 +402,14 @@ const LoginScreen = () => {
                   value={confirmPassword}
                   onChangeText={(text) => setConfirmPassword(text)}
                   placeholder="confirm password"
-                  placeholderTextColor={lightBlue}
+                  placeholderTextColor={theme.placeholderTextColor}
                   textContentType="password"
                   secureTextEntry={true}
                   autoCapitalize="none"
                   keyboardType="email-address"
+                  returnKeyLabel="Done"
+                  returnKeyType="done"
+                  onSubmitEditing={Keyboard.dismiss}
                 />
                 <PrimaryButton
                   onPress={() =>
@@ -404,15 +420,15 @@ const LoginScreen = () => {
                 </PrimaryButton>
               </EmailContainer>
               <GeneralContainer padding={16}>
-                <TouchableOpacity
+                <GeneralIcon
                   onPress={() => {
                     setPassword("");
                     setConfirmPassword("");
                     setNewAccount(false);
                   }}
-                >
-                  <Ionicons name="arrow-left-circle" color="white" size={42} />
-                </TouchableOpacity>
+                  name="arrow-left-circle"
+                  size={42}
+                />
               </GeneralContainer>
             </>
           )}
@@ -426,18 +442,21 @@ export default LoginScreen;
 
 const LoginContainer = styled.View`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 20%;
   align-items: center;
   width: 100%;
+  height: 100%;
 `;
 
-const EmailContainer = styled.View`
+const EmailContainer = styled.KeyboardAvoidingView`
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: ${(props) => (props.newAccount ? "360px" : "222px")};
-  width: 75%;
-  border: 1px solid ${white};
+  width: 90%;
+  border: 1px;
+  border-color: ${(props) => props.theme.color};
   border-radius: 2px;
 `;
