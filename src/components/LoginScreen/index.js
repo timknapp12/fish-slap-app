@@ -324,6 +324,9 @@ const LoginScreen = () => {
                   secureTextEntry={true}
                   autoCapitalize="none"
                   keyboardType="email-address"
+                  returnKeyLabel="Done"
+                  returnKeyType="done"
+                  onSubmitEditing={Keyboard.dismiss}
                 />
                 <PrimaryButton onPress={() => loginUser(email, password)}>
                   Login
